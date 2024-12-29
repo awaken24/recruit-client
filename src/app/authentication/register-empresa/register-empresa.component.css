@@ -1,0 +1,54 @@
+@import url(../login-candidato/login-candidato.component.css);
+
+.welcome-section h2 {
+    font-size: 1.8rem;
+}
+
+.welcome-section p {
+    font-size: 1rem;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #d9d9d9;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.tab.active {
+    background: #1a3b5d;
+    color: #fff;
+}
+
+.tab:hover {
+    background: #14324a;
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.8em;
+    margin-top: 5px;
+}
+
+input.is-invalid {
+    border: 1px solid #dc3545;
+}

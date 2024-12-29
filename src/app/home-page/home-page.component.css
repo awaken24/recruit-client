@@ -1,0 +1,202 @@
+
+.home-container {
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.welcome-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f1f5f9;
+    padding: 50px 20px;
+    text-align: center;
+    min-height: 650px;
+}
+
+.welcome-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.welcome-text p {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+}
+
+.cta-btn {
+    background-color: #1e3a8a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.cta-btn:hover {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.services {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 10px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: #555;
+}
+
+.empresas-parceiras {
+    text-align: center;
+    padding: 30px 10px;
+    background-color: #f9f9f9;
+    height: 380px;
+}
+
+.empresas-parceiras h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.logos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.logos-container img {
+    max-width: 150px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    filter: grayscale(100%);
+    opacity: 0.7;
+}
+
+.logos-container img:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+.depoimentos {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #fff;
+}
+
+.depoimentos h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.depoimento-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.depoimento {
+    flex: 0 0 350px;
+    min-width: 250px;
+    max-width: 100%;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.depoimento p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.depoimento span {
+    font-weight: bold;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .services {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 90%;
+    }
+
+    .logos-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .logos-container img {
+        max-width: 80px;
+        max-height: 60px;
+    }
+
+    .depoimento-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .depoimento {
+        width: 90%;
+        max-width: 400px;
+        max-height: 130px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logos-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .logos-container img {
+        max-width: 60px;
+        max-height: 50px;
+    }
+
+    .empresas-parceiras h2 {
+        font-size: 18px;
+    }
+
+    .empresas-parceiras {
+        height: 325px;
+    }
+}

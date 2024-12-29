@@ -1,0 +1,335 @@
+<div class="page-wrapper">
+    <div class="form-container">
+        <div class="page-header">
+            <h1 class="page-title">Editar o perfil da empresa</h1>
+            <div class="info-container">
+                <p class="info-text primary">As informações cadastrais exigidas são de vital importância para comprovar
+                    a credibilidade das empresas, assim garantindo a segurança de todos que estão utilizando a
+                    plataforma e interagindo por meio dela.</p>
+                <p class="info-text secondary">Além disso, a informação do tipo de empresa é um dos dados necessários
+                    para otimização das candidaturas em vagas criadas pela empresa na plataforma.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="empresaForm" (ngSubmit)="onSubmit()" class="form-content">
+            <div class="form-card">
+                <div class="logo-section">
+                    <img src="assets/placeholder-logo.png" alt="Logo da empresa" class="company-logo">
+                    <button type="button" class="logo-button" (click)="fileInput.click()">
+                        Escolher logo
+                    </button>
+                    <input #fileInput type="file" hidden accept="image/*">
+                </div>
+
+                <div class="form-fields">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="razao_social">
+                                Razão Social <span class="required">*</span>
+                            </label>
+                            <input id="razao_social" type="text" formControlName="razao_social"
+                                placeholder="Ex: Dafiti Comercio de Calcados LTDA">
+                        </div>
+
+                        <div class="field">
+                            <label for="nome_fantasia">
+                                Nome Fantasia <span class="required">*</span>
+                            </label>
+                            <input id="nome_fantasia" type="text" formControlName="nome_fantasia"
+                                placeholder="Ex: Dafiti">
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="website">Website</label>
+                            <input id="website" type="url" formControlName="website"
+                                placeholder="Ex.: https://recruitpro.com.br">
+                        </div>
+                        <div class="field">
+                            <label for="cnpj">
+                                CNPJ <span class="required">*</span>
+                            </label>
+                            <input id="cnpj" type="text" formControlName="cnpj" placeholder="Ex: 28.208.818/0001-13"
+                                [attr.disabled]="empresaForm.get('noCnpj')?.value ? '' : null">
+                        </div>
+                    </div>
+                    <div class="field-row cnpj-row">
+                        <div class="checkbox-field no-cnpj">
+                            <input id="sem_cnpj" type="checkbox" formControlName="sem_cnpj">
+                            <label for="sem_cnpj">Não possuo CNPJ</label>
+                        </div>
+                    </div>
+                    <!--
+                        <div class="checkbox-field recruiter-field">
+                            <input id="externalRecruiter" type="checkbox" formControlName="externalRecruiter">
+                            <label for="externalRecruiter">Esta empresa é um recrutador externo</label>
+                        </div>
+
+                        <div class="field-row">
+                            <p class="helper-text">Selecione esta opção se a empresa é uma agência de recrutamento ou
+                                headhunter que contrata para outras empresas. Não selecione se a empresa recruta para suas
+                                próprias vagas.</p>
+                        </div>
+                    -->
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>SOBRE A EMPRESA</h2>
+
+                <div class="field">
+                    <label for="descricao">
+                        Apresentação da empresa <span class="required">*</span>
+                    </label>
+                    <textarea id="descricao" formControlName="descricao" rows="6"
+                        placeholder="Conte um pouco sobre sua empresa para que os candidatos saibam mais sobre vocês."></textarea>
+                </div>
+                <div class="field">
+                    <label for="youtube">
+                        Vídeo de apresentação da empresa (YouTube)
+                    </label>
+                    <input id="youtube" type="text" formControlName="youtube" placeholder="youtube.com/watch?v=">
+                    <span class="helper-text">Opcional, insira o ID de um vídeo do YouTube (observe não um canal
+                        YouTube, mas um vídeo) que destaca sua empresa</span>
+                </div>
+
+                <div class="field">
+                    <label>Tipo de empresa</label>
+                    <div class="company-type-options">
+                        <div class="radio-option">
+                            <input type="radio" id="startup" formControlName="tipo_empresa" value="startup">
+                            <label for="startup">Startup</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="small" formControlName="tipo_empresa" value="pequena_media">
+                            <label for="small">Pequena/média empresa</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="large" formControlName="tipo_empresa" value="grande">
+                            <label for="large">Grande empresa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="ano_fundacao">Ano de criação da empresa</label>
+                        <select id="ano_fundacao" formControlName="ano_fundacao">
+                            <option value="">Selecione o ano</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="numero_funcionarios">Número de colaboradores</label>
+                        <input id="numero_funcionarios" type="number" formControlName="numero_funcionarios"
+                            placeholder="100">
+                    </div>
+                </div>
+                <!--
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="averageAge">Média idade dos colaboradores</label>
+                            <input id="averageAge" type="number" formControlName="averageAge" placeholder="31">
+                        </div>
+                        <div class="field">
+                            <label>Paridade entre homens e mulheres na empresa</label>
+                            <div class="gender-ratio">
+                                <div class="gender-input">
+                                    <span class="gender-icon">♂</span>
+                                    <input type="number" formControlName="malePercentage">
+                                    <span class="percentage">%</span>
+                                </div>
+                                <div class="gender-input">
+                                    <span class="gender-icon">♀</span>
+                                    <input type="number" formControlName="femalePercentage">
+                                    <span class="percentage">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                -->
+                <div class="field">
+                    <label for="politica_remoto">Política de trabalho remoto</label>
+                    <textarea id="politica_remoto" formControlName="politica_remoto" rows="3"
+                        placeholder="Ex: Possibilidade de trabalhar remotamente 2 dias por semana."></textarea>
+                </div>
+                <div class="field">
+                    <label>Redes sociais</label>
+                    <div class="social-links">
+                        <div class="social-input">
+                            <span class="social-prefix">facebook.com/</span>
+                            <input type="text" formControlName="facebook" placeholder="RecruitProBr">
+                        </div>
+                        <div class="social-input">
+                            <span class="social-prefix">twitter.com/</span>
+                            <input type="text" formControlName="twitter" placeholder="recruitpro">
+                        </div>
+                        <div class="social-input">
+                            <span class="social-prefix">linkedin.com/company/</span>
+                            <input type="text" formControlName="linkedin" placeholder="recruitpro">
+                        </div>
+                        <div class="social-input">
+                            <span class="social-prefix">instagram.com/</span>
+                            <input type="text" formControlName="instagram" placeholder="recruitpro">
+                        </div>
+                        <div class="social-input">
+                            <span class="social-prefix">tiktok.com/</span>
+                            <input type="text" formControlName="tiktok" placeholder="@recruitpro">
+                        </div>
+                        <div class="social-input">
+                            <span class="social-prefix">youtube.com/</span>
+                            <input type="text" formControlName="youtube" placeholder="recruitpro">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>ENDEREÇO DA EMPRESA</h2>
+
+                <div formGroupName="endereco">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="cep">
+                                CEP <span class="required">*</span>
+                            </label>
+                            <input id="cep" type="text" formControlName="cep" placeholder="Ex: 13083-852">
+                        </div>
+
+                        <div class="field">
+                            <label for="estado">
+                                Estado <span class="required">*</span>
+                            </label>
+                            <select id="state" formControlName="estado">
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="cidade">
+                                Cidade <span class="required">*</span>
+                            </label>
+                            <input id="cidade" type="text" formControlName="cidade"
+                                placeholder="Ex: São Paulo">
+                        </div>
+
+                        <div class="field">
+                            <label for="bairro">
+                                Bairro <span class="required">*</span>
+                            </label>
+                            <input id="bairro" type="text" formControlName="bairro"
+                                placeholder="Ex: Vila Mariana">
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="logradouro">
+                                Logradouro <span class="required">*</span>
+                            </label>
+                            <input id="logradouro" type="text" formControlName="logradouro"
+                                placeholder="Ex: Avenida Paulista">
+                        </div>
+
+                        <div class="field">
+                            <label for="numero">
+                                Número <span class="required">*</span>
+                            </label>
+                            <input id="numero" type="text" formControlName="numero"
+                                placeholder="Ex: 1000">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label for="complemento">
+                            Complemento
+                        </label>
+                        <input id="complemento" type="text" formControlName="complemento"
+                            placeholder="Ex: Sala 123">
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>SOBRE VOCÊ</h2>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="contato_nome">
+                            Seu nome <span class="required">*</span>
+                        </label>
+                        <input id="contato_nome" type="text" formControlName="contato_nome"
+                            placeholder="Ex: Ricardo Valência">
+                    </div>
+
+                    <div class="field">
+                        <label for="contato_cargo">
+                            Seu cargo e área <span class="required">*</span>
+                        </label>
+                        <select id="contato_cargo" formControlName="contato_cargo">
+                            <option value="">Selecione uma opção</option>
+                            <option value="babao">Baba ovo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="contato_telefone">
+                            Seu número de telefone <span class="required">*</span>
+                        </label>
+                        <input id="contato_telefone" type="text" formControlName="contato_telefone"
+                            placeholder="+5519981001100">
+                    </div>
+
+                    <div class="field">
+                        <label for="como_encontrou">
+                            Como você encontrou o RecruitPro? <span class="required">*</span>
+                        </label>
+                        <select id="como_encontrou" formControlName="como_encontrou">
+                            <option value="">Selecione uma opção</option>
+                            <option value="indicacao">Indicação</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="button-container" style="text-align: center; margin-top: 2rem;">
+                    <button type="submit"
+                        style="background-color: #4CAF50; color: white; padding: 0.75rem 2rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+                        Salvar
+                    </button>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #666; font-size: 0.9rem;">
+                        Para editar seus dados de login, <a href="#" style="color: #4CAF50; text-decoration: none;">Clique aqui</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="login-container">
+    <div class="login-card">
+        <div class="welcome-section">
+            <div class="profile-image">
+                <img src="https://via.placeholder.com/100" alt="Profile Image">
+            </div>
+            <h2>Bem-vindo ao sistema de Empresas</h2>
+            <p>Gerencie suas vagas, encontre talentos e otimize seus processos de recrutamento.</p>      
+            <a href="#" class="services-link">Saiba mais sobre nossos serviços</a>
+        </div>
+        <div class="login-section">
+            <div class="tabs">
+                <button class="tab" routerLink="/users/login">Sou Candidato</button>
+                <button class="tab active">Sou Empresa</button>
+            </div>
+            <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" ngModel placeholder="Digite seu e-mail" required />
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" ngModel placeholder="Digite sua senha" required />
+                </div>
+                <a href="#" class="forgot-password">Esqueceu sua senha?</a>
+                <button type="submit" class="login-btn">Login</button>
+                <a href="#" class="company-link" routerLink="/companies/register">Não tem uma conta? Registre-se</a>
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
