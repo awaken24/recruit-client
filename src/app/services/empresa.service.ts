@@ -15,4 +15,11 @@ export class EmpresaService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         return this.http.post(`${this.baseUrl}/empresas/register`, dadosEmpresa, { headers });
     }
+
+    getDataEmpresa(id: number): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        const url = `${this.baseUrl}/empresas/profile/${id}`;
+        return this.http.get(url, { headers });    
+    }
 }
