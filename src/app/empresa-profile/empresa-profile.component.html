@@ -1,0 +1,84 @@
+<app-loading-spinner *ngIf="isLoading" message="Carregando dados da empresa..."></app-loading-spinner>
+<div class="profile-container">
+    <div *ngIf="!isLoading" class="content-wrapper">
+        <div class="banner">
+            <div class="banner-content">
+                <!-- <button class="edit-button">
+                    <span>Editar o perfil da empresa</span>
+                </button> -->
+            </div>
+        </div>
+
+        <div class="company-info">
+            <div class="company-logo">
+                <img src="assets/company-placeholder.png" alt="Company Logo">
+            </div>
+            <div class="company-details">
+                <h1>{{ company.nome_fantasia }}</h1>
+                <div class="company-meta">
+                    <span class="cnpj">CNPJ: {{ formatCNPJ(company.cnpj) }}</span>
+                    <span class="tag">{{ getTipoEmpresa(company.tipo_empresa) }}</span>
+                    <span class="website">Website</span>
+                </div>
+
+                <nav class="profile-nav">
+                    <a href="#" class="active">Perfil</a>
+                    <a href="#">Vagas <span class="badge">0</span></a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="content-left">
+                <section class="presentation">
+                    <h2>Apresentação {{ company.nome_fantasia }}</h2>
+                    <p>{{ company.descricao }}</p>
+                </section>
+                <section class="remote-policy">
+                    <h2>Política de trabalho remoto</h2>
+                    <p>{{ company.politica_remoto }}</p>
+                </section>
+
+                <section class="jobs-section">
+                    <h2>Vagas abertas na Empresa Teste <span class="badge">0</span></h2>
+                    <button class="create-job-btn" routerLink="/companies/jobs/new">Criar uma vaga</button>
+                </section>
+
+                <section class="faq-section">
+                    <h2>Perguntas e respostas sobre Empresa Teste</h2>
+                    <div class="faq-list">
+                        <div *ngFor="let faq of faqs" class="faq-item">
+                            <div class="faq-question" (click)="faq.isOpen = !faq.isOpen" [class.active]="faq.isOpen">
+                                <span>{{ faq.question }}</span>
+                                <i class="arrow" [class.up]="faq.isOpen"></i>
+                            </div>
+                            <div class="faq-answer" *ngIf="faq.isOpen">
+                                {{ faq.answer }}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="content-right">
+                <div class="stats-card">
+                    <h3>Alguns números</h3>
+                    <div class="stat-item">
+                        <span class="stat-label">ANO DE CRIAÇÃO</span>
+                        <span class="stat-value">{{ company.ano_fundacao }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">COLABORADORES</span>
+                        <span class="stat-value">{{ company.numero_funcionarios }}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">IDADE MÉDIA</span>
+                        <span class="stat-value">23</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

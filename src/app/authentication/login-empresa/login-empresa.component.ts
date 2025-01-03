@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { RouterModule, Router } from '@angular/router';
 import { FooterComponent } from '../../footer/footer.component';
+import { EmpresaService } from '../../services/empresa.service';
 
 @Component({
     selector: 'app-login-empresa',
@@ -13,7 +14,11 @@ import { FooterComponent } from '../../footer/footer.component';
 })
 export class LoginEmpresaComponent {
 
-    constructor(private authService: AuthService, private router: Router) { }
+    constructor(
+        private authService: AuthService,
+        private empresaService: EmpresaService,
+        private router: Router,
+    ) { }
 
     onSubmit(form: NgForm) {
         if (form.valid) {
@@ -26,14 +31,13 @@ export class LoginEmpresaComponent {
                     this.authService.updateLoginState(true);
 
                     if (response.user.perfil_completo) {
-                        this.router.navigate(['']);
+                        this.router.navigate(['/companies/profile']);
                     } else {
                         this.router.navigate(['/companies/updateProfile']);
                     }
                 },
                 error: (error) => {
-                    console.error('Erro no login do candidato:', error);
-                    alert('Erro ao realizar login.');
+                    console.error(error);
                 },
             });
         } else {
