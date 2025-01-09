@@ -1,0 +1,109 @@
+<app-loading-spinner *ngIf="isLoading" message="Carregando dados da empresa..."></app-loading-spinner>
+<div class="dashboard-container" [class.sidebar-closed]="!isSidebarOpen">
+    <!-- <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <i class="fas" [class.fa-chevron-right]="!isSidebarOpen" [class.fa-chevron-left]="isSidebarOpen"></i>
+    </button> -->
+    <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <img *ngIf="isSidebarOpen" src="../../assets/icons/fechar.png" alt="Sidebar Aberto" class="icon"/>
+        <img *ngIf="!isSidebarOpen" src="../../assets/icons/abrir.png" alt="Sidebar Fechado" class="icon"/>
+    </button>    
+    <div class="sidebar" [class.open]="isSidebarOpen">
+        <div class="company-info">
+            <div class="company-avatar">
+                <i class="fas fa-building"></i>
+            </div>
+            <h2>{{ companyName }}</h2>
+            <button class="edit-profile">Editar perfil</button>
+        </div>
+        <button class="create-job">Criar uma vaga</button>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-building"></i>
+                <span>Perfil empresa</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </a>
+        </nav>
+    </div>
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="header">
+                <h1>Bem-vindo {{ companyName }}</h1>
+            </div>
+            <div class="filters">
+                <span>Filtrar vagas:</span>
+                <div class="filter-buttons">
+                    <button *ngFor="let filter of filters" [class.active]="filter.active" class="filter-btn">
+                        {{ filter.label }}
+                        <span class="count">{{ filter.count }}</span>
+                    </button>
+                </div>
+            </div>
+            <div class="carousel-container">
+                <div class="jobs-container">
+                    <div class="job-card create-card">
+                        <h3>CRIAR UMA VAGA</h3>
+                        <div class="create-icon">+</div>
+                        <p>Publique sua vaga no RecruitPro para ter acesso a toda nossa base de usuários e
+                            encontrar seu próximo desenvolvedor.</p>
+                        <button class="create-btn">CRIAR</button>
+                    </div>
+                    <ng-container *ngFor="let item of vagas">
+                        <div *ngIf="!item.isCreateCard" class="job-card">
+                            <h3>{{ item.titulo }}</h3>
+                            <h4>
+                                {{ item.perfil === 'fullstack' ? 'FULL STACK' : 
+                                   item.perfil === 'backend' ? 'BACKEND' : 
+                                   item.perfil === 'frontend' ? 'FRONTEND' : item.perfil }} -
+                                {{ item.nivel_experiencia === 'pleno' ? 'Pleno' : 
+                                   item.nivel_experiencia === 'junior' ? 'Júnior' : 
+                                   item.nivel_experiencia === 'senior' ? 'Sênior' : item.nivel_experiencia }}
+                            </h4>
+                            <div class="status-badge">
+                                {{  item.status === 'ativa' ? "Ativa" :
+                                    item.status === 'desativada' ?  "Desativada" :
+                                    item.status === 'incomplete' ? "Incompleta" :
+                                    item.status  }}
+                            </div>
+                            <div class="status-message">
+                                {{ item.status === 'ativa' ? 
+                                    'A vaga está ativa, visível para candidatos e recebendo candidaturas. Aproveite para acompanhar as inscrições e selecionar os melhores talentos!' : 
+                                 item.status === 'incompleta' ? 
+                                    'A vaga está incompleta. Complete as informações necessárias para torná-la visível e receber candidaturas. Não perca a oportunidade de encontrar o candidato ideal!' : 
+                                 item.status === 'desativada' ? 
+                                    'A vaga foi desativada e não está mais visível para candidatos. Caso deseje reativá-la, atualize as informações e publique novamente para começar a receber candidaturas.' : 
+                                 item.status }}
+                            </div>                            
+                            <div class="card-actions">
+                                <button class="edit-btn">Editar vaga</button>
+                                <button class="view-btn">Ver vaga</button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="carousel-navigation">
+                    <button class="carousel-button prev" (click)="previousSlide()" [class.disabled]="currentSlide === 0">
+                        <img src="../../assets/icons/left.png" alt="Previous Slide" class="icon">
+                    </button>
+                    <div class="carousel-indicators">
+                        <span *ngFor="let _ of [].constructor(totalSlides); let i = index" 
+                              class="indicator"
+                              [class.active]="i === currentSlide" 
+                              (click)="currentSlide = i">
+                        </span>
+                    </div>
+                    <button class="carousel-button next" (click)="nextSlide()" 
+                            [class.disabled]="currentSlide === totalSlides - 1">
+                        <img src="../../assets/icons/right.png" alt="Next Slide" class="icon">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { HabilidadesService } from '../services/habilidades.service';
+import { VagaService } from '../services/vaga.service';
 
 @Component({
     selector: 'app-cadastro-vaga',
-    imports: [CommonModule, ReactiveFormsModule],
+    imports: [CommonModule, ReactiveFormsModule, LoadingSpinnerComponent],
     templateUrl: './cadastro-vaga.component.html',
     styleUrl: './cadastro-vaga.component.css',
     standalone: true
 })
 export class CadastroVagaComponent {
     jobForm!: FormGroup;
-    selectedSkills: string[] = [];
+    isLoading: boolean = false;
     isPresencialOrHibrido: boolean = false;
-    experienceLevels = ['Júnior', 'Pleno', 'Sênior'];
-    availableSkills = ['ABAP', 'Administrador de sistema', 'AdonisJS', 'Angular', 'NodeJS'];
+
+    habilidadesSelecionadas: string[] = [];
+    niveisHabilidade: { [key: string]: string } = {};
+    niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
+    habilidadesDisponiveis: { id: number; nome: string }[] = [];
+
     beneficios = [
         { id: 'vale_refeicao', label: 'Vale Refeição' },
         { id: 'vale_alimentacao', label: 'Vale Alimentação' },
@@ -27,20 +34,31 @@ export class CadastroVagaComponent {
         { id: 'bonus', label: 'Bônus' }
     ];
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private habilidadesService: HabilidadesService, private vagaService: VagaService) {
         this.initializeForm();
     }
 
+    ngOnInit() {
+        this.isLoading = true;
+        this.habilidadesService.getHabilidades().subscribe({
+            next: (response: any) => {
+                if (response.status === 'success' && response.data) {
+                    this.habilidadesDisponiveis = response.data;
+                }
+                this.isLoading = false;
+            },
+            error: (err) => {
+                console.error('Erro ao carregar habilidades:', err);
+                this.isLoading = false;
+            }
+        });
+    }
+
     private initializeForm() {
-        this.jobForm = this.fb.group({
+        const defaultValues = {
             title: ['', Validators.required],
             profile: ['', Validators.required],
             experienceLevel: ['', Validators.required],
-            requiredSkills: [[], [
-                Validators.required,
-                Validators.minLength(3),
-                Validators.maxLength(6)
-            ]],
             descricao: ['', Validators.required],
             requisitos: ['', Validators.required],
             modelo_trabalho: ['', Validators.required],
@@ -49,24 +67,120 @@ export class CadastroVagaComponent {
             comentarios_hibrido: [''],
             tipo_contrato: ['', Validators.required],
             faixa_salarial: ['', Validators.required],
-            divulgar_salario: [''],
-            beneficios: this.fb.group({
-                vale_refeicao: [false],
-                vale_alimentacao: [false],
-                vale_transporte: [false],
-                plano_saude: [false],
-                plano_odontologico: [false],
-                seguro_vida: [false],
-                vale_estacionamento: [false],
-                academia_gympass: [false],
-                bonus: [false]
-            })
-        });
+            divulgar_salario: [false],
+            beneficios: this.fb.group(
+                {
+                    vale_refeicao: [false],
+                    vale_alimentacao: [false],
+                    vale_transporte: [false],
+                    plano_saude: [false],
+                    plano_odontologico: [false],
+                    seguro_vida: [false],
+                    vale_estacionamento: [false],
+                    academia_gympass: [false],
+                    bonus: [false],
+                }
+            ),
+        };
 
+        this.jobForm = this.fb.group(defaultValues);
+
+        this.setupFormListeners();
+    }
+
+    private setupFormListeners() {
         this.jobForm.get('modelo_trabalho')?.valueChanges.subscribe(value => {
             this.isPresencialOrHibrido = value === 'presencial_hibrido';
             this.updateValidations();
         });
+    }
+
+    onSubmit() {
+        if (this.jobForm.invalid || this.habilidadesSelecionadas.length < 3) {
+            this.markFormAsTouched();
+            return;
+        }
+
+        const dadosParaEnvio = this.prepareFormData();
+        this.isLoading = true;
+
+        this.vagaService.registrarVaga(dadosParaEnvio).subscribe({
+            next: (response) => {
+                console.log('Vaga registrada com sucesso:', response);
+                // this.jobForm.reset();
+                // this.habilidadesSelecionadas = [];
+                // this.niveisHabilidade = {};
+                this.isLoading = false;
+            },
+            error: (error) => {
+                this.isLoading = false;
+                console.error('Erro ao registrar vaga:', error);
+            }
+        });
+    }
+
+    private prepareFormData() {
+        const habilidadesRequeridas = this.habilidadesSelecionadas.map(habilidadeId => ({
+            habilidade_id: Number(habilidadeId),
+            nivel_experiencia: this.niveisHabilidade[habilidadeId],
+        }));
+
+        const formData = { ...this.jobForm.value };
+
+        if (formData.modelo_trabalho === 'remoto') {
+            ['endereco_trabalho', 'cidade_trabalho', 'comentarios_hibrido'].forEach(
+                field => delete formData[field]
+            );
+        }
+
+        const beneficiosSelecionados = Object.entries(formData.beneficios || {})
+            .filter(([_, value]) => value)
+            .map(([key]) => key);
+
+        return {
+            ...formData,
+            beneficios: beneficiosSelecionados,
+            habilidadesRequeridas,
+        };
+    }
+
+    private markFormAsTouched() {
+        Object.keys(this.jobForm.controls).forEach(key => {
+            const control = this.jobForm.get(key);
+            if (control) control.markAsTouched();
+        });
+    }
+
+    private validarHabilidades(): void {
+        const habilidadesControl = this.jobForm.get('habilidadesRequeridas');
+        if (habilidadesControl) {
+            if (this.habilidadesSelecionadas.length < 3) {
+                habilidadesControl.setErrors({ 'minSkills': true });
+            } else {
+                habilidadesControl.setErrors(null);
+            }
+            if (habilidadesControl.touched) {
+                habilidadesControl.markAsTouched();
+            }
+        }
+    }
+
+    removerHabilidade(habilidadeParaRemover: string): void {
+        this.habilidadesSelecionadas = this.habilidadesSelecionadas.filter(
+            habilidade => habilidade !== habilidadeParaRemover
+        );
+        delete this.niveisHabilidade[habilidadeParaRemover];
+        this.validarHabilidades();
+    }
+
+    atualizarNivelHabilidade(habilidade: string, nivel: string): void {
+        this.niveisHabilidade[habilidade] = nivel;
+    }
+
+
+    onWorkModelChange(event: any): void {
+        const selectedValue = event.target.value;
+        this.isPresencialOrHibrido = selectedValue === 'presencial_hibrido';
     }
 
     private updateValidations() {
@@ -88,49 +202,6 @@ export class CadastroVagaComponent {
         comentariosControl?.updateValueAndValidity();
     }
 
-    onSubmit() {
-        if (this.jobForm.valid) {
-
-            console.log(this.jobForm.value);
-        
-        } else {
-            Object.keys(this.jobForm.controls).forEach(key => {
-                const control = this.jobForm.get(key);
-                control?.markAsTouched();
-            });
-            return;
-        }
-    }
-
-    onWorkModelChange(event: any): void {
-        const selectedValue = event.target.value;
-        this.isPresencialOrHibrido = selectedValue === 'presencial_hibrido';
-    }
-
-    addSkill(event: Event): void {
-        const value = (event.target as HTMLSelectElement).value;
-        if (value && !this.selectedSkills.includes(value)) {
-            this.selectedSkills.push(value);
-            this.jobForm.get('requiredSkills')?.setValue(this.selectedSkills);
-            this.jobForm.get('requiredSkills')?.markAsTouched();
-        }
-        (event.target as HTMLSelectElement).value = 'default';
-    }
-
-    removeSkill(skill: string): void {
-        this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
-        this.jobForm.get('requiredSkills')?.setValue(this.selectedSkills);
-        this.jobForm.get('requiredSkills')?.markAsTouched();
-    }
-
-    isSkillSelected(skill: string): boolean {
-        return this.selectedSkills.includes(skill);
-    }
-
-    isSkillsValid(): boolean {
-        return this.selectedSkills.length >= 3 && this.selectedSkills.length <= 6;
-    }
-
     getErrorMessage(fieldName: string): string {
         const control = this.jobForm.get(fieldName);
         if (control?.errors) {
@@ -150,5 +221,30 @@ export class CadastroVagaComponent {
     isFieldInvalid(fieldName: string): boolean {
         const field = this.jobForm.get(fieldName);
         return field ? (field.invalid && (field.dirty || field.touched)) : false;
+    }
+
+
+    adicionarHabilidade(evento: any): void {
+        const habilidadeId = evento.target.value;
+        if (habilidadeId && this.habilidadesSelecionadas.length < 6 && !this.habilidadesSelecionadas.includes(habilidadeId)) {
+            const habilidade = this.habilidadesDisponiveis.find(h => h.id === Number(habilidadeId));
+            if (habilidade) {
+                this.habilidadesSelecionadas.push(habilidadeId);
+                this.niveisHabilidade[habilidadeId] = '';
+                this.validarHabilidades();
+            }
+        }
+
+        console.log(this.habilidadesSelecionadas);
+        evento.target.value = '';
+    }
+
+    habilidadeSelecionada(habilidadeId: number): boolean {
+        return this.habilidadesSelecionadas.includes(String(habilidadeId));
+    }
+
+    getHabilidadeNome(id: string): string {
+        const habilidade = this.habilidadesDisponiveis.find(h => h.id === Number(id));
+        return habilidade ? habilidade.nome : '';
     }
 }

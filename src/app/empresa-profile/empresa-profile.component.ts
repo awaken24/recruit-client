@@ -35,12 +35,9 @@ export class EmpresaProfileComponent {
                     setTimeout(() => {
                         this.isLoading = false;
                     }, 1000);
-                    // this.isLoading = false;
                 },
                 (error) => {
-                    console.error('Erro ao buscar os dados da empresa:', error);
-                    // this.isLoading = false;
-                }
+                    console.error('Erro ao buscar os dados da empresa:', error);                }
             );
         } else {
             console.error('ID não encontrado no localStorage');

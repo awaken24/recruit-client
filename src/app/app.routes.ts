@@ -7,6 +7,7 @@ import { RegisterCandidatoComponent } from './authentication/register-candidato/
 import { UpdateProfileEmpresaComponent } from './update-profile-empresa/update-profile-empresa.component';
 import { EmpresaProfileComponent } from './empresa-profile/empresa-profile.component';
 import { CadastroVagaComponent } from './cadastro-vaga/cadastro-vaga.component';
+import { EmpresaDashboardComponent } from './empresa-dashboard/empresa-dashboard.component';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'companies/register', component: RegisterEmpresaComponent},
     { path: 'companies/updateProfile', component: UpdateProfileEmpresaComponent},
     { path: 'companies/profile', component: EmpresaProfileComponent },
-    { path: 'companies/jobs/new', component: CadastroVagaComponent }
+    { path: 'companies/jobs/new', component: CadastroVagaComponent },
+    { path: 'companies/dashboard', component: EmpresaDashboardComponent}
 ];
