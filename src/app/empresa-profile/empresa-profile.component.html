@@ -23,7 +23,7 @@
 
                 <nav class="profile-nav">
                     <a href="#" class="active">Perfil</a>
-                    <a href="#">Vagas <span class="badge">0</span></a>
+                    <a href="#">Vagas <span class="badge">{{ company.quantidade_vagas }}</span></a>
                 </nav>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 </section>
 
                 <section class="jobs-section">
-                    <h2>Vagas abertas na Empresa Teste <span class="badge">0</span></h2>
+                    <h2>Vagas abertas na Empresa Teste <span class="badge">{{ company.quantidade_vagas }}</span></h2>
                     <button class="create-job-btn" routerLink="/companies/jobs/new">Criar uma vaga</button>
                 </section>
 
