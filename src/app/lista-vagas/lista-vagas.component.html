@@ -1,0 +1,133 @@
+<app-loading-spinner *ngIf="isLoading" message="Carregando vagas..."></app-loading-spinner>
+<div class="container-vagas">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Encontre sua próxima oportunidade em tecnologia</h1>
+            <p>As melhores vagas para desenvolvedores Frontend, Backend e Fullstack</p>
+            <div class="barra-busca">
+                <select [(ngModel)]="filtroSelecionado" class="select-habilidades" (change)="buscarVagas()">
+                    <option value="" disabled selected>Buscar por tecnologia, cargo ou empresa...</option>
+                    <option *ngFor="let habilidade of habilidades" [value]="habilidade.id">
+                        {{ habilidade.nome }}
+                    </option>
+                </select>
+                <button class="botao-buscar" (click)="buscarVagas()">
+                    <span class="icone-busca">🔍</span>
+                    Buscar
+                </button>
+            </div>            
+        </div>
+    </section>
+    <div class="conteudo-principal">
+        <nav class="navegacao">
+            <a href="/">Início</a>
+            <span class="separador">/</span>
+            <span class="pagina-atual">Vagas</span>
+        </nav>
+        <div class="grid-conteudo">
+            <aside class="filtros filtros-desktop">
+                <div class="card-filtros">
+                    <div class="cabecalho-filtros">
+                        <h2>Filtros</h2>
+                        <button class="botao-limpar" (click)="limparFiltros()">Limpar filtros</button>
+                    </div>
+                    <div class="grupo-filtro" *ngFor="let grupo of gruposFiltros">
+                        <div class="cabecalho-grupo">
+                            <h3>{{ grupo.titulo }}</h3>
+                        </div>
+                        <label class="opcao-filtro" *ngFor="let opcao of grupo.opcoes">
+                            <input 
+                                type="checkbox" 
+                                [checked]="opcao.selecionado"
+                                (change)="selecionarFiltro(grupo, opcao)">
+                            <span class="marcador"></span>
+                            <div class="info-opcao">
+                                <span class="texto-opcao">{{ opcao.texto }}</span>
+                                <span class="contador">({{ opcao.contador }})</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </aside>
+            <div class="filtros-mobile">
+                <button class="botao-filtros-mobile" (click)="toggleFiltrosMobile()">
+                    <span>Filtros</span>
+                    <i class="icone-seta" [class.rotacionado]="filtrosMobileAberto">▾</i>
+                </button>
+                <div class="painel-filtros-mobile" [class.aberto]="filtrosMobileAberto">
+                    <div class="grupo-filtro-mobile" *ngFor="let grupo of gruposFiltros">
+                        <button class="cabecalho-grupo-mobile" (click)="toggleGrupo(grupo)">
+                            <span>{{grupo.titulo}}</span>
+                            <i class="icone-seta" [class.rotacionado]="grupo.aberto">▾</i>
+                        </button>
+                        <div class="opcoes-grupo-mobile" [class.aberto]="grupo.aberto">
+                            <label class="opcao-mobile" *ngFor="let opcao of grupo.opcoes">
+                                <input 
+                                    type="checkbox" 
+                                    [checked]="opcao.selecionado"
+                                    (change)="selecionarFiltro(grupo, opcao)">
+                                <span class="texto-opcao">{{opcao.texto}}</span>
+                                <span class="contador">({{opcao.contador}})</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <main class="lista-vagas">
+                <div class="card-vaga" *ngFor="let vaga of vagasPaginadas" (click)="navegarParaDetalhes(vaga.id)">
+                    <div class="logo-empresa">
+                        <img [src]="vaga.logo" [alt]="vaga.empresa">
+                    </div>
+                    <div class="info-vaga">
+                        <div class="cabecalho-vaga">
+                            <h2>{{vaga.cargo}}</h2>
+                            <span class="tag-nova" *ngIf="vaga.nova">Nova</span>
+                        </div>
+                        <div class="detalhes-vaga">
+                            <span>{{vaga.empresa}}</span>
+                            <span>{{vaga.localizacao}}</span>
+                            <span>{{vaga.tamanhoEmpresa}}</span>
+                            <span>{{vaga.nivel}}</span>
+                            <span>{{vaga.tipoContrato}}</span>
+                        </div>
+                        <div class="tecnologias">
+                            <span *ngFor="let tech of vaga.tecnologias">{{tech}}</span>
+                        </div>
+                    </div>
+
+                    <div class="indicador-match">
+                        <div class="circulo-match">
+                            <span class="porcentagem">{{vaga.compatibilidade}}%</span>
+                            <span class="label-match">match</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="paginacao" *ngIf="totalPaginas > 1">
+                    <button 
+                        class="botao-pagina" 
+                        [disabled]="paginaAtual === 1"
+                        (click)="mudarPagina(paginaAtual - 1)">
+                        Anterior
+                    </button>
+            
+                    <button 
+                        *ngFor="let pagina of paginas"
+                        class="botao-pagina"
+                        [class.ativo]="pagina === paginaAtual"
+                        (click)="mudarPagina(pagina)">
+                        {{ pagina }}
+                    </button>
+            
+                    <button 
+                        class="botao-pagina"
+                        [disabled]="paginaAtual === totalPaginas"
+                        (click)="mudarPagina(paginaAtual + 1)">
+                        Próxima
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
