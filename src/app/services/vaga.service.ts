@@ -19,6 +19,19 @@ export class VagaService {
         return this.http.post(`${this.baseUrl}/vagas/register`, dadosVaga, { headers });
     }
 
+    getVagas(habilidadeId?: number): Observable<any> {
+        let url = `${this.baseUrl}/vagas`;
+        
+        if (habilidadeId) {
+            url += `?habilidade=${habilidadeId}`;
+        }
+
+        return this.http.get(url, {
+            headers: this.getHeaders()
+        });
+    }
+
+
     getEmpresaVagas(): Observable<any> {
         return this.http.get(`${this.baseUrl}/vagas/empresa`, {
             headers: this.getHeaders()

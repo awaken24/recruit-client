@@ -1,13 +1,13 @@
 <nav class="navbar">
     <div routerLink="" class="logo">RECRUIT<span>PRO</span></div>
     <div class="nav-links" *ngIf="!isLoggedIn" [ngClass]="{'active': isMenuActive}">
-        <a href="#" class="ver-vagas">VER VAGAS</a>
+        <a routerLink="/vagas" class="ver-vagas">VER VAGAS</a>
         <a href="#">SOU EMPRESA</a>
         <a routerLink="/users/login">LOGIN</a>
         <button class="btn-cadastrar" routerLink="/users/register">CADASTRAR-SE</button>
     </div>
     <div class="nav-links logged-in" *ngIf="isLoggedIn" [ngClass]="{'active': isMenuActive}">
-        <a href="#" class="ver-vagas">VER VAGAS</a>
+        <a routerLink="/vagas" class="ver-vagas">VER VAGAS</a>
         <div class="user-actions">
             <a href="#" class="message-icon">
                 <i class="far fa-comment-dots"></i>
