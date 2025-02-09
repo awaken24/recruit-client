@@ -248,8 +248,8 @@ export class ListaVagasComponent {
     }
 
     navegarParaDetalhes(vagaId: any) {
-        console.log(vagaId);
-        // this.router.navigate(['/vagas', vagaId]);
+        // console.log(vagaId);
+        this.router.navigate(['/vagas', vagaId]);
     }
 
     buscarVagas(): void {

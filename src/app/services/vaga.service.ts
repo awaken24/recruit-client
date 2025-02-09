@@ -21,7 +21,7 @@ export class VagaService {
 
     getVagas(habilidadeId?: number): Observable<any> {
         let url = `${this.baseUrl}/vagas`;
-        
+
         if (habilidadeId) {
             url += `?habilidade=${habilidadeId}`;
         }
@@ -34,6 +34,13 @@ export class VagaService {
 
     getEmpresaVagas(): Observable<any> {
         return this.http.get(`${this.baseUrl}/vagas/empresa`, {
+            headers: this.getHeaders()
+        });
+    }
+
+    getVagaById(vagaId: any): Observable<any> {
+        let url = `${this.baseUrl}/vagas/${vagaId}`;
+        return this.http.get(url, {
             headers: this.getHeaders()
         });
     }

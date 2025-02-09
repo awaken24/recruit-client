@@ -29,7 +29,7 @@ export class LoginCandidatoComponent {
 					if (response.user.perfil_completo) {
 						this.router.navigate(['']);
 					} else {
-						this.router.navigate(['/companies/updateProfile']);
+						this.router.navigate(['candidate/update-profile']);
 					}
 				},
 				error: (error) => {

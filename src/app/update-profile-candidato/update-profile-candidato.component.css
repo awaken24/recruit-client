@@ -1,0 +1,624 @@
+@import url(../update-profile-empresa/update-profile-empresa.component.css);
+
+.upload-cv-container {
+    background: #F8F9FA;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 1.5rem;
+}
+
+.upload-cv-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 100px;
+}
+
+.upload-icon {
+    background: white;
+    border-radius: 8px;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.upload-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.upload-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2D3748;
+}
+
+.upload-required {
+    font-size: 0.875rem;
+    color: #FF4757;
+}
+
+.upload-actions {
+    display: flex;
+    align-items: center;
+}
+
+.upload-button {
+    background: white;
+    border: 1px solid #E2E8F0;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    color: #2D3748;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.upload-button:hover {
+    background: #F8F9FA;
+    border-color: #CBD5E0;
+    transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+    .upload-cv-container {
+        padding: 1.5rem;
+    }
+
+    .upload-cv-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .upload-icon {
+        margin: 0 auto;
+        width: 60px;
+        height: 60px;
+    }
+
+    .upload-text {
+        align-items: center;
+    }
+
+    .upload-actions {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .upload-button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+
+
+
+.field input,
+.field select,
+.field textarea,
+.custom-multi-select {
+    transition: all 0.2s ease-in-out;
+}
+
+.experience-label.selecionado {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.skills-container {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.skills-header {
+    margin-bottom: 1rem;
+}
+
+.skills-label {
+    display: flex;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.skills-select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+
+    &:focus {
+        outline: none;
+        border-color: #4CAF50;
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    }
+}
+
+.skill-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+}
+
+.skill-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.skill-name {
+    font-weight: 500;
+    color: #374151;
+}
+
+.remove-button {
+    color: #ef4444;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+
+    &:hover {
+        color: #dc2626;
+    }
+}
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+}
+
+.experience-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background-color: white;
+}
+
+.experience-input {
+    display: none;
+}
+
+.skills-counter {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+
+
+
+
+
+
+
+
+
+.experience-section {
+    margin-top: 2rem;
+}
+
+.experience-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+}
+
+.experience-item h4 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #374151;
+}
+
+.field {
+    margin-bottom: 1rem;
+}
+
+.field textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+}
+
+.field textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+
+
+
+
+
+/* Estilo específico para o select de mês */
+.mes-select {
+    width: 140px;
+}
+
+/* Estilo específico para o select de ano */
+.ano-select {
+    width: 100px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.date-fields-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.date-field {
+    margin-bottom: 0;
+    min-width: 300px;
+}
+
+.date-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.date-inputs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+
+/* Estilo para o container do checkbox */
+.current-job {
+    display: flex;
+    align-items: center;
+    margin-top: 28px; /* Alinha com os selects considerando o label acima */
+    margin-left: 1rem;
+}
+
+.current-job input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+.current-job label {
+    font-size: 0.875rem;
+    color: #374151;
+    margin-bottom: 0;
+}
+
+/* Estilo hover e focus */
+.date-inputs select:hover {
+    border-color: #9ca3af;
+}
+
+.date-inputs select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+
+@media (max-width: 640px) {
+    .date-fields-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .date-field {
+        width: 100%;
+    }
+
+    .current-job {
+        margin-top: 0.5rem;
+        margin-left: 0;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+.current-job {
+    display: flex;
+    align-items: center;
+    margin-top: 28px;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.current-job input[type="checkbox"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.current-job input[type="checkbox"]:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.current-job input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    color: white;
+}
+
+.current-job label {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: #374151;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.current-job:hover input[type="checkbox"] {
+    border-color: #45a049;
+}
+
+.current-job:hover label {
+    color: #45a049;
+}
+
+.current-job input[type="checkbox"]:disabled {
+    background-color: #e2e8f0;
+    border-color: #cbd5e0;
+    cursor: not-allowed;
+}
+
+.current-job input[type="checkbox"]:disabled:checked {
+    background-color: #cbd5e0;
+    border-color: #cbd5e0;
+}
+
+.current-job input[type="checkbox"]:disabled + label {
+    color: #cbd5e0;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.field-label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #2D3748;
+    margin-bottom: 0.75rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem 0;
+}
+
+.radio-button {
+    position: relative;
+}
+
+.radio-button input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.radio-circle {
+    position: relative;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #E2E8F0;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    transition: all 0.2s ease;
+}
+
+.radio-circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #3B82F6;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease;
+}
+
+.radio-text {
+    font-size: 0.95rem;
+    color: #4A5568;
+    transition: color 0.2s ease;
+}
+
+/* Hover state */
+.radio-label:hover .radio-circle {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.radio-label:hover .radio-text {
+    color: #2D3748;
+}
+
+/* Checked state */
+.radio-button input[type="radio"]:checked + .radio-label .radio-circle {
+    border-color: #3B82F6;
+    background-color: #EBF5FF;
+}
+
+.radio-button input[type="radio"]:checked + .radio-label .radio-circle::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.radio-button input[type="radio"]:checked + .radio-label .radio-text {
+    color: #2D3748;
+    font-weight: 500;
+}
+
+/* Focus state */
+.radio-button input[type="radio"]:focus + .radio-label .radio-circle {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Disabled state */
+.radio-button input[type="radio"]:disabled + .radio-label {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.radio-button input[type="radio"]:disabled + .radio-label .radio-circle {
+    border-color: #E2E8F0;
+    background-color: #F7FAFC;
+}
+
+/* Animation for better feedback */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.radio-button input[type="radio"]:checked + .radio-label .radio-circle {
+    animation: pulse 0.5s;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .radio-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .radio-label {
+        padding: 0.375rem;
+    }
+}
+
+
+
+.radio-group-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.invalid-input {
+    border-color: #FF0000 !important;
+    background-color: #FFF0F0;
+}
+
+.error-text {
+    color: #FF0000;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+

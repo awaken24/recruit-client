@@ -1,1 +1,509 @@
-<p>update-profile-candidato works!</p>
+<app-loading-spinner *ngIf="isLoading" message="Carregando..."></app-loading-spinner>
+<div class="page-wrapper">
+    <div class="form-container">
+        <div class="page-header">
+            <h1 class="page-title">Editar meu perfil</h1>
+            <div class="info-container">
+                <p class="info-text primary">As informações cadastrais exigidas são de vital importância para comprovar a credibilidade dos candidatos, assim
+                    garantindo a segurança de todos que estão utilizando a plataforma e interagindo por meio dela. Além disso, o
+                    fornecimento de dados de currículo, habilidades, experiências e afins é necessário para candidatura em todas as
+                    vagas publicadas na plataforma.</p>
+                <p class="info-text secondary">Apenas perfis completos podem se candidatar e receber notificações de vagas compatíveis.</p>
+            </div>
+        </div>
+
+        <form [formGroup]="candidatoForm" (ngSubmit)="onSubmit()" class="form-content">
+            <div class="form-card">
+                <div class="logo-section">
+                    <img src="assets/placeholder-logo.png" alt="Logo da empresa" class="company-logo">
+                    <button type="button" class="logo-button" (click)="fileInput.click()">
+                        Escolher logo
+                    </button>
+                    <input #fileInput type="file" hidden accept="image/*">
+                </div>
+
+                <div class="form-fields">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="nome">
+                                Nome <span class="required">*</span>
+                            </label>
+                            <input id="nome" type="text" formControlName="nome" placeholder="Digite seu nome"
+                                [ngClass]="{'invalid-input': candidatoForm.get('nome')?.invalid && candidatoForm.get('nome')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('nome')?.invalid && candidatoForm.get('nome')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="sobrenome">
+                                Sobrenome <span class="required">*</span>
+                            </label>
+                            <input id="sobrenome" type="text" formControlName="sobrenome"
+                                placeholder="Digite seu sobrenome"
+                                [ngClass]="{'invalid-input': candidatoForm.get('sobrenome')?.invalid && candidatoForm.get('sobrenome')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('sobrenome')?.invalid && candidatoForm.get('sobrenome')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="telefone">
+                                Telefone <span class="required">*</span>
+                            </label>
+                            <input id="telefone" type="text" formControlName="telefone"
+                                placeholder="Ex: (11) 9 9999 9999"
+                                [ngClass]="{'invalid-input': candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="cpf">
+                                CPF <span class="required">*</span>
+                            </label>
+                            <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: 123.456.789-10"
+                                [ngClass]="{'invalid-input': candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>ENDEREÇO DO CANDIDATO</h2>
+                <div formGroupName="endereco">
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="cep">CEP <span class="required">*</span></label>
+                            <input id="cep" type="text" formControlName="cep" placeholder="Ex: 13083-852"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.cep')?.invalid && candidatoForm.get('endereco.cep')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.cep')?.invalid && candidatoForm.get('endereco.cep')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="estado">Estado <span class="required">*</span></label>
+                            <select id="state" formControlName="estado"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.estado')?.invalid && candidatoForm.get('endereco.estado')?.touched}">
+                                <option value="">Selecione o estado</option>
+                                <option value="">Selecione o estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.estado')?.invalid && candidatoForm.get('endereco.estado')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="cidade">Cidade <span class="required">*</span></label>
+                            <input id="cidade" type="text" formControlName="cidade" placeholder="Ex: São Paulo"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.cidade')?.invalid && candidatoForm.get('endereco.cidade')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.cidade')?.invalid && candidatoForm.get('endereco.cidade')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="bairro">Bairro <span class="required">*</span></label>
+                            <input id="bairro" type="text" formControlName="bairro" placeholder="Ex: Vila Mariana"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.bairro')?.invalid && candidatoForm.get('endereco.bairro')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.bairro')?.invalid && candidatoForm.get('endereco.bairro')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field">
+                            <label for="logradouro">Logradouro <span class="required">*</span></label>
+                            <input id="logradouro" type="text" formControlName="logradouro"
+                                placeholder="Ex: Avenida Paulista"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.logradouro')?.invalid && candidatoForm.get('endereco.logradouro')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.logradouro')?.invalid && candidatoForm.get('endereco.logradouro')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="numero">Número <span class="required">*</span></label>
+                            <input id="numero" type="text" formControlName="numero" placeholder="Ex: 1000"
+                                [ngClass]="{'invalid-input': candidatoForm.get('endereco.numero')?.invalid && candidatoForm.get('endereco.numero')?.touched}">
+                            <small class="error-text"
+                                *ngIf="candidatoForm.get('endereco.numero')?.invalid && candidatoForm.get('endereco.numero')?.touched">
+                                Este campo é obrigatório
+                            </small>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label for="complemento">Complemento</label>
+                        <input id="complemento" type="text" formControlName="complemento" placeholder="Ex: Sala 123">
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>APRESENTAÇÃO</h2>
+
+                <div class="field">
+                    <label for="titulo">Título do seu perfil</label>
+                    <input id="titulo" type="text" formControlName="titulo"
+                        placeholder="Ex: Programador Ruby Full-stack">
+                </div>
+
+                <div class="field">
+                    <label for="nivelIngles">Nível de inglês</label>
+                    <select id="nivelIngles" formControlName="nivelIngles">
+                        <option value="" selected>Indique seu nível de inglês</option>
+                        <option value="basico">Básico</option>
+                        <option value="intermediario">Intermediário</option>
+                        <option value="avancado">Avançado</option>
+                        <option value="fluente">Fluente</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" formControlName="descricao"
+                        placeholder="Deixe que a empresa conheça mais sobre você. Conte um pouco sobre seus objetivos, experiências e carreira."></textarea>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="linkedin">LinkedIn url</label>
+                        <input id="linkedin" type="url" formControlName="linkedin"
+                            placeholder="Ex: https://www.linkedin.com/in/etiennecurati/">
+                    </div>
+
+                    <div class="field">
+                        <label for="github">GitHub / GitLab / Stack url</label>
+                        <input id="github" type="url" formControlName="github"
+                            placeholder="Ex: https://github.com/Etienne-C">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="upload-cv-container">
+                        <div class="upload-cv-content">
+                            <div class="upload-icon">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4A90E2"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="12" y1="18" x2="12" y2="12"></line>
+                                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                                </svg>
+                            </div>
+                            <div class="upload-text">
+                                <span class="upload-title">Anexar seu CV</span>
+                                <span class="upload-required">Obrigatório para se candidatar as vagas.</span>
+                            </div>
+                            <div class="upload-actions">
+                                <button type="button" class="upload-button" (click)="cvFileInput.click()">
+                                    Escolher arquivo
+                                </button>
+                                <input #cvFileInput type="file" hidden accept=".pdf,.doc,.docx">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>HABILIDADES</h2>
+                <div class="field">
+                    <label for="foco_carreira">Foco de carreira</label>
+                    <select id="foco_carreira" name="foco_carreira" formControlName="foco_carreira">
+                        <option value="" selected>Escolha sua principal competência</option>
+                        <option value="backend">Back-End</option>
+                        <option value="frontend">Front-End</option>
+                        <option value="fullstack">Full Stack</option>
+                        <option value="mobile">Mobile</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>
+                        <span class="required">*</span> Nível de Experiência
+                    </label>
+                    <div class="company-type-options">
+                        <div class="radio-option">
+                            <input type="radio" id="junior" name="experienceLevel" formControlName="experienceLevel"
+                                value="junior">
+                            <label for="junior">Junior</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pleno" name="experienceLevel" formControlName="experienceLevel"
+                                value="pleno">
+                            <label for="pleno">Pleno</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="senior" name="experienceLevel" formControlName="experienceLevel"
+                                value="senior">
+                            <label for="senior">Senior</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="skills-container">
+                        <div class="skills-header">
+                            <label class="skills-label">
+                                <span class="required">*</span> Habilidades Obrigatórias (mínimo 3)
+                            </label>
+                            <select (change)="adicionarHabilidade($event)" class="skills-select">
+                                <option value="">Selecione uma habilidade</option>
+                                <option *ngFor="let habilidade of habilidadesDisponiveis" [value]="habilidade.id"
+                                    [disabled]="habilidadeSelecionada(habilidade.id)">
+                                    {{habilidade.nome}}
+                                </option>
+                            </select>
+                        </div>
+                        <div *ngFor="let habilidadeId of habilidadesSelecionadas" class="skill-item">
+                            <div class="skill-header">
+                                <span class="skill-name">{{getHabilidadeNome(habilidadeId)}}</span>
+                                <button (click)="removerHabilidade(habilidadeId)" class="remove-button">×</button>
+                            </div>
+                            <div class="experience-grid">
+                                <label *ngFor="let nivel of niveisExperiencia"
+                                    [class.selecionado]="niveisHabilidade[habilidadeId] === nivel"
+                                    class="experience-label">
+                                    <input type="radio" [name]="'experiencia-' + habilidadeId" [value]="nivel"
+                                        [checked]="niveisHabilidade[habilidadeId] === nivel"
+                                        (change)="atualizarNivelHabilidade(habilidadeId, nivel)"
+                                        class="experience-input">
+                                    {{nivel}}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="skills-counter">
+                            {{habilidadesSelecionadas.length}} de 6 habilidades selecionadas (Mínimo: 3)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>EXPERIÊNCIAS</h2>
+                <div class="skills-container">
+                    <h3>Experiências Profissionais</h3>
+                    <div formArrayName="experiencias">
+                        <div *ngFor="let experiencia of experiencias.controls; let i = index" [formGroupName]="i"
+                            class="skill-item">
+                            <div class="skill-header">
+                                <h4 class="skill-name">Experiência {{ i + 1 }}</h4>
+                                <button type="button" class="remove-button" (click)="removerExperiencia(i)">×</button>
+                            </div>
+
+                            <div class="field-row">
+                                <div class="field">
+                                    <label for="empresa-{{i}}">Empresa</label>
+                                    <input id="empresa-{{i}}" formControlName="empresa" type="text"
+                                        placeholder="Nome da empresa">
+                                </div>
+                                <div class="field">
+                                    <label for="cargo-{{i}}">Cargo</label>
+                                    <select id="cargo-{{i}}" formControlName="cargo" placeholder="Cargo">
+                                        <option value="" selected>Escolha o nível</option>
+                                        <option value="junior">Júnior</option>
+                                        <option value="pleno">Pleno</option>
+                                        <option value="senior">Sênior</option>
+                                        <option value="especialista">Especialista</option>
+                                        <option value="master">Master</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="date-fields-row">
+                                <div class="date-field">
+                                    <label>Data de início</label>
+                                    <div class="date-inputs">
+                                        <select id="mesInicio-{{i}}" formControlName="mesInicio" class="mes-select">
+                                            <option value="">Mês</option>
+                                            <option *ngFor="let mes of meses" [value]="mes.valor">{{ mes.nome }}
+                                            </option>
+                                        </select>
+                                        <select id="anoInicio-{{i}}" formControlName="anoInicio" class="ano-select">
+                                            <option value="">Ano</option>
+                                            <option *ngFor="let ano of anos" [value]="ano">{{ ano }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="date-field">
+                                    <label>Data de término</label>
+                                    <div class="date-inputs">
+                                        <select id="mesFim-{{i}}" formControlName="mesFim" class="mes-select">
+                                            <option value="">Mês</option>
+                                            <option *ngFor="let mes of meses" [value]="mes.valor">{{ mes.nome }}
+                                            </option>
+                                        </select>
+                                        <select id="anoFim-{{i}}" formControlName="anoFim" class="ano-select">
+                                            <option value="">Ano</option>
+                                            <option *ngFor="let ano of anos" [value]="ano">{{ ano }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="current-job">
+                                    <input type="checkbox" id="trabalhoAtual-{{i}}" formControlName="trabalhoAtual"
+                                        (change)="onTrabalhoAtualChange(i)">
+                                    <label for="trabalhoAtual-{{i}}">Trabalho aqui atualmente</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="descricao-{{i}}">Descrição</label>
+                                <textarea id="descricao-{{i}}" formControlName="descricao"
+                                    placeholder="Descrição das responsabilidades"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" (click)="adicionarExperiencia()" class="upload-button">Adicionar
+                        Experiência</button>
+                </div>
+            </div>
+            <div class="form-card">
+                <h2>O QUE VOCÊ BUSCA</h2>
+                <div class="field">
+                    <label>Tamanho da empresa</label>
+                    <div class="company-type-options">
+                        <div class="radio-option">
+                            <input type="radio" id="startup" formControlName="tipo_empresa" value="startup">
+                            <label for="startup">Startup</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="small" formControlName="tipo_empresa" value="pequena_media">
+                            <label for="small">Pequena/média empresa</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="large" formControlName="tipo_empresa" value="grande">
+                            <label for="large">Grande empresa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Tipo(s) de contrato</label>
+                    <div class="company-type-options">
+                        <div class="radio-option">
+                            <input type="radio" id="clt" name="tipo_contrato" formControlName="tipo_contrato"
+                                value="clt">
+                            <label for="clt">CLT</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="pj" name="tipo_contrato" formControlName="tipo_contrato" value="pj">
+                            <label for="pj">PJ</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="estagio" name="tipo_contrato" formControlName="tipo_contrato"
+                                value="estagio">
+                            <label for="estagio">Estágio</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="salario_desejo">Qual o salário que você deseja?</label>
+                        <select id="salario_desejo" formControlName="salario_desejo">
+                            <option value="" selected>Escolha o salário</option>
+                            <option value="1000-2000">R$ 1.000 - R$ 2.000</option>
+                            <option value="2000-3000">R$ 2.000 - R$ 3.000</option>
+                            <option value="3000-4000">R$ 3.000 - R$ 4.000</option>
+                            <option value="4000-5000">R$ 4.000 - R$ 5.000</option>
+                            <option value="5000-6000">R$ 5.000 - R$ 6.000</option>
+                            <option value="6000-7000">R$ 6.000 - R$ 7.000</option>
+                            <option value="7000-8000">R$ 7.000 - R$ 8.000</option>
+                            <option value="8000+">Acima de R$ 8.000</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="status_busca">Status de busca</label>
+                        <select name="status_busca" formControlName="status_busca">
+                            <option value="" selected>Indique seu status de busca</option>
+                            <option value="em_busca">Em busca de novas oportunidades!</option>
+                            <option value="empregado_aberto">Empregado(a). Porém, uma boa oportunidade é sempre
+                                bem-vinda!</option>
+                            <option value="nao_buscando">Não estou procurando um novo emprego agora</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field radio-group-container">
+                        <label class="field-label">Disponibilidade para trabalho remoto</label>
+                        <div class="radio-group">
+                            <div class="radio-button">
+                                <input type="radio" id="trabalho_remoto_sim" name="trabalho_remoto"
+                                    formControlName="trabalho_remoto" value="sim">
+                                <label for="trabalho_remoto_sim" class="radio-label">
+                                    <span class="radio-circle"></span>
+                                    <span class="radio-text">Sim</span>
+                                </label>
+                            </div>
+                            <div class="radio-button">
+                                <input type="radio" id="trabalho_remoto_nao" name="trabalho_remoto"
+                                    formControlName="trabalho_remoto" value="nao">
+                                <label for="trabalho_remoto_nao" class="radio-label">
+                                    <span class="radio-circle"></span>
+                                    <span class="radio-text">Não</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field radio-group-container">
+                        <label class="field-label">Pessoa com deficiência (PCD)</label>
+                        <div class="radio-group">
+                            <div class="radio-button">
+                                <input type="radio" id="pcd_sim" name="pcd" formControlName="pcd" value="sim">
+                                <label for="pcd_sim" class="radio-label">
+                                    <span class="radio-circle"></span>
+                                    <span class="radio-text">Sim</span>
+                                </label>
+                            </div>
+                            <div class="radio-button">
+                                <input type="radio" id="pcd_nao" name="pcd" formControlName="pcd" value="nao">
+                                <label for="pcd_nao" class="radio-label">
+                                    <span class="radio-circle"></span>
+                                    <span class="radio-text">Não</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container" style="text-align: center; margin-top: 2rem;">
+                    <button type="submit"
+                        style="background-color: #4CAF50; color: white; padding: 0.75rem 2rem; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+                        Salvar
+                    </button>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #666; font-size: 0.9rem;">
+                        Para editar seus dados de login, <a href="#"
+                            style="color: #4CAF50; text-decoration: none;">Clique aqui</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
