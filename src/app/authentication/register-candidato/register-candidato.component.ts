@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FooterComponent } from '../../footer/footer.component';
-
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-register-candidato',
@@ -17,7 +17,11 @@ export class RegisterCandidatoComponent implements OnInit {
     registerForm!: FormGroup;
     submitted = false;
 
-    constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+    constructor (
+        private formBuilder: FormBuilder, 
+        private authService: AuthService, 
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({
@@ -58,8 +62,17 @@ export class RegisterCandidatoComponent implements OnInit {
 
         this.authService.register(formData, 'candidato').subscribe({
             next: (response) => {
-                console.log('Registro bem-sucedido:', response);
+                if (response.data?.token) {
+                    console.log("Entrou");
+                    localStorage.setItem('token', response.data.token);
+                    if (response.data.user) {
+                        localStorage.setItem('user', JSON.stringify(response.data.user));
+                    }
+                    this.authService.updateLoginState(true);
+                    console.log('Usuário autenticado e token salvo!');
+                }
 
+                this.router.navigate(['/candidate/update-profile']);
             },
             error: (error) => {
                 console.error('Erro no registro do candidato:', error);

@@ -40,7 +40,7 @@ export class AuthService {
     }
 
     register(data: any, userType: 'candidato' | 'empresa'): Observable<any> {
-        const endpoint = userType === 'candidato' ? '/register-candidato' : '/empresas/registerUsuario';
+        const endpoint = userType === 'candidato' ? '/candidato/register/usuario' : '/empresas/register/usuario';
         return this.http.post(`${this.baseUrl}${endpoint}`, data);
     }
 
