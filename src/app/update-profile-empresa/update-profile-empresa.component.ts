@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmpresaService } from '../services/empresa.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-update-profile-empresa',
@@ -13,7 +14,11 @@ import { EmpresaService } from '../services/empresa.service';
 export class UpdateProfileEmpresaComponent {
     empresaForm: FormGroup;
 
-    constructor(private fb: FormBuilder, private empresaService: EmpresaService) {
+    constructor (
+        private fb: FormBuilder, 
+        private router: Router,
+        private empresaService: EmpresaService,
+    ) {
         this.empresaForm = this.fb.group({
             razao_social: ['', Validators.required],
             nome_fantasia: ['', Validators.required],
@@ -57,6 +62,7 @@ export class UpdateProfileEmpresaComponent {
             this.empresaService.enviarDadosEmpresa(dados).subscribe({
                 next: (response) => {
                     console.log('Dados enviados com sucesso:', response);
+                    this.router.navigate(['/companies/dashboard']);
                 },
                 error: (error) => {
                     console.error('Erro ao enviar os dados:', error);
