@@ -356,3 +356,12 @@
 .icon-vacation:before {
     content: "🏖️";
 }
+
+.botao-candidatar:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.botao-candidatar:disabled:hover {
+    background-color: #cccccc;
+}

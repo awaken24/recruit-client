@@ -1,131 +1,113 @@
 <app-loading-spinner *ngIf="isLoading" message="Carregando dados da vaga..."></app-loading-spinner>
-<div class="container-principal">
+<div class="container-principal" *ngIf="!isLoading && vaga">
     <div class="cabecalho">
-        <span class="tipo-vaga">Vaga Back-End</span>
-        <h1 class="titulo-vaga">Desenvolvedor(a) Backend PHP</h1>
+        <span class="tipo-vaga">Vaga {{ vaga.perfil | titlecase }}</span>
+        <h1 class="titulo-vaga">{{ vaga.titulo }}</h1>
         <div class="tecnologias">
-            <span class="tag">Git</span>
-            <span class="tag">Laravel</span>
-            <span class="tag">MySQL</span>
-            <span class="tag">PHP</span>
-            <span class="tag">Zend</span>
+            <span class="tag" *ngFor="let requisito of vaga?.requisitos_habilidades">
+                {{ requisito.habilidade.nome }}
+            </span>
         </div>
     </div>
     <div class="conteudo">
-        <h2 class="titulo-empresa">ITS</h2>
+        <h2 class="titulo-empresa">{{ vaga.empresa.nome_fantasia }}</h2>
         <div class="card-vaga">
             <div class="coluna-logo">
                 <img src="logo-empresa.png" alt="Logo ITS" class="logo-empresa">
             </div>
             <div class="coluna-info">
-                <div class="linha-info">
-                    <div class="info-item">
-                        <i class="icone-empresa"></i>
-                        <span>Pequena/média empresa</span>
+                <div class="coluna-info">
+                    <div class="linha-info">
+                        <div class="info-item">
+                            <i class="icone-empresa"></i>
+                            <span>{{ formatTipoEmpresa(vaga.empresa.tipo_empresa) }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="icone-contrato"></i>
+                            <span>{{ vaga.tipo_contrato | uppercase }}</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <i class="icone-contrato"></i>
-                        <span>CLT PJ</span>
+    
+                    <div class="linha-info">
+                        <div class="info-item">
+                            <i class="icone-home"></i>
+                            <span>{{ vaga.modelo_trabalho | titlecase }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="icone-local"></i>
+                            <span>Localização: {{ vaga.cidade_trabalho || 'Remoto' }}</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="linha-info">
-                    <div class="info-item">
-                        <i class="icone-home"></i>
-                        <span>Home Office (Remoto)</span>
+    
+                    <div class="linha-info">
+                        <div class="info-item">
+                            <i class="icone-salario"></i>
+                            <span>Salário: {{ vaga.divulgar_salario ? vaga.faixa_salarial : 'A combinar' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="icone-nivel"></i>
+                            <span>{{ vaga.nivel_experiencia | titlecase }}</span>
+                        </div>
                     </div>
-                    <div class="info-item">
-                        <i class="icone-local"></i>
-                        <span>Localização: Remoto</span>
+    
+                    <div class="info-adicional" *ngIf="vaga.comentarios_hibrido">
+                        <i class="icone-aviao"></i>
+                        <span>{{ vaga.comentarios_hibrido }}</span>
                     </div>
-                </div>
-
-                <div class="linha-info">
-                    <div class="info-item">
-                        <i class="icone-salario"></i>
-                        <span>Salário: Até R$5.000</span>
-                    </div>
-                    <div class="info-item">
-                        <i class="icone-nivel"></i>
-                        <span>Júnior</span>
-                    </div>
-                </div>
-
-                <div class="info-adicional">
-                    <i class="icone-aviao"></i>
-                    <span>Aceito candidatos de outras cidades/estados dispostos a se mudar para o local de
-                        trabalho</span>
                 </div>
             </div>
         </div>
         <div class="empresa-info">
             <h2 class="secao-titulo">Descrição da empresa</h2>
-            <p class="descricao-texto">
-                A ITS recruta a melhor equipe de Tecnologia.
-            </p>
+            <p class="descricao-texto">{{ vaga.empresa.descricao }}</p>
             <h2 class="secao-titulo">Atividades e Responsabilidades</h2>
-            <p class="descricao-texto">
-                Estamos buscando um Desenvolvedor Backend para atuar na sustentação de sistemas. O profissional será
-                responsável por realizar a manutenção corretiva e evolutiva de sistemas, trabalhar com código legado e
-                ajudar na triagem e resolução de tarefas, garantindo o bom funcionamento e a estabilidade das
-                aplicações.
-            </p>
-            <ul class="lista-atividades">
-                <li>Atuar na manutenção e evolução de sistemas legados.</li>
-                <li>Realizar correções e ajustes em código PHP utilizando o framework Zend/Laravel.</li>
-                <li>Diagnosticar e corrigir erros em banco de dados MySQL.</li>
-                <li>Triar e priorizar demandas de manutenção e novas implementações.</li>
-                <li>Garantir a qualidade e estabilidade das aplicações em produção.</li>
-                <li>Participar da análise de problemas e propor soluções eficientes.</li>
-            </ul>
+            <p class="descricao-texto"> {{ vaga.descricao }}</p>
             <h2 class="secao-titulo">Atividades e Responsabilidades</h2>
-            <ul class="lista-atividades">
-                <li>Experiência com PHP (foco em código legado).</li>
-                <li>Experiência com MySQL.</li>
-                <li>Familiaridade com manutenção e sustentação de sistema.</li>
-                <li>Habilidade para analisar e triagem de tarefas e demandas técnicas.</li>
-                <li>Boa comunicação e trabalho em equipe.</li>
-                <li>Experiência com outros frameworks PHP.</li>
-            </ul>
-            <h2 class="secao-titulo">Atividades e Responsabilidades</h2>
+            <p>{{ vaga.requisitos }}</p>
+            
+            
+            <h2 class="secao-titulo">Benefícios</h2>
             <div class="beneficios-lista">
-                <div class="beneficio-item">
+                <div class="beneficio-item" *ngIf="vaga.vale_refeicao">
+                    <i class="icon-food"></i>
+                    <span>Vale Refeição</span>
+                </div>
+                <div class="beneficio-item" *ngIf="vaga.vale_alimentacao">
                     <i class="icon-food"></i>
                     <span>Vale Alimentação</span>
                 </div>
-                <div class="beneficio-item">
+                <div class="beneficio-item" *ngIf="vaga.vale_transporte">
                     <i class="icon-transport"></i>
                     <span>Vale Transporte</span>
                 </div>
-                <div class="beneficio-item">
+                <div class="beneficio-item" *ngIf="vaga.plano_saude">
                     <i class="icon-health"></i>
                     <span>Plano de Saúde</span>
                 </div>
-                <div class="beneficio-item">
+                <div class="beneficio-item" *ngIf="vaga.plano_odontologico">
+                    <i class="icon-health"></i>
+                    <span>Plano Odontológico</span>
+                </div>
+                <div class="beneficio-item" *ngIf="vaga.seguro_vida">
                     <i class="icon-insurance"></i>
                     <span>Seguro de Vida</span>
                 </div>
-                <div class="beneficio-item">
-                    <i class="icon-home"></i>
-                    <span>Home Office</span>
+                <div class="beneficio-item" *ngIf="vaga.academia_gympass">
+                    <i class="icon-gym"></i>
+                    <span>Academia/Gympass</span>
                 </div>
-                <div class="beneficio-item">
-                    <i class="icon-learning"></i>
-                    <span>Treinamento e Desenvolvimento</span>
-                </div>
-                <div class="beneficio-item">
+                <div class="beneficio-item" *ngIf="vaga.bonus">
                     <i class="icon-bonus"></i>
-                    <span>Bônus de Performance</span>
-                </div>
-                <div class="beneficio-item">
-                    <i class="icon-vacation"></i>
-                    <span>Vale Férias</span>
+                    <span>Bônus</span>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="barra-inferior">
-        <button class="botao-candidatar">Quero me candidatar</button>
+        <button class="botao-candidatar" (click)="candidatarSe()" [disabled]="isEmpresa">
+            Quero me candidatar
+        </button>
     </div>
 </div>
 <app-footer></app-footer>

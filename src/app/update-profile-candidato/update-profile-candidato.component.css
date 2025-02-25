@@ -67,41 +67,6 @@
     transform: translateY(-1px);
 }
 
-@media (max-width: 768px) {
-    .upload-cv-container {
-        padding: 1.5rem;
-    }
-
-    .upload-cv-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-
-    .upload-icon {
-        margin: 0 auto;
-        width: 60px;
-        height: 60px;
-    }
-
-    .upload-text {
-        align-items: center;
-    }
-
-    .upload-actions {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .upload-button {
-        width: 100%;
-        max-width: 200px;
-    }
-}
-
-
-
-
 .field input,
 .field select,
 .field textarea,
@@ -209,15 +174,6 @@
     color: #6b7280;
 }
 
-
-
-
-
-
-
-
-
-
 .experience-section {
     margin-top: 2rem;
 }
@@ -253,34 +209,13 @@
     min-height: 100px;
 }
 
-
-
-
-
-
-
-/* Estilo específico para o select de mês */
 .mes-select {
     width: 140px;
 }
 
-/* Estilo específico para o select de ano */
 .ano-select {
     width: 100px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .date-fields-row {
     display: flex;
@@ -308,12 +243,10 @@
 }
 
 
-
-/* Estilo para o container do checkbox */
 .current-job {
     display: flex;
     align-items: center;
-    margin-top: 28px; /* Alinha com os selects considerando o label acima */
+    margin-top: 28px;
     margin-left: 1rem;
 }
 
@@ -327,7 +260,6 @@
     margin-bottom: 0;
 }
 
-/* Estilo hover e focus */
 .date-inputs select:hover {
     border-color: #9ca3af;
 }
@@ -337,31 +269,6 @@
     border-color: #2563eb;
     box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
 }
-
-@media (max-width: 640px) {
-    .date-fields-row {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .date-field {
-        width: 100%;
-    }
-
-    .current-job {
-        margin-top: 0.5rem;
-        margin-left: 0;
-    }
-}
-
-
-
-
-
-
-
-
-
 
 .current-job {
     display: flex;
@@ -430,49 +337,6 @@
     cursor: not-allowed;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .field-label {
     display: block;
     font-size: 0.95rem;
@@ -536,7 +400,6 @@
     transition: color 0.2s ease;
 }
 
-/* Hover state */
 .radio-label:hover .radio-circle {
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
@@ -546,7 +409,6 @@
     color: #2D3748;
 }
 
-/* Checked state */
 .radio-button input[type="radio"]:checked + .radio-label .radio-circle {
     border-color: #3B82F6;
     background-color: #EBF5FF;
@@ -561,12 +423,10 @@
     font-weight: 500;
 }
 
-/* Focus state */
 .radio-button input[type="radio"]:focus + .radio-label .radio-circle {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
-/* Disabled state */
 .radio-button input[type="radio"]:disabled + .radio-label {
     cursor: not-allowed;
     opacity: 0.6;
@@ -577,7 +437,6 @@
     background-color: #F7FAFC;
 }
 
-/* Animation for better feedback */
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
     70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
@@ -588,27 +447,12 @@
     animation: pulse 0.5s;
 }
 
-/* Responsive design */
-@media (max-width: 640px) {
-    .radio-group {
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-
-    .radio-label {
-        padding: 0.375rem;
-    }
-}
-
-
-
 .radio-group-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
 }
-
 
 .invalid-input {
     border-color: #FF0000 !important;
@@ -622,3 +466,59 @@
     display: block;
 }
 
+@media (max-width: 768px) {
+    .upload-cv-container {
+        padding: 1.5rem;
+    }
+
+    .upload-cv-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .upload-icon {
+        margin: 0 auto;
+        width: 60px;
+        height: 60px;
+    }
+
+    .upload-text {
+        align-items: center;
+    }
+
+    .upload-actions {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .upload-button {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 640px) {
+    .date-fields-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .date-field {
+        width: 100%;
+    }
+
+    .current-job {
+        margin-top: 0.5rem;
+        margin-left: 0;
+    }
+
+    .radio-group {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .radio-label {
+        padding: 0.375rem;
+    }
+}

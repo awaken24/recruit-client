@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { CommonModule } from '@angular/common';
 import { VagaService } from '../services/vaga.service';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-detalhes-vaga',
@@ -15,18 +17,30 @@ import { VagaService } from '../services/vaga.service';
 })
 export class DetalhesVagaComponent {
     vagaId: string | null = null;
-    vaga: any;
     isLoading: boolean = true;
+    vaga: any = {};
+    isEmpresa: boolean = false;
 
-    constructor(private route: ActivatedRoute, private vagaservice: VagaService) { }
+    constructor(
+        private route: ActivatedRoute, 
+        private vagaservice: VagaService, 
+        private authService: AuthService,
+        private router: Router
+    ) { }
 
     ngOnInit(): void {
         this.vagaId = this.route.snapshot.paramMap.get('id');
-        
+
+        console.log("Antes: " + this.isEmpresa);
+        if (this.authService.getUserType() === "empresa") {
+            this.isEmpresa = true;
+        }
+        console.log("Depois: " + this.isEmpresa);
+
         if (this.vagaId) {
             this.vagaservice.getVagaById(this.vagaId).subscribe({
                 next: (data) => {
-                    this.vaga = data;
+                    this.vaga = data.data;
                     this.isLoading = false;
                 },
                 error: (err) => {
@@ -35,7 +49,40 @@ export class DetalhesVagaComponent {
                 }
             });
         }
+    }
 
+    candidatarSe(): void {
+        if (!this.authService.isLoggedIn()) {
+            this.router.navigate(['/users/login']);
+        } else {
+            const candidatoId = this.authService.getUser()?.id;
+
+            if (this.vagaId && candidatoId) {
+                this.vagaservice.candidatar(Number(this.vagaId), candidatoId).subscribe({
+                    next: (response) => {
+                        console.log('Candidatura enviada com sucesso:', response);
+                        alert('Candidatura realizada com sucesso!');
+                    },
+                    error: (err) => {
+                        console.error('Erro ao enviar candidatura:', err);
+                        alert('Erro ao enviar candidatura. Tente novamente.');
+                    }
+                });
+            }
+        }
+    }
+
+    formatTipoEmpresa(tipo: string): string {
+        switch (tipo) {
+            case 'pequena_media':
+                return 'Pequena/média empresa';
+            case 'startup':
+                return 'Startup';
+            case 'grande':
+                return 'Grande empresa';
+            default:
+                return tipo;
+        }
     }
 
 }

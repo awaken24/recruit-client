@@ -51,4 +51,15 @@ export class VagaService {
             'Authorization': `Bearer ${token}`
         });
     }
+
+    candidatar(vagaId: number, candidatoId: number): Observable<any> {
+        const headers = this.getHeaders();
+
+        return this.http.post(
+            `${this.baseUrl}/vagas/candidatura`,
+            { vaga_id: vagaId, candidato_id: candidatoId },
+            { headers }
+        );
+    }
+
 }
