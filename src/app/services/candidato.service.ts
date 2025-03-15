@@ -16,4 +16,10 @@ export class CandidatoService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         return this.http.post(`${this.baseUrl}/candidato/register/`, dadosEmpresa, { headers });
     }
+
+    getDashboardData(): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/candidato/dashboard`, {}, { headers: headers });
+    }
 }

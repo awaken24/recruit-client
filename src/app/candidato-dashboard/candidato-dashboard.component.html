@@ -1,0 +1,115 @@
+<app-loading-spinner *ngIf="isLoading" message="Carregando dados do candidato..."></app-loading-spinner>
+<div class="dashboard-container" [class.sidebar-open]="isSidebarOpen">
+    <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <img *ngIf="isSidebarOpen" src="../../assets/icons/fechar.png" alt="Sidebar Aberto" class="icon"/>
+        <img *ngIf="!isSidebarOpen" src="../../assets/icons/abrir.png" alt="Sidebar Fechado" class="icon"/>
+    </button>
+    <aside class="sidebar" [ngClass]="{'open': isSidebarOpen}">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <i class="fas fa-building"></i>
+            </div>
+
+            <!--
+            <div class="profile-img">
+                <img src="assets/profile-placeholder.jpg" alt="Foto de perfil">
+            </div>            
+            -->
+
+            <h2 class="username">{{ username }}</h2>
+            <button class="edit-profile">Editar perfil</button>
+        </div>
+
+        <nav class="sidebar-nav" style="padding-top: 20px;">
+            <a href="#" class="nav-item active">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Oportunidades</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Candidaturas</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog"></i>
+                <span>Configurações</span>
+            </a>
+        </nav>
+    </aside>
+    <main class="main-content">
+        <section class="welcome-card">
+            <h1 class="welcome-header">Bem-vindo(a), {{ username }}</h1>
+            <div class="profile-progress">
+                <div class="progress-text">Porcentagem das informações do seu perfil:</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="profileCompletion"></div>
+                </div>
+                <div class="progress-percent">{{ profileCompletion }}%</div>
+            </div>
+            <div class="profile-update">
+                <div class="update-text">Atualize seu perfil: adicione skills, ajuste o salário desejado, atualize seu
+                    último CV.</div>
+                <button class="edit-btn">Editar</button>
+            </div>
+        </section>
+
+        <section class="stats-container">
+            <div class="stats-card">
+                <div class="stats-number">{{ userStats.applications }}</div>
+                <div class="stats-label">Candidaturas</div>
+                <div class="stats-action">VER</div>
+            </div>
+            <div class="stats-card">
+                <div class="stats-number">{{ userStats.opportunities }}</div>
+                <div class="stats-label">Oportunidades</div>
+                <div class="stats-action">VER</div>
+            </div>
+        </section>
+
+        <section class="boost-section">
+            <h2 class="boost-title">Aumente suas chances de encontrar um trabalho em <span class="boost-highlight">até
+                    70%</span>!</h2>
+            <p class="boost-text">Está na hora de você provar aos recrutadores que você possui conhecimento! Encontre
+                seus skills e levels, e realize o teste!</p>
+            <p class="boost-text recruiter-note">Caso você tenha um bom desempenho, <strong>você aparecerá no topo da
+                    lista dos recrutadores</strong>!</p>
+        </section>
+
+        <section class="skills-section">
+            <div class="skills-card">
+                <!-- <h3 class="skills-header">Avaliação de habilidades de programação</h3>
+                <div class="skills-grid">
+                    <div class="skill-item" *ngFor="let skill of programmingSkills">
+                        <div class="skill-icon" [style.background-color]="skill.iconBg"></div>
+                        <div class="skill-info">
+                            <div class="skill-name">{{ skill.name }}</div>
+                            <div class="skill-level">
+                                <i class="level-icon">📊</i> {{ skill.level }}
+                            </div>
+                        </div>
+                        <div *ngIf="skill.featured" class="skill-badge"></div>
+                    </div>
+                </div>
+                <button class="more-tests">Ver mais testes</button>
+                -->
+            </div>
+            <div class="skills-card">
+                <h3 class="skills-header">Certificação Oficial de Inglês <span class="free-tag">[GRATUITO]</span></h3>
+                <div class="certificate-container">
+                    <div class="skill-item" *ngFor="let cert of certificateSkills">
+                        <div class="skill-icon" [style.background-color]="cert.iconBg"></div>
+                        <div class="skill-info">
+                            <div class="skill-name">{{ cert.name }}</div>
+                            <div class="certificate-action">
+                                <i class="cert-icon">🎓</i> {{ cert.level }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
