@@ -117,7 +117,7 @@ export class UpdateProfileCandidatoComponent {
         this.candidatoService.enviarDadosCandidato(formData).subscribe({
             next: (response) => {
                 console.log('Dados enviados com sucesso:', response);
-                this.router.navigate(['/vagas']);
+                this.router.navigate(['/candidate/dashboard']);
             },
             error: (error) => {
                 console.error('Erro ao enviar os dados:', error);
