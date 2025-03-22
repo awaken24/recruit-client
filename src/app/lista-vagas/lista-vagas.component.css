@@ -47,7 +47,7 @@
 
 .botao-buscar {
     padding: 1rem 2rem;
-    background: #3498db;
+    background: #1abc9c;
     color: white;
     border: none;
     cursor: pointer;
@@ -73,7 +73,7 @@
 }
 
 .navegacao a {
-    color: #3498db;
+    color: #1abc9c;
     text-decoration: none;
 }
 
@@ -220,7 +220,7 @@
 .circulo-match {
     width: 70px;
     height: 70px;
-    background: #3498db;
+    background: #1abc9c;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -262,7 +262,7 @@
 }
 
 .botao-limpar {
-    color: #3498db;
+    color: #1abc9c;
     background: none;
     border: none;
     font-size: 0.875rem;
@@ -375,8 +375,8 @@
 }
 
 .opcao-filtro input:checked+.marcador {
-    background: #3498db;
-    border-color: #3498db;
+    background: #1abc9c;
+    border-color: #1abc9c;
 }
 
 .opcao-filtro input:checked+.marcador:after {
