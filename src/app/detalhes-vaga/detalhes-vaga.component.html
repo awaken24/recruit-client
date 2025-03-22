@@ -1,113 +1,215 @@
-<app-loading-spinner *ngIf="isLoading" message="Carregando dados da vaga..."></app-loading-spinner>
-<div class="container-principal" *ngIf="!isLoading && vaga">
-    <div class="cabecalho">
-        <span class="tipo-vaga">Vaga {{ vaga.perfil | titlecase }}</span>
-        <h1 class="titulo-vaga">{{ vaga.titulo }}</h1>
-        <div class="tecnologias">
-            <span class="tag" *ngFor="let requisito of vaga?.requisitos_habilidades">
-                {{ requisito.habilidade.nome }}
-            </span>
-        </div>
-    </div>
-    <div class="conteudo">
-        <h2 class="titulo-empresa">{{ vaga.empresa.nome_fantasia }}</h2>
-        <div class="card-vaga">
-            <div class="coluna-logo">
-                <img src="logo-empresa.png" alt="Logo ITS" class="logo-empresa">
-            </div>
-            <div class="coluna-info">
-                <div class="coluna-info">
-                    <div class="linha-info">
-                        <div class="info-item">
-                            <i class="icone-empresa"></i>
-                            <span>{{ formatTipoEmpresa(vaga.empresa.tipo_empresa) }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="icone-contrato"></i>
-                            <span>{{ vaga.tipo_contrato | uppercase }}</span>
-                        </div>
-                    </div>
-    
-                    <div class="linha-info">
-                        <div class="info-item">
-                            <i class="icone-home"></i>
-                            <span>{{ vaga.modelo_trabalho | titlecase }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="icone-local"></i>
-                            <span>Localização: {{ vaga.cidade_trabalho || 'Remoto' }}</span>
-                        </div>
-                    </div>
-    
-                    <div class="linha-info">
-                        <div class="info-item">
-                            <i class="icone-salario"></i>
-                            <span>Salário: {{ vaga.divulgar_salario ? vaga.faixa_salarial : 'A combinar' }}</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="icone-nivel"></i>
-                            <span>{{ vaga.nivel_experiencia | titlecase }}</span>
+<app-loading-spinner *ngIf="isLoading" message="Carregando dados da empresa..."></app-loading-spinner>
+<div class="container" *ngIf="!isLoading">
+    <header>
+        <a routerLink="/vagas" class="voltar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 18l-6-6 6-6" />
+            </svg>
+            Voltar para lista de vagas
+        </a>
+    </header>
+    <main>
+        <section class="card">
+            <div class="card-section">
+                <div class="vaga-header">
+                    <div>
+                        <h1 class="vaga-titulo">{{ vaga.titulo }}</h1>
+                        <div class="vaga-empresa">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                                    <line x1="12" y1="6" x2="12" y2="6" />
+                                    <line x1="12" y1="12" x2="12" y2="12" />
+                                    <line x1="12" y1="18" x2="12" y2="18" />
+                                </svg>
+                                {{ vaga.empresa.razao_social }}
+                            </span>
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                    <circle cx="12" cy="10" r="3" />
+                                </svg>
+                                {{ vaga.modelo_trabalho === 'remoto' ? 'Remoto' : vaga.cidade_trabalho + '
+                                (Presencial/Híbrido)' }}
+                            </span>
                         </div>
                     </div>
-    
-                    <div class="info-adicional" *ngIf="vaga.comentarios_hibrido">
-                        <i class="icone-aviao"></i>
-                        <span>{{ vaga.comentarios_hibrido }}</span>
-                    </div>
+                    <button class="btn-candidatar" (click)="candidatarSe()">Candidatar-se</button>
                 </div>
-            </div>
-        </div>
-        <div class="empresa-info">
-            <h2 class="secao-titulo">Descrição da empresa</h2>
-            <p class="descricao-texto">{{ vaga.empresa.descricao }}</p>
-            <h2 class="secao-titulo">Atividades e Responsabilidades</h2>
-            <p class="descricao-texto"> {{ vaga.descricao }}</p>
-            <h2 class="secao-titulo">Atividades e Responsabilidades</h2>
-            <p>{{ vaga.requisitos }}</p>
-            
-            
-            <h2 class="secao-titulo">Benefícios</h2>
-            <div class="beneficios-lista">
-                <div class="beneficio-item" *ngIf="vaga.vale_refeicao">
-                    <i class="icon-food"></i>
-                    <span>Vale Refeição</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.vale_alimentacao">
-                    <i class="icon-food"></i>
-                    <span>Vale Alimentação</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.vale_transporte">
-                    <i class="icon-transport"></i>
-                    <span>Vale Transporte</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.plano_saude">
-                    <i class="icon-health"></i>
-                    <span>Plano de Saúde</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.plano_odontologico">
-                    <i class="icon-health"></i>
-                    <span>Plano Odontológico</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.seguro_vida">
-                    <i class="icon-insurance"></i>
-                    <span>Seguro de Vida</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.academia_gympass">
-                    <i class="icon-gym"></i>
-                    <span>Academia/Gympass</span>
-                </div>
-                <div class="beneficio-item" *ngIf="vaga.bonus">
-                    <i class="icon-bonus"></i>
-                    <span>Bônus</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="barra-inferior">
-        <button class="botao-candidatar" (click)="candidatarSe()" [disabled]="isEmpresa">
-            Quero me candidatar
-        </button>
-    </div>
+                <div class="vaga-info-grid">
+                    <div class="vaga-info-item">
+                        <div class="vaga-info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="2" y="5" width="20" height="14" rx="2" />
+                                <line x1="2" y1="10" x2="22" y2="10" />
+                            </svg>
+                        </div>
+                        <div class="vaga-info-content">
+                            <p style="margin-bottom: 0;">Salário</p>
+                            <p style="margin-top: 0;">{{ formatarSalario(vaga.faixa_salarial) }}</p>
+                        </div>
+                    </div>
+                    <div class="vaga-info-item">
+                        <div class="vaga-info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                        </div>
+                        <div class="vaga-info-content">
+                            <p style="margin-bottom: 0;">Contrato</p>
+                            <p style="margin-top: 0;">
+                                {{ vaga.tipo_contrato === 'clt' ? 'CLT' :
+                                vaga.tipo_contrato === 'pj' ? 'PJ' :
+                                vaga.tipo_contrato === 'estagio' ? 'Estágio' : '' }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="vaga-info-item">
+                        <div class="vaga-info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="12" cy="8" r="6" />
+                                <path
+                                    d="M15.5 21H8.5a2 2 0 0 1-2-2v-4.18a3 3 0 0 1 .6-1.8l2.9-3.46a1 1 0 0 1 1.6 0l2.9 3.46a3 3 0 0 1 .6 1.8V19a2 2 0 0 1-2 2z" />
+                            </svg>
+                        </div>
+                        <div class="vaga-info-content">
+                            <p style="margin-bottom: 0;">Experiência</p>
+                            <p style="margin-top: 0;">
+                                {{ vaga.nivel_experiencia === 'junior' ? 'Júnior' :
+                                vaga.nivel_experiencia === 'pleno' ? 'Pleno' :
+                                vaga.nivel_experiencia === 'senior' ? 'Sênior' : '' }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="vaga-info-item">
+                        <div class="vaga-info-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                <line x1="16" y1="2" x2="16" y2="6" />
+                                <line x1="8" y1="2" x2="8" y2="6" />
+                                <line x1="3" y1="10" x2="21" y2="10" />
+                            </svg>
+                        </div>
+                        <div class="vaga-info-content">
+                            <p style="margin-bottom: 0;">Data</p>
+                            <p style="margin-top: 0;">{{ calcularDiasDesdePublicacao(vaga.created_at) }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-section vaga-descricao">
+                <h2>Descrição da vaga</h2>
+                <p>{{ vaga.descricao }}</p>
+            </div>
+
+            <div class="card-section vaga-skills">
+                <h2>Habilidades desejadas</h2>
+                <div class="skills-lista">
+                    <span *ngFor="let habilidade of vaga.requisitos_habilidades" class="skill-tag">
+                        {{ habilidade.habilidade.nome }}
+                    </span>
+                </div>
+            </div>
+            <div class="card-section vaga-beneficios">
+                <h2>Benefícios</h2>
+                <div class="beneficios-cards">
+                    <div class="beneficio-card" *ngIf="vaga.vale_alimentacao">
+                        <i class="fas fa-shopping-basket"></i> Vale Alimentação
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.vale_refeicao">
+                        <i class="fas fa-utensils"></i> Vale Refeição
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.vale_transporte">
+                        <i class="fas fa-bus"></i> Vale Transporte
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.plano_saude">
+                        <i class="fas fa-heartbeat"></i> Plano de Saúde
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.plano_odontologico">
+                        <i class="fas fa-tooth"></i> Plano Odontológico
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.vale_estacionamento">
+                        <i class="fas fa-car"></i> Vale Estacionamento
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.academia_gympass">
+                        <i class="fas fa-dumbbell"></i> Academia/Gympass
+                    </div>
+                    <div class="beneficio-card" *ngIf="vaga.seguro_vida">
+                        <i class="fas fa-shield-alt"></i> Seguro de Vida
+                      </div>
+                    <div class="beneficio-card" *ngIf="vaga.bonus">
+                        <i class="fas fa-gift"></i> Bônus
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="card empresa-info">
+            <div class="card-section">
+                <h2>Sobre a empresa</h2>
+                <div class="empresa-detalhes">
+                    <div class="empresa-logo">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2" />
+                            <line x1="12" y1="6" x2="12" y2="6" />
+                            <line x1="12" y1="12" x2="12" y2="12" />
+                            <line x1="12" y1="18" x2="12" y2="18" />
+                        </svg>
+                    </div>
+                    <div class="empresa-info-content">
+                        <h3 style="margin-top: 0px;">{{ vaga.empresa.razao_social }}</h3>
+                        <p style="margin-top: 0px; margin-bottom: 8px;">{{ vaga.empresa.descricao }}</p>
+                        <div class="empresa-meta">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                    <circle cx="9" cy="7" r="4" />
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                                </svg>
+                                {{ vaga.empresa.numero_funcionarios }} funcionários
+                            </span>
+                            <span style="margin-right: 0px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                                </svg>
+                                {{ vaga.empresa.vagas_abertas }} vagas abertas
+                            </span>
+                        </div>
+                        <a class="link-empresa">Ver perfil da empresa →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-content">
+                <h2>Interessado na vaga?</h2>
+                <p>Candidate-se agora e receba uma resposta em até 7 dias.</p>
+            </div>
+            <button class="btn-candidatar" (click)="candidatarSe()">Candidatar-se</button>
+        </section>
+    </main>
 </div>
 <app-footer></app-footer>

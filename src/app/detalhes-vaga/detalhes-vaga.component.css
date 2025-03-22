@@ -1,367 +1,318 @@
-.container-principal {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    min-height: 100vh;
-    padding-bottom: 70px;
+:host {
+    display: block;
+    background-color: #f5f7fa;
+    color: #1e293b;
+    line-height: 1.6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
-.cabecalho {
-    background-color: #2c3e50;
-    color: white;
-    padding: 3rem 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 230px;
-}
-
-.tipo-vaga {
-    font-size: 1rem;
-    opacity: 0.9;
-}
-
-.titulo-vaga {
-    font-size: 2.2rem;
-    margin: 1rem 0;
-    font-weight: 500;
-}
-
-.tecnologias {
-    display: flex;
-    gap: 0.8rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 1.5rem;
-}
-
-.tag {
-    background-color: rgba(255, 255, 255, 0.15);
-    padding: 0.5rem 1.2rem;
-    border-radius: 25px;
-    font-size: 0.9rem;
-}
-
-.conteudo {
-    max-width: 1200px;
+/* Container */
+.container {
+    max-width: 960px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 0 20px;
+    padding-bottom: 3em;
+    padding-top: 2em;
 }
 
-.titulo-empresa {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: #333;
+/* Header */
+header {
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
 }
 
-.card-vaga {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    padding: 2rem;
-    display: flex;
-    gap: 2rem;
-}
-
-.coluna-logo {
-    flex-shrink: 0;
-}
-
-.logo-empresa {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-}
-
-.coluna-info {
-    flex: 1;
-}
-
-.linha-info {
-    display: flex;
-    gap: 3rem;
-    margin-bottom: 1.2rem;
-}
-
-.info-item {
+.voltar {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    color: #555;
+    color: #2c3e50;
+    font-weight: 500;
+    text-decoration: none;
 }
 
-.info-adicional {
-    margin-top: 1.5rem;
+.voltar svg {
+    margin-right: 8px;
+}
+
+/* Card */
+.card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.card-section {
+    padding: 24px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.card-section:last-child {
+    border-bottom: none;
+}
+
+/* Vaga Header */
+.vaga-header {
     display: flex;
+    justify-content: space-between;
     align-items: flex-start;
-    gap: 0.5rem;
-    color: #666;
-    line-height: 1.4;
+    flex-wrap: wrap;
 }
 
-.barra-inferior {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
-    padding: 1rem;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+.vaga-titulo {
+    font-size: 24px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.vaga-empresa {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    color: #64748b;
+    margin-bottom: 5px;
 }
 
-.botao-candidatar {
+.vaga-empresa span {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.vaga-empresa svg {
+    margin-right: 5px;
+}
+
+/* Botão */
+.btn-candidatar {
     background-color: #00b894;
-    color: white;
+    color: #f8fafc;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 6px;
     border: none;
-    padding: 0.8rem 2.5rem;
-    border-radius: 4px;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.2s;
+}
+
+.btn-candidatar:hover {
+    background-color: #00a085;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Informações */
+.vaga-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+@media (max-width: 640px) {
+    .vaga-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.vaga-info-item {
+    display: flex;
+    align-items: center;
+}
+
+.vaga-info-icon {
+    background-color: rgba(44, 62, 80, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.vaga-info-content p:first-child {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.vaga-info-content p:last-child {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Skills */
+.skills-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill-tag {
+    background-color: rgba(0, 184, 148, 0.1);
+    color: #00b894;
+    font-size: 14px;
+    padding: 5px 12px;
+    border-radius: 100px;
     font-weight: 500;
 }
 
-.botao-candidatar:hover {
-    background-color: #00a884;
-}
-
-@media (max-width: 768px) {
-    .card-vaga {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 1.5rem;
-    }
-
-    .linha-info {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-    }
-
-    .info-adicional {
-        text-align: center;
-        justify-content: center;
-    }
-
-    .titulo-vaga {
-        font-size: 1.8rem;
-    }
-
-    .barra-inferior {
-        padding: 0.8rem;
-    }
-
-    .botao-candidatar {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .cabecalho {
-        padding: 2rem 3rem;
-    }
-
-    .titulo-vaga {
-        font-size: 1.5rem;
-    }
-
-    .tag {
-        padding: 0.4rem 1rem;
-        font-size: 0.8rem;
-    }
-}
-
-
-
-
-
-.empresa-info {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-    margin: 2rem auto; /* Centraliza o elemento */
-    max-width: 1135px; /* Limita a largura máxima */
-    position: relative;
-}
-
-.empresa-info::before {
-    position: absolute;
-    top: -20px;
-    left: 40px; /* Ajuste a posição do balão */
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 20px solid white; /* A cor deve ser igual ao fundo do balão */
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05); /* Adiciona sombra ao "triângulo" */
-}
-
-.secao-titulo {
-    font-size: 1.5rem;
-    color: #333;
-    margin-bottom: 1rem;
-}
-
-.descricao-texto {
-    color: #555;
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    text-align: justify; /* Deixa o texto mais alinhado */
-}
-
-.lista-atividades {
-    list-style: disc;
-    padding-left: 1.5rem;
-    color: #555;
-    margin-top: 1rem;
-    line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-    .empresa-info {
-        padding: 1.5rem;
-        max-width: 90%;
-    }
-
-    .empresa-info::before {
-        left: 20px; /* Ajusta a posição do triângulo para dispositivos menores */
-    }
-}
-
-
-
-.beneficios {
-    padding: 2.5rem 1rem;
-    border-radius: 12px;
-    margin: 2rem auto;
-    max-width: 1135px;
-}
-
+/* Benefícios */
 .beneficios-lista {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    padding: 1rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+@media (max-width: 640px) {
+    .beneficios-lista {
+        grid-template-columns: 1fr;
+    }
 }
 
 .beneficio-item {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    color: #1e293b;
+}
+
+.beneficio-item svg {
+    margin-right: 10px;
+    color: #00b894;
+}
+
+/* Empresa */
+.empresa-detalhes {
+    display: flex;
+    align-items: flex-start;
+}
+
+.empresa-logo {
+    width: 64px;
+    height: 64px;
+    background-color: rgba(44, 62, 80, 0.1);
+    border-radius: 8px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 1.5rem;
-    width: 180px;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-right: 16px;
 }
 
-.beneficio-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-color: #00b894;
-}
-
-.beneficio-item i {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: #00b894;
-    opacity: 0.8;
-}
-
-.beneficio-item span {
-    font-size: 1rem;
-    color: #333;
+.empresa-info-content h3 {
     font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 5px;
 }
 
-/* Customize icon spacing and color */
-.beneficio-item i.icon-food {
-    color: #ff6b6b;
+.empresa-info-content p {
+    color: #64748b;
+    margin-bottom: 10px;
 }
 
-.beneficio-item i.icon-transport {
-    color: #4ecdc4;
+.empresa-meta {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #64748b;
 }
 
-.beneficio-item i.icon-health {
-    color: #45b7d1;
+.empresa-meta span {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
 }
 
-.beneficio-item i.icon-insurance {
-    color: #ff8a5b;
+.empresa-meta svg {
+    margin-right: 5px;
+}
+
+.link-empresa {
+    display: inline-block;
+    margin-top: 10px;
+    color: #00b894;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.link-empresa:hover {
+    text-decoration: underline;
+}
+
+.cta-section {
+    background-color: rgba(44, 62, 80, 0.05);
+    padding: 24px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid #00b894;
+}
+
+.cta-content h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.cta-content p {
+    color: #64748b;
 }
 
 @media (max-width: 768px) {
-    .beneficios-lista {
-        gap: 1rem;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        justify-content: center;
-        justify-items: center;
+    .vaga-header {
+        flex-direction: column;
     }
 
-    .beneficio-item {
-        width: 140px;
-        padding: 1rem;
-        margin-bottom: 1rem;
+    .btn-candidatar {
+        margin-top: 15px;
     }
 
-    .beneficio-item i {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
+    .cta-section {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .cta-section .btn-candidatar {
+        margin-top: 15px;
+    }
+
+    .card-section {
+        padding: 15px;
     }
 }
 
-/* Ícones personalizados */
-.icon-food:before {
-    content: "🍔"; /* Substitua com o ícone desejado */
+.beneficios-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
 }
 
-.icon-transport:before {
-    content: "🚌"; /* Substitua com o ícone desejado */
+.beneficio-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #2c3e50;
+    transition: all 0.2s ease;
 }
 
-.icon-health:before {
-    content: "🏥"; /* Substitua com o ícone desejado */
+.beneficio-card:hover {
+    border-color: #00b894;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.icon-insurance:before {
-    content: "🛡️"; /* Substitua com o ícone desejado */
+.beneficio-card i {
+    margin-right: 8px;
+    color: #00b894;
 }
 
-.icon-home:before {
-    content: "🏠";
-}
-
-.icon-learning:before {
-    content: "📚";
-}
-
-.icon-bonus:before {
-    content: "💰";
-}
-
-.icon-vacation:before {
-    content: "🏖️";
-}
-
-.botao-candidatar:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-}
-
-.botao-candidatar:disabled:hover {
-    background-color: #cccccc;
+.beneficio-card span {
+    color: #2c3e50;
 }

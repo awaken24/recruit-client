@@ -1,29 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FooterComponent } from '../footer/footer.component';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { CommonModule } from '@angular/common';
 import { VagaService } from '../services/vaga.service';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
+import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
     selector: 'app-detalhes-vaga',
-    imports: [FontAwesomeModule, FooterComponent, LoadingSpinnerComponent, CommonModule],
+    standalone: true,
+    imports: [CommonModule, LoadingSpinnerComponent, FooterComponent],
     templateUrl: './detalhes-vaga.component.html',
-    styleUrl: './detalhes-vaga.component.css',
-    standalone: true
+    styleUrls: ['./detalhes-vaga.component.css']
 })
-export class DetalhesVagaComponent {
+export class DetalhesVagaComponent implements OnInit {
     vagaId: string | null = null;
     isLoading: boolean = true;
     vaga: any = {};
     isEmpresa: boolean = false;
 
     constructor(
-        private route: ActivatedRoute, 
-        private vagaservice: VagaService, 
+        private route: ActivatedRoute,
+        private vagaService: VagaService,
         private authService: AuthService,
         private router: Router
     ) { }
@@ -31,14 +30,12 @@ export class DetalhesVagaComponent {
     ngOnInit(): void {
         this.vagaId = this.route.snapshot.paramMap.get('id');
 
-        console.log("Antes: " + this.isEmpresa);
         if (this.authService.getUserType() === "empresa") {
             this.isEmpresa = true;
         }
-        console.log("Depois: " + this.isEmpresa);
 
         if (this.vagaId) {
-            this.vagaservice.getVagaById(this.vagaId).subscribe({
+            this.vagaService.getVagaById(this.vagaId).subscribe({
                 next: (data) => {
                     this.vaga = data.data;
                     this.isLoading = false;
@@ -58,7 +55,7 @@ export class DetalhesVagaComponent {
             const candidatoId = this.authService.getUser()?.id;
 
             if (this.vagaId && candidatoId) {
-                this.vagaservice.candidatar(Number(this.vagaId), candidatoId).subscribe({
+                this.vagaService.candidatar(Number(this.vagaId), candidatoId).subscribe({
                     next: (response) => {
                         console.log('Candidatura enviada com sucesso:', response);
                         alert('Candidatura realizada com sucesso!');
@@ -85,4 +82,41 @@ export class DetalhesVagaComponent {
         }
     }
 
+    formatarSalario(salario: string): string {
+        console.log(salario);
+
+        if (!salario) return '';
+
+        const [min, max] = salario.split('-');
+
+        const formatarValor = (valor: string) => {
+            const numero = parseFloat(valor.trim());
+            return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        };
+
+        return `${formatarValor(min)} - ${formatarValor(max)}`;
+    }
+
+    calcularDiasDesdePublicacao(created_at: string): string {
+        if (!created_at) return 'Data de publicação não especificada';
+
+        const dataAtual = new Date();
+        const dataRegistro = new Date(created_at);
+
+        if (isNaN(dataRegistro.getTime())) {
+            return 'Data de publicação inválida';
+        }
+
+        const diferencaEmMs = dataAtual.getTime() - dataRegistro.getTime();
+
+        const diferencaEmDias = Math.floor(diferencaEmMs / (1000 * 60 * 60 * 24));
+
+        if (diferencaEmDias === 0) {
+            return 'Publicada hoje';
+        } else if (diferencaEmDias === 1) {
+            return 'Publicada há 1 dia';
+        } else {
+            return `Publicada há ${diferencaEmDias} dias`;
+        }
+    }
 }
