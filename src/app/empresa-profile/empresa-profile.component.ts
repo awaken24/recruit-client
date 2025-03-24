@@ -18,7 +18,7 @@ interface FAQ {
     styleUrl: './empresa-profile.component.css',
     standalone: true
 })
-export class EmpresaProfileComponent {
+export class EmpresaProfileComponent implements OnInit{
     company: any = null;
     isLoading: boolean = true;
 
@@ -26,7 +26,7 @@ export class EmpresaProfileComponent {
 
     ngOnInit() {
         const user = JSON.parse(localStorage.getItem('user') || '{}');
-        const id = user?.usuarioable_id;
+        const id = user.usuarioable_id;
 
         if (id) {
             this.empresaService.getDataEmpresa(id).subscribe(
@@ -37,10 +37,13 @@ export class EmpresaProfileComponent {
                     }, 1000);
                 },
                 (error) => {
-                    console.error('Erro ao buscar os dados da empresa:', error);                }
+                    console.error('Erro ao buscar os dados da empresa:', error);
+                    this.isLoading = false;
+                }
             );
         } else {
             console.error('ID não encontrado no localStorage');
+            this.isLoading = false;
         }
     }
 

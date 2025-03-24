@@ -20,6 +20,9 @@ export class EmpresaService {
         const token = localStorage.getItem('token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const url = `${this.baseUrl}/empresas/profile/${id}`;
-        return this.http.get(url, { headers });    
+
+        console.log("Service: " + url);
+
+        return this.http.get(url, { headers });
     }
 }

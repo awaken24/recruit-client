@@ -57,8 +57,11 @@ export class DetalhesVagaComponent implements OnInit {
             if (this.vagaId && candidatoId) {
                 this.vagaService.candidatar(Number(this.vagaId), candidatoId).subscribe({
                     next: (response) => {
-                        console.log('Candidatura enviada com sucesso:', response);
+                        // console.log('Candidatura enviada com sucesso:', response);
                         alert('Candidatura realizada com sucesso!');
+                        setTimeout(() => {
+                          this.router.navigate(['/candidate/dashboard']);
+                        }, 2000);
                     },
                     error: (err) => {
                         console.error('Erro ao enviar candidatura:', err);
