@@ -27,7 +27,7 @@ export class LoginCandidatoComponent {
 					this.authService.updateLoginState(true);
 
 					if (response.user.perfil_completo) {
-						this.router.navigate(['']);
+						this.router.navigate(['candidate/dashboard']);
 					} else {
 						this.router.navigate(['candidate/update-profile']);
 					}

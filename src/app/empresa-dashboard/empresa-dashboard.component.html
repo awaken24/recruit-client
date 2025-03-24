@@ -6,7 +6,7 @@
     <button class="sidebar-toggle" (click)="toggleSidebar()">
         <img *ngIf="isSidebarOpen" src="../../assets/icons/fechar.png" alt="Sidebar Aberto" class="icon"/>
         <img *ngIf="!isSidebarOpen" src="../../assets/icons/abrir.png" alt="Sidebar Fechado" class="icon"/>
-    </button>    
+    </button>
     <div class="sidebar" [class.open]="isSidebarOpen">
         <div class="company-info">
             <div class="company-avatar">
@@ -15,7 +15,9 @@
             <h2>{{ companyName }}</h2>
             <button class="edit-profile">Editar perfil</button>
         </div>
-        <button class="create-job">Criar uma vaga</button>
+        <a href="/companies/jobs/new" >
+          <button class="create-job">Criar uma vaga</button>
+        </a>
         <nav class="sidebar-nav">
             <a href="#" class="nav-item active">
                 <i class="fas fa-chart-line"></i>
@@ -52,17 +54,19 @@
                         <div class="create-icon">+</div>
                         <p>Publique sua vaga no RecruitPro para ter acesso a toda nossa base de usuários e
                             encontrar seu próximo desenvolvedor.</p>
-                        <button class="create-btn">CRIAR</button>
+                        <a href="/companies/jobs/new">
+                          <button class="create-btn">CRIAR</button>
+                        </a>
                     </div>
                     <ng-container *ngFor="let item of vagas">
                         <div *ngIf="!item.isCreateCard" class="job-card">
                             <h3>{{ item.titulo }}</h3>
                             <h4>
-                                {{ item.perfil === 'fullstack' ? 'FULL STACK' : 
-                                   item.perfil === 'backend' ? 'BACKEND' : 
+                                {{ item.perfil === 'fullstack' ? 'FULL STACK' :
+                                   item.perfil === 'backend' ? 'BACKEND' :
                                    item.perfil === 'frontend' ? 'FRONTEND' : item.perfil }} -
-                                {{ item.nivel_experiencia === 'pleno' ? 'Pleno' : 
-                                   item.nivel_experiencia === 'junior' ? 'Júnior' : 
+                                {{ item.nivel_experiencia === 'pleno' ? 'Pleno' :
+                                   item.nivel_experiencia === 'junior' ? 'Júnior' :
                                    item.nivel_experiencia === 'senior' ? 'Sênior' : item.nivel_experiencia }}
                             </h4>
                             <div class="status-badge">
@@ -72,14 +76,14 @@
                                     item.status  }}
                             </div>
                             <div class="status-message">
-                                {{ item.status === 'ativa' ? 
-                                    'A vaga está ativa, visível para candidatos e recebendo candidaturas. Aproveite para acompanhar as inscrições e selecionar os melhores talentos!' : 
-                                 item.status === 'incompleta' ? 
-                                    'A vaga está incompleta. Complete as informações necessárias para torná-la visível e receber candidaturas. Não perca a oportunidade de encontrar o candidato ideal!' : 
-                                 item.status === 'desativada' ? 
-                                    'A vaga foi desativada e não está mais visível para candidatos. Caso deseje reativá-la, atualize as informações e publique novamente para começar a receber candidaturas.' : 
+                                {{ item.status === 'ativa' ?
+                                    'A vaga está ativa, visível para candidatos e recebendo candidaturas. Aproveite para acompanhar as inscrições e selecionar os melhores talentos!' :
+                                 item.status === 'incompleta' ?
+                                    'A vaga está incompleta. Complete as informações necessárias para torná-la visível e receber candidaturas. Não perca a oportunidade de encontrar o candidato ideal!' :
+                                 item.status === 'desativada' ?
+                                    'A vaga foi desativada e não está mais visível para candidatos. Caso deseje reativá-la, atualize as informações e publique novamente para começar a receber candidaturas.' :
                                  item.status }}
-                            </div>                            
+                            </div>
                             <div class="card-actions">
                                 <button class="edit-btn">Editar vaga</button>
                                 <button class="view-btn">Ver vaga</button>
@@ -92,13 +96,13 @@
                         <img src="../../assets/icons/left.png" alt="Previous Slide" class="icon">
                     </button>
                     <div class="carousel-indicators">
-                        <span *ngFor="let _ of [].constructor(totalSlides); let i = index" 
+                        <span *ngFor="let _ of [].constructor(totalSlides); let i = index"
                               class="indicator"
-                              [class.active]="i === currentSlide" 
+                              [class.active]="i === currentSlide"
                               (click)="currentSlide = i">
                         </span>
                     </div>
-                    <button class="carousel-button next" (click)="nextSlide()" 
+                    <button class="carousel-button next" (click)="nextSlide()"
                             [class.disabled]="currentSlide === totalSlides - 1">
                         <img src="../../assets/icons/right.png" alt="Next Slide" class="icon">
                     </button>

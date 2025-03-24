@@ -31,7 +31,7 @@ export class LoginEmpresaComponent {
                     this.authService.updateLoginState(true);
 
                     if (response.user.perfil_completo) {
-                        this.router.navigate(['/companies/profile']);
+                        this.router.navigate(['/companies/dashboard']);
                     } else {
                         this.router.navigate(['/companies/updateProfile']);
                     }

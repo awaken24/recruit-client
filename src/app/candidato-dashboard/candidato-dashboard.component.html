@@ -1,5 +1,5 @@
 <app-loading-spinner *ngIf="isLoading" message="Carregando dados do candidato..."></app-loading-spinner>
-<div class="dashboard-container" [class.sidebar-open]="isSidebarOpen">
+<div class="dashboard-container" [class.sidebar-open]="isSidebarOpen" *ngIf="!isLoading">
     <button class="sidebar-toggle" (click)="toggleSidebar()">
         <img *ngIf="isSidebarOpen" src="../../assets/icons/fechar.png" alt="Sidebar Aberto" class="icon"/>
         <img *ngIf="!isSidebarOpen" src="../../assets/icons/abrir.png" alt="Sidebar Fechado" class="icon"/>
@@ -13,7 +13,7 @@
             <!--
             <div class="profile-img">
                 <img src="assets/profile-placeholder.jpg" alt="Foto de perfil">
-            </div>            
+            </div>
             -->
 
             <h2 class="username">{{ username }}</h2>

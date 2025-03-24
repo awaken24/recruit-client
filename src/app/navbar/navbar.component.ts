@@ -17,6 +17,7 @@ export class NavbarComponent {
     userName: string | null = null;
     isMenuActive = false;
     isUserMenuOpen = false;
+    userType: 'candidato' | 'empresa' | null = null;
 
     constructor(private router: Router, private authService: AuthService) { }
 
@@ -29,19 +30,56 @@ export class NavbarComponent {
                     const parsedUser = JSON.parse(user);
                     if (!parsedUser.nome) {
                         if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
-                            this.userName = 'Empresa';
+                            this.userType = 'empresa';
+                            this.userName = parsedUser.nome || 'Empresa';
                         } else {
-                            this.userName = 'Candidato';
+                          this.userType = 'candidato';
+                            this.userName = parsedUser.nome || 'Candidato';
                         }
                     } else {
                         this.userName = parsedUser.nome;
                     }
                 } else {
+                    this.userType = null;
                     this.userName = null;
                 }
             }
         });
-    }    
+    }
+
+    redirectByProfile(){
+      const user = localStorage.getItem('user');
+
+      if (user) {
+          const parsedUser = JSON.parse(user);
+
+          if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
+              this.router.navigate(['/companies/profile']);
+          } else {
+              this.router.navigate(['candidate/update-profile']);
+          }
+      } else {
+          this.logout();
+          this.router.navigate(['/']);
+      }
+    }
+
+    redirectByDashboard(){
+        const user = localStorage.getItem('user');
+
+        if(user){
+          const parsedUser = JSON.parse(user);
+
+          if(parsedUser.usuarioable_type === 'App\\Models\\Empresa'){
+            this.router.navigate(['/companies/dashboard']);
+          } else {
+            this.router.navigate(['candidate/dashboard']);
+          }
+        } else {
+          this.logout();
+          this.router.navigate(['/']);
+        }
+    }
 
     toggleMenu() {
         this.isMenuActive = !this.isMenuActive;
@@ -49,6 +87,18 @@ export class NavbarComponent {
 
     toggleUserMenu() {
         this.isUserMenuOpen = !this.isUserMenuOpen;
+    }
+
+    @HostListener('document:click', ['$event'])
+    clickOutside(event: MouseEvent){
+      const userMenu = document.querySelector('.user-menu');
+      const userProfile = document.querySelector('.user-profile');
+
+      if(userMenu && userProfile){
+        if(!userProfile.contains(event.target as Node) && !userMenu.contains(event.target as Node)){
+          this.isUserMenuOpen = false;
+        }
+      }
     }
 
     logout() {

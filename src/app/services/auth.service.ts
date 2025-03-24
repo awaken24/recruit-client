@@ -63,11 +63,11 @@ export class AuthService {
 
     getUserType(): string | null {
         const user = this.getUser();
-    
+
         if (!user) {
             return null;
         }
-    
+
         switch (user.usuarioable_type) {
             case 'App\\Models\\Empresa':
                 return 'empresa';

@@ -160,8 +160,11 @@
     }
 
     .user-profile {
-        width: 100%;
-        justify-content: flex-end;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      cursor: pointer;
     }
 
     .user-menu {

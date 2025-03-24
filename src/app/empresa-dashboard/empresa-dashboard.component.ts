@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VagaService } from '../services/vaga.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-empresa-dashboard',
@@ -30,7 +31,10 @@ export class EmpresaDashboardComponent {
         { label: 'Desativadas', count: 0, active: false }
     ];
 
-    constructor(private vagaService: VagaService) { }
+    constructor(
+      private vagaService: VagaService,
+      private router: Router
+    ) { }
 
     ngOnInit() {
         this.vagaService.getEmpresaVagas().subscribe({
@@ -99,5 +103,9 @@ export class EmpresaDashboardComponent {
 
     toggleSidebar() {
         this.isSidebarOpen = !this.isSidebarOpen;
+    }
+
+    navigateToNewJob(){
+      this.router.navigate(['/jobs/new']);
     }
 }
