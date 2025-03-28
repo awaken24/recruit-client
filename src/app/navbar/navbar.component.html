@@ -18,8 +18,8 @@
                     <img src="../../assets/icons/profile_icon.png" alt="User profile">
                 </div>
                 <div class="user-menu" *ngIf="isUserMenuOpen">
-                    <a routerLink="/companies/dashboard">Dashboard</a>
-                    <a href="/companies/profile">Perfil</a>
+                    <a (click)="redirectByDashboard()">Dashboard</a>
+                    <a (click)="redirectByProfile()">Perfil</a>
                     <a href="#">Configurações</a>
                     <a (click)="logout()">Sair</a>
                 </div>
