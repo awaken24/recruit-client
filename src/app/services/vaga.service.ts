@@ -62,4 +62,30 @@ export class VagaService {
         );
     }
 
+    gerenciarVaga(vagaId: any): Observable<any> {
+        let url = `${this.baseUrl}/vagas/gerenciar/${vagaId}`;
+        return this.http.post(url, {
+            headers: this.getHeaders()
+        });
+    }
+
+    aprovarCandidatura(candidaturaId: number): Observable<any> {
+        const headers = this.getHeaders();
+
+        return this.http.post(
+            `${this.baseUrl}/candidaturas/aprovar-candidatura`,
+            { candidatura_id: candidaturaId },
+            { headers }
+        );
+    }
+
+    recusarCandidatura(candidaturaId: number): Observable<any> {
+        const headers = this.getHeaders();
+
+        return this.http.post(
+            `${this.baseUrl}/candidaturas/recusar-candidatura`,
+            { candidatura_id: candidaturaId },
+            { headers }
+        );
+    }
 }

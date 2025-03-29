@@ -12,6 +12,7 @@ import { ListaVagasComponent } from './lista-vagas/lista-vagas.component';
 import { DetalhesVagaComponent } from './detalhes-vaga/detalhes-vaga.component';
 import { UpdateProfileCandidatoComponent } from './update-profile-candidato/update-profile-candidato.component';
 import { CandidatoDashboardComponent } from './candidato-dashboard/candidato-dashboard.component';
+import { GerenciarCandidaturasComponent } from './gerenciar-candidaturas/gerenciar-candidaturas.component';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -26,6 +27,7 @@ export const routes: Routes = [
     { path: 'vagas', component: ListaVagasComponent },
     { path: 'vagas/:id', component: DetalhesVagaComponent },
     { path: 'candidate/update-profile', component: UpdateProfileCandidatoComponent },
-    { path: 'candidate/dashboard', component: CandidatoDashboardComponent }
+    { path: 'candidate/dashboard', component: CandidatoDashboardComponent },
+    { path: 'gerenciar/:id', component: GerenciarCandidaturasComponent }
     
 ];
