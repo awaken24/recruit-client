@@ -21,8 +21,12 @@ export class EmpresaService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const url = `${this.baseUrl}/empresas/profile/${id}`;
 
-        console.log("Service: " + url);
-
         return this.http.get(url, { headers });
+    }
+
+    getDashboardData(): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/empresa/dashboard`, {}, { headers: headers });
     }
 }

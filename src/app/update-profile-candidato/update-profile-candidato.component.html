@@ -15,11 +15,11 @@
         <form [formGroup]="candidatoForm" (ngSubmit)="onSubmit()" class="form-content">
             <div class="form-card">
                 <div class="logo-section">
-                    <img src="assets/placeholder-logo.png" alt="Logo da empresa" class="company-logo">
+                    <img [src]="logoPreviewUrl || 'assets/placeholder-logo.png'" alt="Logo da empresa" class="company-logo">
                     <button type="button" class="logo-button" (click)="fileInput.click()">
                         Escolher logo
                     </button>
-                    <input #fileInput type="file" hidden accept="image/*">
+                    <input #fileInput type="file" hidden accept="image/*" (change)="onLogoSelected($event)">
                 </div>
 
                 <div class="form-fields">

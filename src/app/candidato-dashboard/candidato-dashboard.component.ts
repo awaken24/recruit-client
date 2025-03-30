@@ -29,6 +29,7 @@ export class CandidatoDashboardComponent implements OnInit {
     isSidebarOpen = true;
     isSidebarClosed: boolean = false;
     isLoading: boolean = true;
+    fotoPerfil: string | null = null;
 
     userStats: UserStats = {
         opportunities: 0,
@@ -64,6 +65,10 @@ export class CandidatoDashboardComponent implements OnInit {
                     this.userStats.applications = data.qtdCandidaturas;
                     this.userStats.opportunities = data.qtdOprtunidades;
                     this.tituloProfissional = data.candidato.titulo;
+
+                    if (data.candidato.foto_perfil) {
+                        this.fotoPerfil = `http://127.0.0.1:8000/${data.candidato.foto_perfil}`;
+                    }
                 }
             },
             error: (error) => {

@@ -7,14 +7,9 @@
     <aside class="sidebar" [ngClass]="{'open': isSidebarOpen}">
         <div class="user-profile">
             <div class="user-avatar">
-                <i class="fas fa-building"></i>
+                <img *ngIf="fotoPerfil" [src]="fotoPerfil" alt="Foto de perfil" class="profile-logo">
+                <i *ngIf="!fotoPerfil" class="fas fa-building"></i>
             </div>
-
-            <!--
-            <div class="profile-img">
-                <img src="assets/profile-placeholder.jpg" alt="Foto de perfil">
-            </div>
-            -->
 
             <h2 class="username">{{ username }}</h2>
             <button class="edit-profile">Editar perfil</button>

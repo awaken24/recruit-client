@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReactiveFormsModule, FormArray } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HabilidadesService } from '../services/habilidades.service';
@@ -24,6 +24,10 @@ export class UpdateProfileCandidatoComponent {
     niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
     habilidadesDisponiveis: { id: number; nome: string }[] = [];
 
+    logoSelecionada: File | null = null;
+    logoPreviewUrl: string | null = null;
+    @ViewChild('fileInput') fileInput!: ElementRef;
+
     meses = [
         { valor: '01', nome: 'Janeiro' },
         { valor: '02', nome: 'Fevereiro' },
@@ -41,11 +45,11 @@ export class UpdateProfileCandidatoComponent {
 
     anos = Array.from({ length: 50 }, (_, i) => new Date().getFullYear() - i);
 
-    constructor (
-        private fb: FormBuilder, 
+    constructor(
+        private fb: FormBuilder,
         private router: Router,
-        private habilidadesService: HabilidadesService, 
-        private candidatoService: CandidatoService, 
+        private habilidadesService: HabilidadesService,
+        private candidatoService: CandidatoService,
     ) {
         this.candidatoForm = this.fb.group({
             nome: ['', Validators.required],
@@ -100,20 +104,40 @@ export class UpdateProfileCandidatoComponent {
             this.candidatoForm.markAllAsTouched();
             return;
         }
-
+    
         if (this.habilidadesSelecionadas.length < 3) {
             alert('Selecione pelo menos 3 habilidades.');
             return;
         }
-
-        const formData = {
-            ...this.candidatoForm.value,
-            habilidades: this.habilidadesSelecionadas.map(id => ({
-                habilidade_id: Number(id),
-                nivel_experiencia: this.niveisHabilidade[id]
-            }))
-        };
-
+    
+        const formData = new FormData();
+        const formValues = this.candidatoForm.value;
+        
+        if (formValues.endereco) {
+            formData.append('endereco', JSON.stringify(formValues.endereco));
+        }
+        
+        Object.keys(formValues).forEach(key => {
+            if (key !== 'endereco' && formValues[key] !== null && formValues[key] !== undefined) {
+                if (typeof formValues[key] !== 'object') {
+                    formData.append(key, formValues[key]);
+                } else if (Array.isArray(formValues[key])) {
+                    formData.append(key, JSON.stringify(formValues[key]));
+                }
+            }
+        });
+        
+        const habilidades = this.habilidadesSelecionadas.map(id => ({
+            habilidade_id: Number(id),
+            nivel_experiencia: this.niveisHabilidade[id]
+        }));
+        
+        formData.append('habilidades', JSON.stringify(habilidades));
+    
+        if (this.logoSelecionada) {
+            formData.append('logo', this.logoSelecionada, this.logoSelecionada.name);
+        }
+    
         this.candidatoService.enviarDadosCandidato(formData).subscribe({
             next: (response) => {
                 console.log('Dados enviados com sucesso:', response);
@@ -213,6 +237,22 @@ export class UpdateProfileCandidatoComponent {
         } else {
             mesFimControl?.enable();
             anoFimControl?.enable();
+        }
+    }
+
+    onLogoSelected(event: Event) {        
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            this.logoSelecionada = file;
+
+            console.log('Logo selecionada:', file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.logoPreviewUrl = reader.result as string;
+            };
+            reader.readAsDataURL(file);
         }
     }
 
