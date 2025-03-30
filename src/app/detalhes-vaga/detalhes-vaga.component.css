@@ -316,3 +316,9 @@ header {
 .beneficio-card span {
     color: #2c3e50;
 }
+
+button.btn-candidatar.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}

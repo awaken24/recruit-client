@@ -28,6 +28,6 @@ export const routes: Routes = [
     { path: 'vagas/:id', component: DetalhesVagaComponent },
     { path: 'candidate/update-profile', component: UpdateProfileCandidatoComponent },
     { path: 'candidate/dashboard', component: CandidatoDashboardComponent },
-    { path: 'gerenciar/:id', component: GerenciarCandidaturasComponent }
-    
+    { path: 'companies/vagas/:id/candidaturas', component: GerenciarCandidaturasComponent
+    }
 ];

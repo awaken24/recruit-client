@@ -94,7 +94,7 @@
                             <span *ngFor="let tech of vaga.tecnologias">{{tech}}</span>
                         </div>
                     </div>
-                    <div class="indicador-match">
+                    <div class="indicador-match" *ngIf="vaga.compatibilidade > 0">
                         <div class="circulo-match">
                             <span class="porcentagem">{{vaga.compatibilidade}}%</span>
                             <span class="label-match">match</span>

@@ -24,19 +24,31 @@
                         {{ getErrorMessage('title') }}
                     </span>
                 </div>
-                <div class="field" [ngClass]="{'error': isFieldInvalid('profile')}">
-                    <label>
-                        <span class="required">*</span> Perfil do(a) Desenvolvedor(a)
-                    </label>
-                    <select formControlName="profile">
-                        <option value="">Escolha o perfil do(a) desenvolvedor(a)</option>
-                        <option value="frontend">Frontend</option>
-                        <option value="backend">Backend</option>
-                        <option value="fullstack">Fullstack</option>
-                    </select>
-                    <span class="error-message" *ngIf="isFieldInvalid('profile')">
-                        {{ getErrorMessage('profile') }}
-                    </span>
+                <div class="field-row">
+                    <div class="field" [ngClass]="{'error': isFieldInvalid('profile')}">
+                        <label>
+                            <span class="required">*</span> Perfil do(a) Desenvolvedor(a)
+                        </label>
+                        <select formControlName="profile">
+                            <option value="">Escolha o perfil do(a) desenvolvedor(a)</option>
+                            <option value="frontend">Frontend</option>
+                            <option value="backend">Backend</option>
+                            <option value="fullstack">Fullstack</option>
+                        </select>
+                        <span class="error-message" *ngIf="isFieldInvalid('profile')">
+                            {{ getErrorMessage('profile') }}
+                        </span>
+                    </div>
+                    <div class="field" [ngClass]="{'error': isFieldInvalid('receberCandidaturasAte')}">
+                        <label>
+                            <span class="required">*</span> Receber Candidaturas até
+                        </label>
+                        <input type="date" formControlName="receberCandidaturasAte" [attr.min]="hoje"
+                            [attr.max]="maxDate" class="styled-input" />
+                        <span class="error-message" *ngIf="isFieldInvalid('receberCandidaturasAte')">
+                            {{ getErrorMessage('receberCandidaturasAte') }}
+                        </span>
+                    </div>
                 </div>
                 <div class="field" [ngClass]="{'error': isFieldInvalid('experienceLevel')}">
                     <label>
@@ -63,7 +75,8 @@
                         {{ getErrorMessage('experienceLevel') }}
                     </span>
                 </div>
-                <div class="field" [class.erro]="jobForm.get('habilidadesRequeridas')?.touched && habilidadesSelecionadas.length < 3">
+                <div class="field"
+                    [class.erro]="jobForm.get('habilidadesRequeridas')?.touched && habilidadesSelecionadas.length < 3">
                     <div class="skills-container">
                         <div class="skills-header">
                             <label class="skills-label">
@@ -71,9 +84,8 @@
                             </label>
                             <select (change)="adicionarHabilidade($event)" class="skills-select">
                                 <option value="">Selecione uma habilidade</option>
-                                <option *ngFor="let habilidade of habilidadesDisponiveis" 
-                                        [value]="habilidade.id" 
-                                        [disabled]="habilidadeSelecionada(habilidade.id)">
+                                <option *ngFor="let habilidade of habilidadesDisponiveis" [value]="habilidade.id"
+                                    [disabled]="habilidadeSelecionada(habilidade.id)">
                                     {{habilidade.nome}}
                                 </option>
                             </select>
@@ -84,15 +96,30 @@
                                 <button (click)="removerHabilidade(habilidadeId)" class="remove-button">×</button>
                             </div>
                             <div class="experience-grid">
+                                <label *ngFor="let nivel of niveisExperienciaExibicao; let i = index"
+                                    [class.selecionado]="niveisHabilidade[habilidadeId] === niveisExperiencia[i]"
+                                    class="experience-label">
+                                    <input type="radio" [name]="'experiencia-' + habilidadeId"
+                                        [value]="niveisExperiencia[i]"
+                                        [checked]="niveisHabilidade[habilidadeId] === niveisExperiencia[i]"
+                                        (change)="atualizarNivelHabilidade(habilidadeId, niveisExperiencia[i])"
+                                        class="experience-input">
+                                    {{nivel}}
+                                </label>
+                            </div>
+                            <!--
+                            <div class="experience-grid">
                                 <label *ngFor="let nivel of niveisExperiencia"
                                     [class.selecionado]="niveisHabilidade[habilidadeId] === nivel"
                                     class="experience-label">
                                     <input type="radio" [name]="'experiencia-' + habilidadeId" [value]="nivel"
                                         [checked]="niveisHabilidade[habilidadeId] === nivel"
-                                        (change)="atualizarNivelHabilidade(habilidadeId, nivel)" class="experience-input">
+                                        (change)="atualizarNivelHabilidade(habilidadeId, nivel)"
+                                        class="experience-input">
                                     {{nivel}}
                                 </label>
                             </div>
+                            -->
                         </div>
                         <div class="skills-counter">
                             {{habilidadesSelecionadas.length}} de 6 habilidades selecionadas (Mínimo: 3)
@@ -119,6 +146,7 @@
                         </span>
                     </div>
                 </div>
+                <!--
                 <div class="field" [ngClass]="{'error': isFieldInvalid('requisitos')}">
                     <label>
                         <span class="required">*</span> Requisitos
@@ -132,6 +160,7 @@
                         </span>
                     </div>
                 </div>
+                -->
             </div>
             <div class="form-card">
                 <h2>ESPECIFICAÇÕES</h2>

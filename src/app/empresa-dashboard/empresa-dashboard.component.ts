@@ -34,9 +34,9 @@ export class EmpresaDashboardComponent {
     ];
 
     constructor(
-      private vagaService: VagaService,
-      private empresaService: EmpresaService,
-      private router: Router
+        private vagaService: VagaService,
+        private empresaService: EmpresaService,
+        private router: Router
     ) { }
 
     ngOnInit() {
@@ -83,7 +83,7 @@ export class EmpresaDashboardComponent {
     }
 
     getStatusMessage(status: string): string {
-        switch(status) {
+        switch (status) {
             case 'ativa': return 'Vaga publicada e recebendo candidaturas';
             case 'em_revisao': return 'Esperando por validação';
             case 'desativada': return 'Vaga não está visível para candidatos';
@@ -107,7 +107,20 @@ export class EmpresaDashboardComponent {
         this.isSidebarOpen = !this.isSidebarOpen;
     }
 
-    navigateToNewJob(){
-      this.router.navigate(['/jobs/new']);
+    navigateToNewJob() {
+        this.router.navigate(['/jobs/new']);
     }
+
+    verVaga(vaga: any) {
+        this.router.navigate(['/vagas', vaga.id]);
+    }
+
+    gerenciarCandidaturas(vaga: any) {
+        this.router.navigate(['/companies/vagas', vaga.id, 'candidaturas']);
+    }
+
+    desabilitarVaga(vaga: any) {
+        console.log('Desabilitar vaga:', vaga.id);
+    }
+
 }

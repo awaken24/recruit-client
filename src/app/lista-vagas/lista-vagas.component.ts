@@ -71,7 +71,10 @@ export class ListaVagasComponent {
             next: (response: any) => {
                 if (response.status === 'success') {
                     this.habilidades = response.data.habilidades;
-                    this.vagas = response.data.vagas.map((vaga: any) => this.mapearVaga(vaga));
+                    this.vagas = response.data.vagas
+                        .map((vaga: any) => this.mapearVaga(vaga))
+                        .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade); 
+
                     this.vagasFiltradas = [...this.vagas];
                 }
 
@@ -98,7 +101,7 @@ export class ListaVagasComponent {
             tecnologias: vaga.habilidades?.map((h: any) => h.nome) || [],
             logo: vaga.empresa.logo_path || 'assets/default-logo.png',
             nova: this.isVagaNova(vaga),
-            compatibilidade: vaga.compatibilidade || this.calcularCompatibilidade(),
+            compatibilidade: vaga.compatibilidade || 0,
             descricao: vaga.descricao,
             faixaSalarial: vaga.divulgar_salario ? vaga.faixa_salarial : null,
             habilidadesCompletas: vaga.habilidades || []
