@@ -54,7 +54,7 @@
                                 Telefone <span class="required">*</span>
                             </label>
                             <input id="telefone" type="text" formControlName="telefone"
-                                placeholder="Ex: (11) 9 9999 9999"
+                                placeholder="(00) 00000-0000" mask="(00) 00000-0000"
                                 [ngClass]="{'invalid-input': candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched}">
                             <small class="error-text"
                                 *ngIf="candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched">
@@ -65,7 +65,7 @@
                             <label for="cpf">
                                 CPF <span class="required">*</span>
                             </label>
-                            <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: 123.456.789-10"
+                            <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: 123.456.789-10" mask="000.000.000-00"
                                 [ngClass]="{'invalid-input': candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched}">
                             <small class="error-text"
                                 *ngIf="candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched">
@@ -292,12 +292,13 @@
                                 <button (click)="removerHabilidade(habilidadeId)" class="remove-button">×</button>
                             </div>
                             <div class="experience-grid">
-                                <label *ngFor="let nivel of niveisExperiencia"
-                                    [class.selecionado]="niveisHabilidade[habilidadeId] === nivel"
+                                <label *ngFor="let nivel of niveisExperienciaExibicao; let i = index"
+                                    [class.selecionado]="niveisHabilidade[habilidadeId] === niveisExperiencia[i]"
                                     class="experience-label">
-                                    <input type="radio" [name]="'experiencia-' + habilidadeId" [value]="nivel"
-                                        [checked]="niveisHabilidade[habilidadeId] === nivel"
-                                        (change)="atualizarNivelHabilidade(habilidadeId, nivel)"
+                                    <input type="radio" [name]="'experiencia-' + habilidadeId"
+                                        [value]="niveisExperiencia[i]"
+                                        [checked]="niveisHabilidade[habilidadeId] === niveisExperiencia[i]"
+                                        (change)="atualizarNivelHabilidade(habilidadeId, niveisExperiencia[i])"
                                         class="experience-input">
                                     {{nivel}}
                                 </label>

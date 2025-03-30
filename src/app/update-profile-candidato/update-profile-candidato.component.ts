@@ -3,16 +3,18 @@ import { ReactiveFormsModule, FormArray } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HabilidadesService } from '../services/habilidades.service';
 import { CommonModule } from '@angular/common';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { CandidatoService } from '../services/candidato.service';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-update-profile-candidato',
-    imports: [ReactiveFormsModule, CommonModule, LoadingSpinnerComponent],
+    imports: [ReactiveFormsModule, CommonModule, LoadingSpinnerComponent, NgxMaskDirective],
     templateUrl: './update-profile-candidato.component.html',
     styleUrl: './update-profile-candidato.component.css',
-    standalone: true
+    standalone: true,
+    providers: [provideNgxMask()]
 })
 export class UpdateProfileCandidatoComponent {
 
@@ -21,7 +23,11 @@ export class UpdateProfileCandidatoComponent {
 
     habilidadesSelecionadas: string[] = [];
     niveisHabilidade: { [key: string]: string } = {};
+    // niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
+
     niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
+    niveisExperienciaExibicao = ['0-1 anos', '1-2 anos', '2-3 anos', '3-4 anos', '4-5 anos', '5+ anos'];
+
     habilidadesDisponiveis: { id: number; nome: string }[] = [];
 
     logoSelecionada: File | null = null;
