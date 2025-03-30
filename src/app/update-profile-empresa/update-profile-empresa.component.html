@@ -14,11 +14,12 @@
         <form [formGroup]="empresaForm" (ngSubmit)="onSubmit()" class="form-content">
             <div class="form-card">
                 <div class="logo-section">
-                    <img src="assets/placeholder-logo.png" alt="Logo da empresa" class="company-logo">
+                    <img [src]="logoPreviewUrl || 'assets/placeholder-logo.png'" alt="Logo da empresa"
+                        class="company-logo">
                     <button type="button" class="logo-button" (click)="fileInput.click()">
                         Escolher logo
                     </button>
-                    <input #fileInput type="file" hidden accept="image/*">
+                    <input #fileInput type="file" hidden accept="image/*" (change)="onLogoSelected($event)">
                 </div>
 
                 <div class="form-fields">
@@ -49,8 +50,7 @@
                             <label for="cnpj">
                                 CNPJ <span class="required">*</span>
                             </label>
-                            <input id="cnpj" type="text" formControlName="cnpj" placeholder="Ex: 28.208.818/0001-13"
-                                [attr.disabled]="empresaForm.get('noCnpj')?.value ? '' : null">
+                            <input id="cnpj" type="text" formControlName="cnpj" placeholder="00.000.000/0000-00" mask="00.000.000/0000-00" [attr.disabled]="empresaForm.get('noCnpj')?.value ? '' : null">
                         </div>
                     </div>
                     <div class="field-row cnpj-row">
@@ -192,9 +192,14 @@
                             <label for="cep">
                                 CEP <span class="required">*</span>
                             </label>
-                            <input id="cep" type="text" formControlName="cep" placeholder="Ex: 13083-852">
+                            <input 
+                                id="cep" 
+                                type="text" 
+                                formControlName="cep" 
+                                placeholder="00000-000"
+                                mask="00000-000"
+                            >
                         </div>
-
                         <div class="field">
                             <label for="estado">
                                 Estado <span class="required">*</span>
@@ -237,16 +242,14 @@
                             <label for="cidade">
                                 Cidade <span class="required">*</span>
                             </label>
-                            <input id="cidade" type="text" formControlName="cidade"
-                                placeholder="Ex: São Paulo">
+                            <input id="cidade" type="text" formControlName="cidade" placeholder="Ex: São Paulo">
                         </div>
 
                         <div class="field">
                             <label for="bairro">
                                 Bairro <span class="required">*</span>
                             </label>
-                            <input id="bairro" type="text" formControlName="bairro"
-                                placeholder="Ex: Vila Mariana">
+                            <input id="bairro" type="text" formControlName="bairro" placeholder="Ex: Vila Mariana">
                         </div>
                     </div>
 
@@ -263,8 +266,7 @@
                             <label for="numero">
                                 Número <span class="required">*</span>
                             </label>
-                            <input id="numero" type="text" formControlName="numero"
-                                placeholder="Ex: 1000">
+                            <input id="numero" type="text" formControlName="numero" placeholder="Ex: 1000">
                         </div>
                     </div>
 
@@ -272,8 +274,7 @@
                         <label for="complemento">
                             Complemento
                         </label>
-                        <input id="complemento" type="text" formControlName="complemento"
-                            placeholder="Ex: Sala 123">
+                        <input id="complemento" type="text" formControlName="complemento" placeholder="Ex: Sala 123">
                     </div>
                 </div>
             </div>
@@ -295,7 +296,16 @@
                         </label>
                         <select id="contato_cargo" formControlName="contato_cargo">
                             <option value="">Selecione uma opção</option>
-                            <option value="babao">Baba ovo</option>
+                            <optgroup label="RH/Recrutamento">
+                                <option value="recrutador">Recrutador(a)</option>
+                                <option value="analista_rh">Analista de RH</option>
+                                <option value="gerente_recrutamento">Gerente de Recrutamento</option>
+                                <option value="tech_recruiter">Tech Recruiter</option>
+                            </optgroup>
+                            <optgroup label="Outras Áreas">
+                                <option value="gerente_dp">Gerente de Departamento Pessoal</option>
+                                <option value="analista_treinamento">Analista de Treinamento</option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>
@@ -305,7 +315,7 @@
                             Seu número de telefone <span class="required">*</span>
                         </label>
                         <input id="contato_telefone" type="text" formControlName="contato_telefone"
-                            placeholder="+5519981001100">
+                            placeholder="(00) 00000-0000" mask="(00) 00000-0000">
                     </div>
 
                     <div class="field">
@@ -314,7 +324,19 @@
                         </label>
                         <select id="como_encontrou" formControlName="como_encontrou">
                             <option value="">Selecione uma opção</option>
-                            <option value="indicacao">Indicação</option>
+                            <option value="google">Google ou buscador</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="indicacao_amigo">Indicação de colega/amigo</option>
+                            <option value="indicacao_parceiro">Indicação de parceiro</option>
+                            <option value="email_marketing">E-mail marketing</option>
+                            <option value="webinar">Webinar ou evento online</option>
+                            <option value="feira">Feira/evento presencial</option>
+                            <option value="ads_google">Google Ads</option>
+                            <option value="ads_redes_sociais">Anúncio em redes sociais</option>
+                            <option value="outro">Outro</option>
                         </select>
                     </div>
                 </div>
@@ -326,7 +348,8 @@
                 </div>
                 <div style="text-align: center; margin-top: 1rem;">
                     <p style="color: #666; font-size: 0.9rem;">
-                        Para editar seus dados de login, <a href="#" style="color: #4CAF50; text-decoration: none;">Clique aqui</a>
+                        Para editar seus dados de login, <a href="#"
+                            style="color: #4CAF50; text-decoration: none;">Clique aqui</a>
                     </p>
                 </div>
             </div>

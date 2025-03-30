@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { VagaService } from '../services/vaga.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { Router } from '@angular/router';
+import { EmpresaService } from '../services/empresa.service';
 
 @Component({
     selector: 'app-empresa-dashboard',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
     standalone: true
 })
 export class EmpresaDashboardComponent {
-    companyName = 'Empresa Teste';
+    company: any;
     availableSlots = 4;
     isSidebarOpen = true;
     currentSlide = 0;
@@ -21,6 +22,7 @@ export class EmpresaDashboardComponent {
     isLoading: boolean = true;
     vagas: any[] = [];
     isSidebarClosed: boolean = false;
+    fotoPerfil: string | null = null;
 
     filters = [
         { label: 'Todas', count: 1, active: true },
@@ -33,32 +35,32 @@ export class EmpresaDashboardComponent {
 
     constructor(
       private vagaService: VagaService,
+      private empresaService: EmpresaService,
       private router: Router
     ) { }
 
     ngOnInit() {
-        this.vagaService.getEmpresaVagas().subscribe({
-            next: (response: any) => {
-                if (response.status === 'success' && response.data) {
-                    console.log(response.data);
-                    this.vagas = response.data;
+        this.loadDashboardData();
+    }
+
+    private loadDashboardData(): void {
+        this.empresaService.getDashboardData().subscribe({
+            next: (response) => {
+                this.company = response.data.empresa;
+                this.vagas = response.data.vagas;
+
+                if (response.data.empresa.logo_path) {
+                    this.fotoPerfil = `http://127.0.0.1:8000/${response.data.empresa.logo_path}`;
                 }
                 this.isLoading = false;
             },
-            error: (err) => {
-                console.error('Erro ao carregar habilidades:', err);
+            error: (error) => {
+                alert(error);
+                console.error(error);
                 this.isLoading = false;
             }
         });
     }
-
-    jobs = Array(10).fill(null).map((_, index) => ({
-        title: `Desenvolvedor Web Fullstack ${index + 1}`,
-        level: 'FULL STACK - Júnior',
-        status: 'Em Revisão',
-        statusMessage: 'Esperando por validação',
-        description: 'Sua oferta de emprego está sendo revisada pela nossa equipe de TI para garantir os melhores resultados de matching.'
-    }));
 
     get totalSlides(): number {
         return Math.ceil((this.vagas.length + 1) / this.itemsPerSlide);

@@ -1,21 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmpresaService } from '../services/empresa.service';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-update-profile-empresa',
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, NgxMaskDirective],
     templateUrl: './update-profile-empresa.component.html',
     styleUrl: './update-profile-empresa.component.css',
-    standalone: true
+    standalone: true,
+    providers: [provideNgxMask()]
 })
 export class UpdateProfileEmpresaComponent {
     empresaForm: FormGroup;
 
-    constructor (
-        private fb: FormBuilder, 
+    logoSelecionada: File | null = null;
+    logoPreviewUrl: string | null = null;
+    @ViewChild('fileInput') fileInput!: ElementRef;
+
+    constructor(
+        private fb: FormBuilder,
         private router: Router,
         private empresaService: EmpresaService,
     ) {
@@ -31,9 +37,6 @@ export class UpdateProfileEmpresaComponent {
             ano_fundacao: [''],
             numero_funcionarios: [''],
             politica_remoto: [''],
-            // averageAge: [''],
-            // malePercentage: [50],
-            // femalePercentage: [50],
             facebook: [''],
             twitter: [''],
             linkedin: [''],
@@ -58,8 +61,25 @@ export class UpdateProfileEmpresaComponent {
 
     onSubmit(): void {
         if (this.empresaForm.valid) {
-            const dados = this.empresaForm.value;
-            this.empresaService.enviarDadosEmpresa(dados).subscribe({
+            const formData = new FormData();
+
+            Object.keys(this.empresaForm.value).forEach(key => {
+                const value = this.empresaForm.get(key)?.value;
+
+                if (key === 'endereco') {
+                    Object.keys(value).forEach(subKey => {
+                        formData.append(`endereco[${subKey}]`, value[subKey]);
+                    });
+                } else {
+                    formData.append(key, value);
+                }
+            });
+
+            if (this.logoSelecionada) {
+                formData.append('logo', this.logoSelecionada, this.logoSelecionada.name);
+            }
+
+            this.empresaService.enviarDadosEmpresa(formData).subscribe({
                 next: (response) => {
                     console.log('Dados enviados com sucesso:', response);
                     this.router.navigate(['/companies/dashboard']);
@@ -70,6 +90,22 @@ export class UpdateProfileEmpresaComponent {
             });
         } else {
             console.log('Formulário inválido');
+        }
+    }
+
+    onLogoSelected(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            const file = input.files[0];
+            this.logoSelecionada = file;
+
+            console.log('Logo selecionada:', file);
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                this.logoPreviewUrl = reader.result as string;
+            };
+            reader.readAsDataURL(file);
         }
     }
 }
