@@ -19,6 +19,7 @@ export class DetalhesVagaComponent implements OnInit {
     isLoading: boolean = true;
     vaga: any = {};
     isEmpresa: boolean = false;
+    public podeSeCandidatar: boolean = false;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,6 +30,20 @@ export class DetalhesVagaComponent implements OnInit {
 
     ngOnInit(): void {
         this.vagaId = this.route.snapshot.paramMap.get('id');
+
+        const userJson = localStorage.getItem('user');
+        if (userJson) {
+            try {
+                const usuario = JSON.parse(userJson);
+                this.podeSeCandidatar = usuario.usuarioable_type !== 'App\\Models\\Empresa';
+            } catch (exception) {
+                this.podeSeCandidatar = false;
+            }
+        } else {
+            this.podeSeCandidatar = false;
+        }
+
+        console.log(this.podeSeCandidatar);
 
         if (this.authService.getUserType() === "empresa") {
             this.isEmpresa = true;
@@ -60,7 +75,7 @@ export class DetalhesVagaComponent implements OnInit {
                         // console.log('Candidatura enviada com sucesso:', response);
                         alert('Candidatura realizada com sucesso!');
                         setTimeout(() => {
-                          this.router.navigate(['/candidate/dashboard']);
+                            this.router.navigate(['/candidate/dashboard']);
                         }, 2000);
                     },
                     error: (err) => {
@@ -86,8 +101,6 @@ export class DetalhesVagaComponent implements OnInit {
     }
 
     formatarSalario(salario: string): string {
-        console.log(salario);
-
         if (!salario) return '';
 
         const [min, max] = salario.split('-');

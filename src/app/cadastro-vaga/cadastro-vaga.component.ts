@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AbstractControl } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { HabilidadesService } from '../services/habilidades.service';
 import { VagaService } from '../services/vaga.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-cadastro-vaga',
@@ -17,10 +19,15 @@ export class CadastroVagaComponent {
     isLoading: boolean = false;
     isPresencialOrHibrido: boolean = false;
 
+    hoje: string = "";
+    maxDate: string = "";
+
     habilidadesSelecionadas: string[] = [];
     niveisHabilidade: { [key: string]: string } = {};
-    niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
     habilidadesDisponiveis: { id: number; nome: string }[] = [];
+
+    niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
+    niveisExperienciaExibicao = ['0-1 anos', '1-2 anos', '2-3 anos', '3-4 anos', '4-5 anos', '5+ anos'];
 
     beneficios = [
         { id: 'vale_refeicao', label: 'Vale Refeição' },
@@ -34,11 +41,24 @@ export class CadastroVagaComponent {
         { id: 'bonus', label: 'Bônus' }
     ];
 
-    constructor(private fb: FormBuilder, private habilidadesService: HabilidadesService, private vagaService: VagaService) {
+    constructor(
+        private fb: FormBuilder,
+        private router: Router,
+        private habilidadesService: HabilidadesService, 
+        private vagaService: VagaService
+    ) {
         this.initializeForm();
     }
 
     ngOnInit() {
+
+        const today = new Date();
+        const max = new Date();
+        max.setDate(today.getDate() + 60);
+
+        this.hoje = this.formatDate(today);
+        this.maxDate = this.formatDate(max);
+
         this.isLoading = true;
         this.habilidadesService.getHabilidades().subscribe({
             next: (response: any) => {
@@ -60,7 +80,7 @@ export class CadastroVagaComponent {
             profile: ['', Validators.required],
             experienceLevel: ['', Validators.required],
             descricao: ['', Validators.required],
-            requisitos: ['', Validators.required],
+            // requisitos: ['', Validators.required],
             modelo_trabalho: ['', Validators.required],
             endereco_trabalho: [''],
             cidade_trabalho: [''],
@@ -68,6 +88,7 @@ export class CadastroVagaComponent {
             tipo_contrato: ['', Validators.required],
             faixa_salarial: ['', Validators.required],
             divulgar_salario: [false],
+            receberCandidaturasAte: [null, [Validators.required, this.receberCandidaturasValidator]],
             beneficios: this.fb.group(
                 {
                     vale_refeicao: [false],
@@ -107,9 +128,7 @@ export class CadastroVagaComponent {
         this.vagaService.registrarVaga(dadosParaEnvio).subscribe({
             next: (response) => {
                 console.log('Vaga registrada com sucesso:', response);
-                // this.jobForm.reset();
-                // this.habilidadesSelecionadas = [];
-                // this.niveisHabilidade = {};
+                this.router.navigate(['candidate/dashboard']);
                 this.isLoading = false;
             },
             error: (error) => {
@@ -132,10 +151,7 @@ export class CadastroVagaComponent {
                 field => delete formData[field]
             );
         }
-
-        const beneficiosSelecionados = Object.entries(formData.beneficios || {})
-            .filter(([_, value]) => value)
-            .map(([key]) => key);
+        const beneficiosSelecionados = Object.entries(formData.beneficios || {}).filter(([_, value]) => value).map(([key]) => key);
 
         return {
             ...formData,
@@ -246,5 +262,24 @@ export class CadastroVagaComponent {
     getHabilidadeNome(id: string): string {
         const habilidade = this.habilidadesDisponiveis.find(h => h.id === Number(id));
         return habilidade ? habilidade.nome : '';
+    }
+
+    formatDate(date: Date): string {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    receberCandidaturasValidator(control: AbstractControl) {
+        const selectedDate = new Date(control.value);
+        const today = new Date();
+        const max = new Date();
+        max.setDate(today.getDate() + 60);
+
+        if (selectedDate > max) {
+            return { dataInvalida: true };
+        }
+        return null;
     }
 }

@@ -39,9 +39,13 @@
                             </span>
                         </div>
                     </div>
-                    <button class="btn-candidatar" (click)="candidatarSe()">Candidatar-se</button>
+                    <button class="btn-candidatar"
+                        (click)="candidatarSe()"
+                        [disabled]="!podeSeCandidatar"
+                        [class.disabled]="!podeSeCandidatar">
+                        Candidatar-se
+                    </button>
                 </div>
-
                 <div class="vaga-info-grid">
                     <div class="vaga-info-item">
                         <div class="vaga-info-icon">
@@ -208,7 +212,12 @@
                 <h2>Interessado na vaga?</h2>
                 <p>Candidate-se agora e receba uma resposta em até 7 dias.</p>
             </div>
-            <button class="btn-candidatar" (click)="candidatarSe()">Candidatar-se</button>
+            <button class="btn-candidatar"
+                (click)="candidatarSe()"
+                [disabled]="!podeSeCandidatar"
+                [class.disabled]="!podeSeCandidatar">
+                Candidatar-se
+            </button>
         </section>
     </main>
 </div>

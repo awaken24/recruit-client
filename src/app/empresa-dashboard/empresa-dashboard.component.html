@@ -1,5 +1,5 @@
 <app-loading-spinner *ngIf="isLoading" message="Carregando dados da empresa..."></app-loading-spinner>
-<div class="dashboard-container" [class.sidebar-closed]="!isSidebarOpen">
+<div class="dashboard-container" *ngIf="!isLoading" [class.sidebar-closed]="!isSidebarOpen">
     <!-- <button class="sidebar-toggle" (click)="toggleSidebar()">
         <i class="fas" [class.fa-chevron-right]="!isSidebarOpen" [class.fa-chevron-left]="isSidebarOpen"></i>
     </button> -->
@@ -86,8 +86,15 @@
                                  item.status }}
                             </div>
                             <div class="card-actions">
-                                <button class="edit-btn">Editar vaga</button>
-                                <button class="view-btn">Ver vaga</button>
+                                <button *ngIf="item.status === 'ativa'" class="edit-btn" (click)="desabilitarVaga(item)">
+                                    Desabilitar
+                                </button>
+                                <button class="view-btn" (click)="verVaga(item)">
+                                    Ver vaga
+                                </button>
+                                <button class="manage-btn" (click)="gerenciarCandidaturas(item)">
+                                    Candidaturas
+                                </button>
                             </div>
                         </div>
                     </ng-container>
