@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { FooterComponent } from '../footer/footer.component';
-
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
     selector: 'app-gerenciar-candidaturas',
@@ -28,10 +28,13 @@ export class GerenciarCandidaturasComponent {
     itemsPerPage: number = 5;
     totalPages: number = 1;
 
+    Math = Math;
+
     constructor(
         private router: Router,
         private route: ActivatedRoute,
-        private vagaService: VagaService
+        private vagaService: VagaService,
+        private notifier: NotificationService
     ) { }
 
     ngOnInit() {
@@ -42,16 +45,19 @@ export class GerenciarCandidaturasComponent {
                 next: (response) => {
                     this.candidatos = response.data.candidaturas.map((candidatura: any) => ({
                         id: candidatura.id,
-                        status: 'pendente',
-                        percentualMatch: 80,
+                        status: candidatura.status,
+                        percentualMatch: candidatura.compatibilidade || 0,
                         candidato: {
-                            nome: `${candidatura.candidato.nome} ${candidatura.candidato.sobrenome}`,
-                            titulo: candidatura.candidato.titulo,
-                            skills: candidatura.candidato.habilidades.map((h: any) => h.nome),
-                            resumo: candidatura.candidato.descricao,
-                            foto: '/api/placeholder/100/100',
+                        nome: `${candidatura.candidato.nome} ${candidatura.candidato.sobrenome}`,
+                        titulo: candidatura.candidato.titulo,
+                        skills: candidatura.candidato.habilidades.map((h: any) => h.nome),
+                        resumo: candidatura.candidato.descricao,
+                        foto: candidatura.candidato.foto_path 
+                                ? `http://127.0.0.1:8000/${candidatura.candidato.foto_path}`
+                                : null
                         }
-                    }));
+                    }))
+                    .sort((a: any , b: any) => b.percentualMatch - a.percentualMatch);
 
                     this.vaga = response.data;
                     this.isLoading = false;
@@ -120,16 +126,26 @@ export class GerenciarCandidaturasComponent {
     }
 
     aprovarCandidato(candidatura: any) {
-        console.log(candidatura);
-
-        // this.vagaService.aprovarCandidatura(candidatura.id).subscribe(() => {
-        //     candidatura.status = 'aprovado';
-        // });
+        this.vagaService.aprovarCandidatura(candidatura.id).subscribe({
+            next: (response) => {
+                candidatura.status = 'aprovada';
+                this.notifier.success(response.message);
+            },
+            error: (error) => {
+                this.notifier.warning(error.message);
+            }
+        });
     }
 
-    recusarCandidato(candidatura: any) {
-        this.vagaService.recusarCandidatura(candidatura.id).subscribe(() => {
-            candidatura.status = 'recusado';
+    reprovarCandidato(candidatura: any) {
+        this.vagaService.reprovarCandidatura(candidatura.id).subscribe( {
+            next: (response) => {
+                candidatura.status = 'reprovada';
+                this.notifier.success(response.message);
+            },
+            error: (error) => {
+                this.notifier.info(error.message);
+            }
         });
     }
 

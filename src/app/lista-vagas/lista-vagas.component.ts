@@ -5,6 +5,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 import { VagaService } from '../services/vaga.service';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
     selector: 'app-lista-vagas',
@@ -25,6 +26,7 @@ export class ListaVagasComponent {
     paginaAtual: number = 1;
     itensPorPagina: number = 6;
     totalPaginas: number = 1;
+    Math = Math;
 
     gruposFiltros = [
         {
@@ -64,7 +66,11 @@ export class ListaVagasComponent {
         }
     ];
 
-    constructor(private vagaservice: VagaService, private router: Router) { }
+    constructor(
+        private notifier: NotificationService,
+        private vagaservice: VagaService, 
+        private router: Router
+    ) { }
 
     ngOnInit() {
         this.vagaservice.getVagas().subscribe({
@@ -99,7 +105,7 @@ export class ListaVagasComponent {
             nivel: this.formatarNivel(vaga.nivel_experiencia),
             tipoContrato: this.formatarTipoContrato(vaga.tipo_contrato),
             tecnologias: vaga.habilidades?.map((h: any) => h.nome) || [],
-            logo: vaga.empresa.logo_path || 'assets/default-logo.png',
+            logo: vaga.empresa.logo_path  ? `http://127.0.0.1:8000/${vaga.empresa.logo_path}` : null,
             nova: this.isVagaNova(vaga),
             compatibilidade: vaga.compatibilidade || 0,
             descricao: vaga.descricao,
@@ -274,5 +280,19 @@ export class ListaVagasComponent {
                 this.isLoading = false;
             }
         });
+    }
+
+    
+    formatarSalario(salario: string): string {
+        if (!salario) return '';
+
+        const [min, max] = salario.split('-');
+
+        const formatarValor = (valor: string) => {
+            const numero = parseFloat(valor.trim());
+            return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        };
+
+        return `${formatarValor(min)} - ${formatarValor(max)}`;
     }
 }

@@ -1,0 +1,7 @@
+<div class="notification" [ngClass]="type">
+    <span class="icon">
+        {{ getIcon(type) }}
+    </span>
+    <span class="message">{{ message }}</span>
+    <button class="close-btn" (click)="close()">&times;</button>
+</div>

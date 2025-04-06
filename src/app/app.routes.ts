@@ -13,6 +13,12 @@ import { DetalhesVagaComponent } from './detalhes-vaga/detalhes-vaga.component';
 import { UpdateProfileCandidatoComponent } from './update-profile-candidato/update-profile-candidato.component';
 import { CandidatoDashboardComponent } from './candidato-dashboard/candidato-dashboard.component';
 import { GerenciarCandidaturasComponent } from './gerenciar-candidaturas/gerenciar-candidaturas.component';
+import { AcessoNegadoComponent } from './acesso-negado/acesso-negado.component';
+
+// Guards
+import { candidatoGuard } from './guards/candidato.guard';
+import { empresaGuard } from './guards/empresa.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -20,14 +26,14 @@ export const routes: Routes = [
     { path: 'users/register', component: RegisterCandidatoComponent },
     { path: 'companies/login', component: LoginEmpresaComponent },
     { path: 'companies/register', component: RegisterEmpresaComponent},
-    { path: 'companies/updateProfile', component: UpdateProfileEmpresaComponent},
+    { path: 'companies/updateProfile', component: UpdateProfileEmpresaComponent, canActivate: [authGuard, empresaGuard]},
     { path: 'companies/profile', component: EmpresaProfileComponent },
-    { path: 'companies/jobs/new', component: CadastroVagaComponent },
-    { path: 'companies/dashboard', component: EmpresaDashboardComponent},
+    { path: 'companies/jobs/new', component: CadastroVagaComponent, canActivate: [authGuard, empresaGuard]},
+    { path: 'companies/dashboard', component: EmpresaDashboardComponent, canActivate: [authGuard, empresaGuard]},
     { path: 'vagas', component: ListaVagasComponent },
     { path: 'vagas/:id', component: DetalhesVagaComponent },
-    { path: 'candidate/update-profile', component: UpdateProfileCandidatoComponent },
-    { path: 'candidate/dashboard', component: CandidatoDashboardComponent },
-    { path: 'companies/vagas/:id/candidaturas', component: GerenciarCandidaturasComponent
-    }
+    { path: 'candidate/update-profile', component: UpdateProfileCandidatoComponent, canActivate: [authGuard, candidatoGuard]},
+    { path: 'candidate/dashboard', component: CandidatoDashboardComponent, canActivate: [authGuard, candidatoGuard]},
+    { path: 'companies/vagas/:id/candidaturas', component: GerenciarCandidaturasComponent, canActivate: [authGuard, empresaGuard]},
+    { path: 'acesso-negado', component: AcessoNegadoComponent }
 ];

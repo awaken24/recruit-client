@@ -37,11 +37,11 @@
                         (change)="filtrarCandidatos()"> Pendentes
                 </label>
                 <label class="filter-option">
-                    <input type="radio" name="filtro" value="aprovado" [(ngModel)]="filtroSelecionado"
+                    <input type="radio" name="filtro" value="aprovada" [(ngModel)]="filtroSelecionado"
                         (change)="filtrarCandidatos()"> Aprovados
                 </label>
                 <label class="filter-option">
-                    <input type="radio" name="filtro" value="recusado" [(ngModel)]="filtroSelecionado"
+                    <input type="radio" name="filtro" value="reprovada" [(ngModel)]="filtroSelecionado"
                         (change)="filtrarCandidatos()"> Recusados
                 </label>
             </div>
@@ -59,28 +59,33 @@
 
             <div class="candidate-container">
                 <div *ngFor="let candidatura of candidatosPaginados" class="candidate-card"
-                    [class.aprovado]="candidatura.status === 'aprovado'"
-                    [class.recusado]="candidatura.status === 'recusado'"
+                    [class.aprovado]="candidatura.status === 'aprovada'"
+                    [class.recusado]="candidatura.status === 'reprovada'"
                     [class.pendente]="candidatura.status === 'pendente'">
 
                     <div class="candidate-photo">
-                        <img [src]="candidatura.candidato.foto" alt="Perfil do candidato">
+                        <img *ngIf="candidatura.candidato.foto" [src]="candidatura.candidato.foto"
+                            alt="Foto de {{candidatura.candidato.nome}}" (error)="candidatura.candidato.foto = null">
+
+                        <div *ngIf="!candidatura.candidato.foto" class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
                     </div>
 
                     <div class="candidate-info">
                         <div class="candidate-header">
                             <h3 class="candidate-name">{{ candidatura.candidato.nome }}</h3>
                             <div class="status-badge" [ngClass]="{
-                                'aprovado': candidatura.status === 'aprovado',
-                                'recusado': candidatura.status === 'recusado',
+                                'aprovado': candidatura.status === 'aprovada',
+                                'recusado': candidatura.status === 'reprovada',
                                 'pendente': candidatura.status === 'pendente'
                             }">
                                 {{ candidatura.status | titlecase }}
                             </div>
                         </div>
-
                         <div class="candidate-title">{{ candidatura.candidato.titulo }}</div>
 
+                        <!--
                         <div class="match-indicator">
                             <div class="match-bar">
                                 <div class="match-progress" [style.width]="candidatura.percentualMatch + '%'"
@@ -88,23 +93,61 @@
                             </div>
                             <span class="match-percentage">{{ candidatura.percentualMatch }}%</span>
                         </div>
-
+                        -->
                         <div class="candidate-skills">
-                            <span *ngFor="let skill of candidatura.candidato.skills" class="skill-tag">{{ skill }}</span>
+                            <span *ngFor="let skill of candidatura.candidato.skills" class="skill-tag">{{ skill
+                                }}</span>
                         </div>
 
                         <p class="candidate-summary">{{ candidatura.candidato.resumo }}</p>
                     </div>
 
+                    <div class="candidate-actions-container">
+                        <!-- Círculo de Match aumentado -->
+                        <div class="match-indicator-vertical">
+                            <div class="match-circle-lg">
+                                <svg class="progress-ring-lg" width="70" height="70">
+                                    <circle class="progress-ring-circle-lg"
+                                            stroke="#e0e0e0"
+                                            stroke-width="6"
+                                            fill="transparent"
+                                            r="30"
+                                            cx="35"
+                                            cy="35"/>
+                                    <circle class="progress-ring-progress-lg"
+                                            [ngClass]="getMatchClass(candidatura.percentualMatch)"
+                                            stroke-width="6"
+                                            fill="transparent"
+                                            r="30"
+                                            cx="35"
+                                            cy="35"
+                                            [attr.stroke-dasharray]="(2 * Math.PI * 30)"
+                                            [attr.stroke-dashoffset]="(2 * Math.PI * 30) * (1 - candidatura.percentualMatch/100)"/>
+                                </svg>
+                                <div class="match-percentage-lg">{{ candidatura.percentualMatch }}%</div>
+                            </div>
+                        </div>
+                    
+                        <!-- Botões empilhados verticalmente -->
+                        <div class="action-buttons">
+                            <button class="action-btn btn-view">Ver perfil</button>
+                            <ng-container *ngIf="candidatura.status === 'pendente'">
+                                <button class="action-btn btn-approve" (click)="aprovarCandidato(candidatura)">Aprovar</button>
+                                <button class="action-btn btn-reject" (click)="reprovarCandidato(candidatura)">Recusar</button>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!--
                     <div class="candidate-actions">
                         <button class="action-btn btn-view">Ver perfil</button>
                         <ng-container *ngIf="candidatura.status === 'pendente'">
                             <button class="action-btn btn-approve"
                                 (click)="aprovarCandidato(candidatura)">Aprovar</button>
                             <button class="action-btn btn-reject"
-                                (click)="recusarCandidato(candidatura)">Recusar</button>
+                                (click)="reprovarCandidato(candidatura)">Recusar</button>
                         </ng-container>
                     </div>
+                    -->
                 </div>
                 <div class="pagination" *ngIf="totalPages > 1">
                     <div *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"

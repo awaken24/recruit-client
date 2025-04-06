@@ -62,7 +62,7 @@
 }
 
 .conteudo-principal {
-    max-width: 1200px;
+    max-width: 77%;
     margin: 0 auto;
     padding: 2rem;
 }
@@ -151,8 +151,8 @@
 }
 
 .logo-empresa {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -162,6 +162,19 @@
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+    border-radius: 8px;
+}
+
+.logo-empresa i {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height: 90px;
+    background: #f0f0f0;
+    border-radius: 8px;
 }
 
 .info-vaga {
@@ -211,22 +224,6 @@
     border-radius: 20px;
     font-size: 0.85rem;
     color: #2c3e50;
-}
-
-.indicador-match {
-    flex-shrink: 0;
-}
-
-.circulo-match {
-    width: 70px;
-    height: 70px;
-    background: #1abc9c;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
 }
 
 .porcentagem {
@@ -531,9 +528,6 @@
     background: #fff;
 }
 
-
-
-
 @media (max-width: 1024px) {
     .grid-conteudo {
         grid-template-columns: 1fr;
@@ -733,52 +727,7 @@
     .contador {
         font-size: 0.875rem;
     }
-}
 
-@media (max-width: 480px) {
-    .hero h1 {
-        font-size: 1.5rem;
-    }
-
-    .conteudo-principal {
-        padding: 1rem;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@media (max-width: 768px) {
     .card-filtros {
         position: static;
         margin-bottom: 1.5rem;
@@ -787,10 +736,11 @@
     .opcao-filtro {
         padding: 0.75rem;
     }
+
+    .conteudo-principal {
+        max-width: none;
+    }
 }
-
-
-
 
 @media (max-width: 480px) {
     .card-filtros {
@@ -813,6 +763,68 @@
     .valores-slider {
         font-size: 0.75rem;
     }
+
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .conteudo-principal {
+        padding: 1rem;
+    }
 }
 
 
+
+
+
+.indicador-match {
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.circulo-match {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-ring-circle {
+    stroke: #e0e0e0;
+}
+
+.progress-ring-progress {
+    stroke: #1abc9c;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.porcentagem-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.porcentagem {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.label-match {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: -4px;
+}

@@ -71,21 +71,11 @@ export class VagaService {
 
     aprovarCandidatura(candidaturaId: number): Observable<any> {
         const headers = this.getHeaders();
-
-        return this.http.post(
-            `${this.baseUrl}/candidaturas/aprovar-candidatura`,
-            { candidatura_id: candidaturaId },
-            { headers }
-        );
+        return this.http.patch(`${this.baseUrl}/candidaturas/${candidaturaId}/aprovar`, {}, { headers });
     }
-
-    recusarCandidatura(candidaturaId: number): Observable<any> {
+    
+    reprovarCandidatura(candidaturaId: number): Observable<any> {
         const headers = this.getHeaders();
-
-        return this.http.post(
-            `${this.baseUrl}/candidaturas/recusar-candidatura`,
-            { candidatura_id: candidaturaId },
-            { headers }
-        );
+        return this.http.patch(`${this.baseUrl}/candidaturas/${candidaturaId}/reprovar`, {}, { headers });
     }
 }
