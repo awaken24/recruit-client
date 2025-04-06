@@ -6,6 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { FooterComponent } from '../footer/footer.component';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
     selector: 'app-detalhes-vaga',
@@ -25,7 +26,8 @@ export class DetalhesVagaComponent implements OnInit {
         private route: ActivatedRoute,
         private vagaService: VagaService,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private notifier: NotificationService
     ) { }
 
     ngOnInit(): void {
@@ -72,15 +74,14 @@ export class DetalhesVagaComponent implements OnInit {
             if (this.vagaId && candidatoId) {
                 this.vagaService.candidatar(Number(this.vagaId), candidatoId).subscribe({
                     next: (response) => {
-                        // console.log('Candidatura enviada com sucesso:', response);
-                        alert('Candidatura realizada com sucesso!');
+                        this.notifier.success(response.message);
                         setTimeout(() => {
                             this.router.navigate(['/candidate/dashboard']);
-                        }, 2000);
+                        }, 3000);
                     },
                     error: (err) => {
+                        this.notifier.warning(err.error.message);
                         console.error('Erro ao enviar candidatura:', err);
-                        alert('Erro ao enviar candidatura. Tente novamente.');
                     }
                 });
             }

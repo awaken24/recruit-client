@@ -15,7 +15,7 @@
                     <span class="icone-busca">🔍</span>
                     Buscar
                 </button>
-            </div>            
+            </div>
         </div>
     </section>
     <div class="conteudo-principal">
@@ -36,9 +36,7 @@
                             <h3>{{ grupo.titulo }}</h3>
                         </div>
                         <label class="opcao-filtro" *ngFor="let opcao of grupo.opcoes">
-                            <input 
-                                type="checkbox" 
-                                [checked]="opcao.selecionado"
+                            <input type="checkbox" [checked]="opcao.selecionado"
                                 (change)="selecionarFiltro(grupo, opcao)">
                             <span class="marcador"></span>
                             <div class="info-opcao">
@@ -62,9 +60,7 @@
                         </button>
                         <div class="opcoes-grupo-mobile" [class.aberto]="grupo.aberto">
                             <label class="opcao-mobile" *ngFor="let opcao of grupo.opcoes">
-                                <input 
-                                    type="checkbox" 
-                                    [checked]="opcao.selecionado"
+                                <input type="checkbox" [checked]="opcao.selecionado"
                                     (change)="selecionarFiltro(grupo, opcao)">
                                 <span class="texto-opcao">{{opcao.texto}}</span>
                                 <span class="contador">({{opcao.contador}})</span>
@@ -75,20 +71,43 @@
             </div>
             <main class="lista-vagas">
                 <div class="card-vaga" *ngFor="let vaga of vagasPaginadas" (click)="navegarParaDetalhes(vaga.id)">
+
                     <div class="logo-empresa">
-                        <img [src]="vaga.logo" [alt]="vaga.empresa">
+                        <img *ngIf="vaga.logo" [src]="vaga.logo" [alt]="vaga.empresa" (error)="vaga.logo = null">
+
+                        <i *ngIf="!vaga.logo" class="fas fa-building"></i>
                     </div>
+
                     <div class="info-vaga">
                         <div class="cabecalho-vaga">
                             <h2>{{vaga.cargo}}</h2>
                             <span class="tag-nova" *ngIf="vaga.nova">Nova</span>
                         </div>
                         <div class="detalhes-vaga">
-                            <span>{{vaga.empresa}}</span>
-                            <span>{{vaga.localizacao}}</span>
-                            <span>{{vaga.tamanhoEmpresa}}</span>
-                            <span>{{vaga.nivel}}</span>
-                            <span>{{vaga.tipoContrato}}</span>
+                            <span>
+                                <i class="fas fa-building"></i>
+                                {{vaga.empresa}}
+                            </span>
+                            <span>
+                                <i class="fas fa-map-marker-alt"></i>
+                                {{vaga.localizacao === 'remoto' ? 'Remoto' : 'Presencial'}}
+                            </span>
+                            <span>
+                                <i class="fas fa-users"></i>
+                                {{vaga.tamanhoEmpresa}}
+                            </span>
+                            <span>
+                                <i class="fas fa-signal"></i>
+                                {{vaga.nivel}}
+                            </span>
+                            <span>
+                                <i class="fas fa-file-signature"></i>
+                                {{vaga.tipoContrato}}
+                            </span>
+                            <span *ngIf="vaga.faixaSalarial">
+                                <i class="fas fa-money-bill-wave"></i>
+                                {{ formatarSalario(vaga.faixaSalarial) }}
+                            </span>
                         </div>
                         <div class="tecnologias">
                             <span *ngFor="let tech of vaga.tecnologias">{{tech}}</span>
@@ -96,30 +115,40 @@
                     </div>
                     <div class="indicador-match" *ngIf="vaga.compatibilidade > 0">
                         <div class="circulo-match">
+                            <svg class="progress-ring" width="80" height="80">
+                                <circle class="progress-ring-circle" stroke="#1abc9c" stroke-width="6"
+                                    fill="transparent" r="35" cx="40" cy="40" />
+                                <circle class="progress-ring-progress" stroke="#3498db" stroke-width="6"
+                                    fill="transparent" r="35" cx="40" cy="40"
+                                    [attr.stroke-dasharray]="(2 * Math.PI * 35)"
+                                    [attr.stroke-dashoffset]="(2 * Math.PI * 35) * (1 - vaga.compatibilidade/100)" />
+                            </svg>
+                            <div class="porcentagem-container">
+                                <span class="porcentagem">{{vaga.compatibilidade}}%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--
+                    <div class="indicador-match" *ngIf="vaga.compatibilidade > 0">
+                        <div class="circulo-match">
                             <span class="porcentagem">{{vaga.compatibilidade}}%</span>
                             <span class="label-match">match</span>
                         </div>
                     </div>
+                    -->
                 </div>
                 <div class="paginacao" *ngIf="totalPaginas > 1">
-                    <button 
-                        class="botao-pagina" 
-                        [disabled]="paginaAtual === 1"
-                        (click)="mudarPagina(paginaAtual - 1)">
+                    <button class="botao-pagina" [disabled]="paginaAtual === 1" (click)="mudarPagina(paginaAtual - 1)">
                         Anterior
                     </button>
-            
-                    <button 
-                        *ngFor="let pagina of paginas"
-                        class="botao-pagina"
-                        [class.ativo]="pagina === paginaAtual"
+
+                    <button *ngFor="let pagina of paginas" class="botao-pagina" [class.ativo]="pagina === paginaAtual"
                         (click)="mudarPagina(pagina)">
                         {{ pagina }}
                     </button>
-            
-                    <button 
-                        class="botao-pagina"
-                        [disabled]="paginaAtual === totalPaginas"
+
+                    <button class="botao-pagina" [disabled]="paginaAtual === totalPaginas"
                         (click)="mudarPagina(paginaAtual + 1)">
                         Próxima
                     </button>
