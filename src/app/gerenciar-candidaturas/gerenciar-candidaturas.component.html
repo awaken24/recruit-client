@@ -84,16 +84,6 @@
                             </div>
                         </div>
                         <div class="candidate-title">{{ candidatura.candidato.titulo }}</div>
-
-                        <!--
-                        <div class="match-indicator">
-                            <div class="match-bar">
-                                <div class="match-progress" [style.width]="candidatura.percentualMatch + '%'"
-                                    [ngClass]="getMatchClass(candidatura.percentualMatch)"></div>
-                            </div>
-                            <span class="match-percentage">{{ candidatura.percentualMatch }}%</span>
-                        </div>
-                        -->
                         <div class="candidate-skills">
                             <span *ngFor="let skill of candidatura.candidato.skills" class="skill-tag">{{ skill
                                 }}</span>
@@ -103,7 +93,6 @@
                     </div>
 
                     <div class="candidate-actions-container">
-                        <!-- Círculo de Match aumentado -->
                         <div class="match-indicator-vertical">
                             <div class="match-circle-lg">
                                 <svg class="progress-ring-lg" width="70" height="70">
@@ -128,7 +117,6 @@
                             </div>
                         </div>
                     
-                        <!-- Botões empilhados verticalmente -->
                         <div class="action-buttons">
                             <button class="action-btn btn-view">Ver perfil</button>
                             <ng-container *ngIf="candidatura.status === 'pendente'">

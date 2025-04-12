@@ -29,4 +29,16 @@ export class EmpresaService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         return this.http.post(`${this.baseUrl}/empresa/dashboard`, {}, { headers: headers });
     }
+
+    getCompanyConfig(): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/empresa/config`, {}, { headers: headers });
+    }
+
+    salvarConfiguracao(config: any): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/empresa/salvarConfiguracoes`, config, { headers: headers });
+    }
 }

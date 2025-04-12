@@ -3,12 +3,20 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { VagaService } from '../services/vaga.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
-import { Router } from '@angular/router';
 import { EmpresaService } from '../services/empresa.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ConfiguracaoEmpresaComponent } from '../configuracao-empresa/configuracao-empresa.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
     selector: 'app-empresa-dashboard',
-    imports: [CommonModule, FormsModule, LoadingSpinnerComponent],
+    imports: [
+        CommonModule, 
+        FormsModule, 
+        LoadingSpinnerComponent, 
+        ConfiguracaoEmpresaComponent, 
+        RouterModule
+    ],
     templateUrl: './empresa-dashboard.component.html',
     styleUrl: './empresa-dashboard.component.css',
     standalone: true
@@ -23,6 +31,7 @@ export class EmpresaDashboardComponent {
     vagas: any[] = [];
     isSidebarClosed: boolean = false;
     fotoPerfil: string | null = null;
+    currentRoute: string = '';
 
     filters = [
         { label: 'Todas', count: 1, active: true },
@@ -36,8 +45,18 @@ export class EmpresaDashboardComponent {
     constructor(
         private vagaService: VagaService,
         private empresaService: EmpresaService,
-        private router: Router
-    ) { }
+        private router: Router,
+        private route: ActivatedRoute
+    ) {
+        this.router.events.subscribe(() => {
+            this.currentRoute = this.router.url.split('/').pop() || '';
+            console.log(this.currentRoute);
+        });
+    }
+
+    onLoadingStateChanged(isLoading: boolean): void {
+        this.isLoading = isLoading;
+    }
 
     ngOnInit() {
         this.loadDashboardData();

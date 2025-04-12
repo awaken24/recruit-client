@@ -73,9 +73,20 @@ export class VagaService {
         const headers = this.getHeaders();
         return this.http.patch(`${this.baseUrl}/candidaturas/${candidaturaId}/aprovar`, {}, { headers });
     }
-    
+
     reprovarCandidatura(candidaturaId: number): Observable<any> {
         const headers = this.getHeaders();
         return this.http.patch(`${this.baseUrl}/candidaturas/${candidaturaId}/reprovar`, {}, { headers });
     }
+
+    getPainelVagas(): Observable<any> {
+        const headers = this.getHeaders();
+        return this.http.post<{ recomendadas: any[], candidatadas: any[] }>(
+            `${this.baseUrl}/candidato/painel`,
+            {},
+            { headers }
+        );
+    }
+
+
 }
