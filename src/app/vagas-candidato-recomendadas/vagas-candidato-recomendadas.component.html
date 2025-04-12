@@ -1,0 +1,160 @@
+<div class="container-vagas">
+    <div class="abas">
+        <a class="aba" href="/candidate/dashboard/oportunidades" [class.ativa]="abaAtiva === 'oportunidades'">
+            <span>OPORTUNIDADES</span>
+            <span class="contador">{{vagasRecomendadas.length}}</span>
+        </a>
+        <a class="aba" href="/candidate/dashboard/candidaturas" [class.ativa]="abaAtiva === 'candidaturas'">
+            <span>CANDIDATURAS</span>
+            <span class="contador">{{vagasCandidatadas.length}}</span>
+        </a>
+    </div>
+    <div class="subtitulo">
+        <p *ngIf="abaAtiva === 'oportunidades'">Vagas que combinam com meu perfil</p>
+        <p *ngIf="abaAtiva === 'candidaturas'">Minhas candidaturas</p>
+    </div>
+    <div class="lista-vagas" *ngIf="abaAtiva === 'oportunidades'">
+        <div class="card-vaga" *ngFor="let vaga of vagasRecomendadasPaginadas">
+            <div class="indicador-match">
+                <div class="circulo-match">
+                    <svg class="progress-ring" width="80" height="80">
+                        <circle class="progress-ring-circle" stroke="#e0e0e0" stroke-width="6" fill="transparent" r="35"
+                            cx="40" cy="40" />
+                        <circle class="progress-ring-progress" stroke="#1abc9c" stroke-width="6" fill="transparent"
+                            r="35" cx="40" cy="40" [attr.stroke-dasharray]="(2 * Math.PI * 35)"
+                            [attr.stroke-dashoffset]="(2 * Math.PI * 35) * (1 - vaga.matchPercentage/100)" />
+                    </svg>
+                    <div class="porcentagem-container">
+                        <span class="porcentagem">{{vaga.matchPercentage}}%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="info-vaga">
+                <div class="cabecalho-vaga">
+                    <h2>{{vaga.title}}</h2>
+                    <span class="tag-nova" *ngIf="vaga.daysPosted < 10">Nova</span>
+                </div>
+                <div class="detalhes-vaga">
+                    <span>
+                        <i class="fas fa-building"></i>
+                        {{vaga.company}}
+                    </span>
+                    <span>
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{vaga.location}}
+                    </span>
+                    <span *ngIf="vaga.companySize">
+                        <i class="fas fa-users"></i>
+                        {{vaga.companySize}}
+                    </span>
+                    <span>
+                        <i class="fas fa-signal"></i>
+                        {{vaga.level}}
+                    </span>
+                    <span>
+                        <i class="fas fa-file-signature"></i>
+                        {{vaga.contractType}}
+                    </span>
+                    <!--
+                    <span *ngIf="vaga.salary">
+                        <i class="fas fa-money-bill-wave"></i>
+                        {{vaga.salary}}
+                    </span>
+                    -->
+                </div>
+                <div class="tecnologias">
+                    <span *ngFor="let skill of vaga.skills">{{skill}}</span>
+                </div>
+            </div>
+            <div class="acoes-vaga">
+                <button class="btn-candidatar" (click)="candidatar(vaga.id)">Candidatar-se</button>
+                <button class="btn-recusar" (click)="recusar(vaga.id)">Recusar</button>
+            </div>
+        </div>
+        <div class="paginacao" *ngIf="totalPaginasRecomendadas > 1">
+            <button class="botao-pagina" [disabled]="paginaAtualRecomendadas === 1"
+                (click)="mudarPaginaRecomendadas(paginaAtualRecomendadas - 1)">
+                Anterior
+            </button>
+            <button *ngFor="let pagina of paginasRecomendadas" class="botao-pagina"
+                [class.ativo]="pagina === paginaAtualRecomendadas" (click)="mudarPaginaRecomendadas(pagina)">
+                {{ pagina }}
+            </button>
+            <button class="botao-pagina" [disabled]="paginaAtualRecomendadas === totalPaginasRecomendadas"
+                (click)="mudarPaginaRecomendadas(paginaAtualRecomendadas + 1)">
+                Próxima
+            </button>
+        </div>
+    </div>
+    <div class="lista-vagas" *ngIf="abaAtiva === 'candidaturas'">
+        <div class="card-vaga" *ngFor="let vaga of vagasCandidatadasPaginadas">
+            <div class="indicador-match">
+                <div class="circulo-match">
+                    <svg class="progress-ring" width="80" height="80">
+                        <circle class="progress-ring-circle" stroke="#e0e0e0" stroke-width="6" fill="transparent" r="35"
+                            cx="40" cy="40" />
+                        <circle class="progress-ring-progress" stroke="#1abc9c" stroke-width="6" fill="transparent"
+                            r="35" cx="40" cy="40" [attr.stroke-dasharray]="(2 * Math.PI * 35)"
+                            [attr.stroke-dashoffset]="(2 * Math.PI * 35) * (1 - vaga.matchPercentage/100)" />
+                    </svg>
+                    <div class="porcentagem-container">
+                        <span class="porcentagem">{{vaga.matchPercentage}}%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-vaga">
+                <div class="cabecalho-vaga">
+                    <h2>{{vaga.title}}</h2>
+                    <span class="status-candidatura" [class.analise]="vaga.status === 'pendente'"
+                        [class.aceito]="vaga.status === 'aprovada'" [class.recusado]="vaga.status === 'reprovada'">
+                        {{vaga.status}}
+                    </span>
+                    <span class="tag-data">{{vaga.dataCandidatura}}</span>
+                </div>
+                <div class="detalhes-vaga">
+                    <span>
+                        <i class="fas fa-building"></i>
+                        {{vaga.company}}
+                    </span>
+                    <span>
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{vaga.location}}
+                    </span>
+                    <span *ngIf="vaga.companySize">
+                        <i class="fas fa-users"></i>
+                        {{vaga.companySize}}
+                    </span>
+                    <span>
+                        <i class="fas fa-signal"></i>
+                        {{vaga.level}}
+                    </span>
+                    <span>
+                        <i class="fas fa-file-signature"></i>
+                        {{vaga.contractType}}
+                    </span>
+                </div>
+                <div class="tecnologias">
+                    <span *ngFor="let skill of vaga.skills">{{skill}}</span>
+                </div>
+            </div>
+            <div class="acoes-vaga">
+                <button class="btn-detalhes" (click)="verDetalhes(vaga.id)">Ver Detalhes</button>
+            </div>
+        </div>
+        <div class="paginacao" *ngIf="totalPaginasCandidatadas > 1">
+            <button class="botao-pagina" [disabled]="paginaAtualCandidatadas === 1"
+                (click)="mudarPaginaCandidatadas(paginaAtualCandidatadas - 1)">
+                Anterior
+            </button>
+            <button *ngFor="let pagina of paginasCandidatadas" class="botao-pagina"
+                [class.ativo]="pagina === paginaAtualCandidatadas" (click)="mudarPaginaCandidatadas(pagina)">
+                {{ pagina }}
+            </button>
+            <button class="botao-pagina" [disabled]="paginaAtualCandidatadas === totalPaginasCandidatadas"
+                (click)="mudarPaginaCandidatadas(paginaAtualCandidatadas + 1)">
+                Próxima
+            </button>
+        </div>
+    </div>
+</div>

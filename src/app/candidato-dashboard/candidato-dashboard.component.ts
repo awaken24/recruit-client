@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CandidatoService } from '../services/candidato.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
+import { VagasCandidatoRecomendadasComponent } from '../vagas-candidato-recomendadas/vagas-candidato-recomendadas.component';
+import { Router, ActivatedRoute } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 interface Skill {
     name: string;
@@ -17,7 +20,7 @@ interface UserStats {
 
 @Component({
     selector: 'app-candidato-dashboard',
-    imports: [CommonModule, LoadingSpinnerComponent],
+    imports: [CommonModule, LoadingSpinnerComponent, VagasCandidatoRecomendadasComponent],
     templateUrl: './candidato-dashboard.component.html',
     styleUrl: './candidato-dashboard.component.css',
     standalone: true
@@ -30,6 +33,7 @@ export class CandidatoDashboardComponent implements OnInit {
     isSidebarClosed: boolean = false;
     isLoading: boolean = true;
     fotoPerfil: string | null = null;
+    currentRoute: string = '';
 
     userStats: UserStats = {
         opportunities: 0,
@@ -49,7 +53,19 @@ export class CandidatoDashboardComponent implements OnInit {
         { name: 'Inglês Certificação EF SET', level: 'Obter meu certificado', iconBg: '#ff9f43' }
     ];
 
-    constructor(private candidatoService: CandidatoService) { }
+    constructor(
+        private candidatoService: CandidatoService,
+        private router: Router,
+        private route: ActivatedRoute
+    ) { 
+        this.router.events.subscribe(() => {
+            this.currentRoute = this.router.url.split('/').pop() || '';
+        });
+    }
+
+    onLoadingStateChanged(isLoading: boolean): void {
+        this.isLoading = isLoading;
+    }
 
     ngOnInit(): void {
         this.loadDashboardData();

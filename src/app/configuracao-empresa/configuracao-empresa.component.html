@@ -1,0 +1,64 @@
+<div class="container">
+    <h1>Configurações da Empresa</h1>
+    <form *ngIf="!isLoading" [formGroup]="empresaForm">
+        <div class="form-group">
+            <label>Enviar mensagens ao WhatsApp?</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" formControlName="whatsapp_ativo" value="sim"> Sim
+                </label>
+                <label class="radio-option">
+                    <input type="radio" formControlName="whatsapp_ativo" value="nao"> Não
+                </label>
+            </div>
+        </div>
+
+        <div *ngIf="mostrarCamposWhatsapp" class="whatsapp-fields">
+            <div class="form-group">
+                <label for="token">Token de Acesso:</label>
+                <input type="text" id="token" formControlName="whatsapp_token"
+                    placeholder="Insira o token da API WhatsApp">
+                <div class="hint">Token fornecido pela plataforma de integração WhatsApp Business</div>
+                <div *ngIf="empresaForm.get('token')?.invalid && empresaForm.get('token')?.touched"
+                    class="error-message">
+                    Token é obrigatório
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="instance">Instância:</label>
+                <input type="text" id="instance" formControlName="whatsapp_instance"
+                    placeholder="Insira o ID da instância">
+                <div class="hint">Identificador único da sua instância WhatsApp</div>
+                <div *ngIf="empresaForm.get('instance')?.invalid && empresaForm.get('instance')?.touched"
+                    class="error-message">
+                    Instância é obrigatória
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="securityToken">Security Token:</label>
+                <input type="text" id="securityToken" formControlName="whatsapp_security_token"
+                    placeholder="Insira o security token">
+                <div class="hint">Token de segurança para validação de webhooks</div>
+                <div *ngIf="empresaForm.get('whatsapp_security_token')?.invalid && 
+                           empresaForm.get('whatsapp_security_token')?.touched" class="error-message">
+                    Security Token é token de segurança da conta.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Mensagem Padrão:</label>
+                <textarea id="message" formControlName="whatsapp_template"
+                    placeholder="Digite a mensagem que será enviada aos clientes"></textarea>
+                <div class="hint"
+                    [innerText]="'Você pode usar variáveis como {{vaga}}, {{candidato}}, que serão substituídas automaticamente.'">
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" class="btn" (click)="salvarConfiguracoes()">Salvar Configurações</button>
+        </div>
+    </form>
+</div>

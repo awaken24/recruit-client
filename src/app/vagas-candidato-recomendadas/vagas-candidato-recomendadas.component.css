@@ -1,0 +1,413 @@
+.container-vagas {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.abas {
+    display: flex;
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 20px;
+}
+
+.aba {
+    padding: 15px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.aba.ativa {
+    color: #2EB886;
+    border-bottom: 3px solid #2EB886;
+}
+
+.contador {
+    background-color: #999;
+    color: white;
+    border-radius: 50%;
+    min-width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    padding: 0 4px;
+}
+
+.aba.ativa .contador {
+    background-color: #2EB886;
+}
+
+.subtitulo {
+    padding: 15px 0;
+    color: #555;
+    font-size: 14px;
+    border-bottom: 1px solid #E0E0E0;
+    margin-bottom: 20px;
+}
+
+.card-vaga {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card-vaga:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.indicador-match {
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circulo-match {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.progress-ring-circle {
+    stroke: #e0e0e0;
+}
+
+.progress-ring-progress {
+    stroke: #1abc9c;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.porcentagem-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+}
+
+.porcentagem {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.label-match {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-top: -4px;
+}
+
+.info-vaga {
+    flex: 1;
+}
+
+.cabecalho-vaga h2 {
+    font-size: 1.25rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.tag-nova {
+    background: #e74c3c;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.detalhes-vaga {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.detalhes-vaga span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tecnologias {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tecnologias span {
+    background-color: rgba(44, 182, 125, 0.12);
+    color: #2cb67d;
+    font-size: 0.8rem;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: all 0.25s ease;
+}
+
+.tecnologias span:hover {
+    background-color: rgba(44, 182, 125, 0.18);
+    transform: translateY(-2px);
+}
+
+.acoes-vaga {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 150px;
+}
+
+.btn-candidatar,
+.btn-recusar {
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.btn-candidatar {
+    background-color: #2EB886;
+    color: white;
+}
+
+.btn-candidatar:hover {
+    background-color: #25a073;
+}
+
+.btn-recusar {
+    background-color: #45556E;
+    color: white;
+}
+
+.btn-recusar:hover {
+    background-color: #34445d;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .card-vaga {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .detalhes-vaga {
+        justify-content: center;
+    }
+
+    .tecnologias {
+        justify-content: center;
+    }
+
+    .acoes-vaga {
+        flex-direction: row;
+        width: 100%;
+        margin-top: 1rem;
+    }
+
+    .btn-candidatar,
+    .btn-recusar {
+        flex: 1;
+    }
+
+    .indicador-match {
+        margin: 1rem 0;
+    }
+
+    .container-vagas {
+        padding: 0;
+    }
+
+    .aba {
+        padding: 15px 15px;
+    }
+    
+    .cabecalho-vaga {
+        justify-content: center;
+    }
+}
+
+.tag-data {
+    font-size: 0.75rem;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status.analise {
+    background-color: #FFF3E0;
+    color: #FFA000;
+}
+
+.status.aceito {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.status.recusado {
+    background-color: #FFEBEE;
+    color: #C62828;
+}
+
+.btn-detalhes {
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    font-size: 14px;
+    background-color: #45556E;
+    color: white;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+.btn-detalhes:hover {
+    background-color: #34445d;
+}
+
+@media (max-width: 768px) {
+    .status-candidatura {
+        margin-bottom: 1rem;
+        width: 100%;
+        height: auto;
+        justify-content: flex-start;
+    }
+    
+    .card-vaga {
+        position: relative;
+    }
+    
+    .status {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+    }
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    padding: 1rem 0;
+}
+
+.botao-pagina {
+    padding: 0.5rem 1rem;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.botao-pagina:hover:not(:disabled) {
+    background-color: #f7fafc;
+}
+
+.botao-pagina.ativo {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+}
+
+.botao-pagina:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.cabecalho-vaga .status-candidatura {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    margin: 0 0.5rem;
+}
+
+.cabecalho-vaga .status-candidatura.analise {
+    background-color: #FFF3E0;
+    color: #FFA000;
+}
+
+.cabecalho-vaga .status-candidatura.aceito {
+    background-color: #E8F5E9;
+    color: #2E7D32;
+}
+
+.cabecalho-vaga .status-candidatura.recusado {
+    background-color: #FFEBEE;
+    color: #C62828;
+}
+
+.cabecalho-vaga .tag-data {
+    font-size: 0.75rem;
+    color: #666;
+    background-color: #f0f0f0;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.cabecalho-vaga {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
