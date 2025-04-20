@@ -11,10 +11,10 @@ import { RouterModule } from '@angular/router';
 @Component({
     selector: 'app-empresa-dashboard',
     imports: [
-        CommonModule, 
-        FormsModule, 
-        LoadingSpinnerComponent, 
-        ConfiguracaoEmpresaComponent, 
+        CommonModule,
+        FormsModule,
+        LoadingSpinnerComponent,
+        ConfiguracaoEmpresaComponent,
         RouterModule
     ],
     templateUrl: './empresa-dashboard.component.html',
@@ -35,7 +35,7 @@ export class EmpresaDashboardComponent {
 
     filters = [
         { label: 'Todas', count: 1, active: true },
-        { label: 'Pagamento pendente', count: 0, active: false },
+        // { label: 'Pagamento pendente', count: 0, active: false },
         { label: 'Incompletas', count: 0, active: false },
         { label: 'Em revisão', count: 1, active: false },
         { label: 'Ativas', count: 0, active: false },
