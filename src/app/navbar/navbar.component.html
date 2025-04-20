@@ -9,9 +9,9 @@
     <div class="nav-links logged-in" *ngIf="isLoggedIn" [ngClass]="{'active': isMenuActive}">
         <a routerLink="/vagas" class="ver-vagas">VER VAGAS</a>
         <div class="user-actions">
-            <a href="#" class="message-icon">
+            <!-- <a href="#" class="message-icon">
                 <i class="far fa-comment-dots"></i>
-            </a>
+            </a> -->
             <div class="user-profile" (click)="toggleUserMenu()">
                 <span class="user-name">{{ userName }}</span>
                 <div class="user-avatar">

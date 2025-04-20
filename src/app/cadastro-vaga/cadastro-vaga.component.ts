@@ -44,7 +44,7 @@ export class CadastroVagaComponent {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private habilidadesService: HabilidadesService, 
+        private habilidadesService: HabilidadesService,
         private vagaService: VagaService
     ) {
         this.initializeForm();
@@ -128,7 +128,7 @@ export class CadastroVagaComponent {
         this.vagaService.registrarVaga(dadosParaEnvio).subscribe({
             next: (response) => {
                 console.log('Vaga registrada com sucesso:', response);
-                this.router.navigate(['candidate/dashboard']);
+                this.router.navigate(['companies/dashboard']);
                 this.isLoading = false;
             },
             error: (error) => {
