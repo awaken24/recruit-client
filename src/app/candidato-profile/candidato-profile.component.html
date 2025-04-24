@@ -1,0 +1,57 @@
+<div class="main">
+    <div class="container" *ngIf="!isLoading">
+        <div class="profile-card" *ngIf="candidato">
+            <div class="profile-header">
+                <div class="profile-image">
+                    <img *ngIf="fotoPerfil" [src]="fotoPerfil" alt="Foto de perfil" class="profile-logo">
+                    <i *ngIf="!fotoPerfil" class="fas fa-building"></i>
+                </div>
+
+                <div class="profile-info">
+                    <h2 class="profile-name">{{ getFullName() }}</h2>
+                    <p class="profile-title">{{ candidato.titulo }}</p>
+
+                    <div class="tecnologias">
+                        <span *ngFor="let habilidade of candidato.habilidades">
+                            {{ habilidade.nome }}
+                        </span>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <a href="#" class="btn btn-primary" (click)="downloadCV(); $event.preventDefault()">
+                            <i class="fas fa-file-download"></i> Baixar Currículo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-body">
+                <div class="section">
+                    <h3 class="section-title">Resumo Profissional</h3>
+                    <p class="section-content">
+                        {{ candidato.descricao }}
+                    </p>
+                </div>
+
+                <div class="section" *ngIf="candidato.experiencias?.length > 0">
+                    <h3 class="section-title">Experiência Profissional</h3>
+
+                    <div class="experience-item" *ngFor="let exp of candidato.experiencias">
+                        <div class="experience-header">
+                            <h4 class="company-name">{{ exp.empresa }}</h4>
+                            <span class="experience-date">{{ getExperiencePeriod(exp) }}</span>
+                        </div>
+                        <p class="job-title">{{ exp.cargo }}</p>
+                        <ul class="job-description">
+                            <li>{{ exp.descricao }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="loading-spinner" *ngIf="isLoading">
+        <div class="spinner"></div>
+    </div>
+</div>

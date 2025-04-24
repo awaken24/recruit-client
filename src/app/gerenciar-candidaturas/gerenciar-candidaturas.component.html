@@ -118,24 +118,13 @@
                         </div>
                     
                         <div class="action-buttons">
-                            <button class="action-btn btn-view">Ver perfil</button>
+                            <button class="action-btn btn-view" (click)="verPerfil(candidatura.candidato.id)" >Ver perfil</button>
                             <ng-container *ngIf="candidatura.status === 'pendente'">
                                 <button class="action-btn btn-approve" (click)="aprovarCandidato(candidatura)">Aprovar</button>
                                 <button class="action-btn btn-reject" (click)="reprovarCandidato(candidatura)">Recusar</button>
                             </ng-container>
                         </div>
                     </div>
-                    <!--
-                    <div class="candidate-actions">
-                        <button class="action-btn btn-view">Ver perfil</button>
-                        <ng-container *ngIf="candidatura.status === 'pendente'">
-                            <button class="action-btn btn-approve"
-                                (click)="aprovarCandidato(candidatura)">Aprovar</button>
-                            <button class="action-btn btn-reject"
-                                (click)="reprovarCandidato(candidatura)">Recusar</button>
-                        </ng-container>
-                    </div>
-                    -->
                 </div>
                 <div class="pagination" *ngIf="totalPages > 1">
                     <div *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item"

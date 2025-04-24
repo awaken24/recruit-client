@@ -16,6 +16,7 @@ import { GerenciarCandidaturasComponent } from './gerenciar-candidaturas/gerenci
 import { AcessoNegadoComponent } from './acesso-negado/acesso-negado.component';
 import { ConfiguracaoEmpresaComponent } from './configuracao-empresa/configuracao-empresa.component';
 import { VagasCandidatoRecomendadasComponent } from './vagas-candidato-recomendadas/vagas-candidato-recomendadas.component';
+import { CandidatoProfileComponent } from './candidato-profile/candidato-profile.component';
 
 // Guards
 import { candidatoGuard } from './guards/candidato.guard';
@@ -36,6 +37,7 @@ export const routes: Routes = [
     { path: 'candidate/update-profile', component: UpdateProfileCandidatoComponent, canActivate: [authGuard, candidatoGuard] },
     { path: 'candidate/dashboard', component: CandidatoDashboardComponent, canActivate: [authGuard, candidatoGuard] },
     { path: 'companies/vagas/:id/candidaturas', component: GerenciarCandidaturasComponent, canActivate: [authGuard, empresaGuard] },
+    { path: 'candidato/profile/:id', component: CandidatoProfileComponent, canActivate: [authGuard] },
     { path: 'acesso-negado', component: AcessoNegadoComponent },
     {
         path: 'companies/dashboard',
@@ -55,5 +57,5 @@ export const routes: Routes = [
             { path: 'oportunidades', component: VagasCandidatoRecomendadasComponent },
             { path: 'candidaturas', component: VagasCandidatoRecomendadasComponent }
         ]
-    }
+    },
 ];
