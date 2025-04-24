@@ -54,7 +54,7 @@
                                 Telefone <span class="required">*</span>
                             </label>
                             <input id="telefone" type="text" formControlName="telefone"
-                                placeholder="(00) 00000-0000" mask="(00) 00000-0000"
+                                placeholder="+55 (00) 00000-0000" mask="(00) 00000-0000" prefix="+55 "
                                 [ngClass]="{'invalid-input': candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched}">
                             <small class="error-text"
                                 *ngIf="candidatoForm.get('telefone')?.invalid && candidatoForm.get('telefone')?.touched">

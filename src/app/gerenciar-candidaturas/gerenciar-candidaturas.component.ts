@@ -48,11 +48,12 @@ export class GerenciarCandidaturasComponent {
                         status: candidatura.status,
                         percentualMatch: candidatura.compatibilidade || 0,
                         candidato: {
-                        nome: `${candidatura.candidato.nome} ${candidatura.candidato.sobrenome}`,
-                        titulo: candidatura.candidato.titulo,
-                        skills: candidatura.candidato.habilidades.map((h: any) => h.nome),
-                        resumo: candidatura.candidato.descricao,
-                        foto: candidatura.candidato.foto_path 
+                            id: candidatura.candidato.id,
+                            nome: `${candidatura.candidato.nome} ${candidatura.candidato.sobrenome}`,
+                            titulo: candidatura.candidato.titulo,
+                            skills: candidatura.candidato.habilidades.map((h: any) => h.nome),
+                            resumo: candidatura.candidato.descricao,
+                            foto: candidatura.candidato.foto_path 
                                 ? `http://127.0.0.1:8000/${candidatura.candidato.foto_path}`
                                 : null
                         }
@@ -121,8 +122,8 @@ export class GerenciarCandidaturasComponent {
     }
 
 
-    verPerfil(candidatoId: number) {
-        this.router.navigate(['/perfil-candidato', candidatoId]);
+    verPerfil(candidatoId: any) {
+        this.router.navigate(['/candidato/profile', candidatoId]);
     }
 
     aprovarCandidato(candidatura: any) {
