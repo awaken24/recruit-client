@@ -56,7 +56,20 @@
                 </div>
             </div>
         </div>
-
+        <div *ngIf="mostrarCamposEmail" class="email-fields">
+            <div class="form-group">
+                <label for="emailTemplateSucesso">Template de E-mail (Candidato Aprovado):</label>
+                <textarea id="emailTemplateSucesso" formControlName="email_template_sucesso"
+                    placeholder="Digite o conteúdo do e-mail que será enviado ao candidato aprovado"></textarea>
+                <div class="hint" [innerText]="'Você pode usar variáveis como {{nome}}, {{vaga}}, {{empresa}}.'"></div>
+            </div>
+            <div class="form-group">
+                <label for="emailTemplateRecusado">Template de E-mail (Candidato Recusado):</label>
+                <textarea id="emailTemplateRecusado" formControlName="email_template_recusado"
+                    placeholder="Digite o conteúdo do e-mail que será enviado ao candidato recusado"></textarea>
+                <div class="hint" [innerText]="'Você pode usar variáveis como {{nome}}, {{vaga}}, {{empresa}}.'"></div>
+            </div>
+        </div>
         <div class="btn-container">
             <button type="button" class="btn" (click)="salvarConfiguracoes()">Salvar Configurações</button>
         </div>

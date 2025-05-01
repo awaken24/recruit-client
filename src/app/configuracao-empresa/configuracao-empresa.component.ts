@@ -15,6 +15,7 @@ import { Output, EventEmitter } from '@angular/core';
 export class ConfiguracaoEmpresaComponent implements OnInit {
     empresaForm!: FormGroup;
     isLoading: boolean = true;
+    mostrarCamposEmail: boolean = true;
     @Output() loadingStateChanged = new EventEmitter<boolean>();
 
     constructor(
@@ -35,6 +36,8 @@ export class ConfiguracaoEmpresaComponent implements OnInit {
             whatsapp_instance: [''],
             whatsapp_template: [''],
             whatsapp_security_token: [''],
+            email_template_sucesso: [''],
+            email_template_recusado: ['']
         });
     }
 
@@ -48,7 +51,9 @@ export class ConfiguracaoEmpresaComponent implements OnInit {
                         whatsapp_token: config.whatsapp_token || '',
                         whatsapp_instance: config.whatsapp_instance || '',
                         whatsapp_template: config.whatsapp_template || '',
-                        whatsapp_security_token: config.whatsapp_security_token || ''
+                        whatsapp_security_token: config.whatsapp_security_token || '',
+                        email_template_sucesso: config.email_template_sucesso || '',
+                        email_template_recusado: config.email_template_recusado || ''
                     });
                     this.loadingStateChanged.emit(this.isLoading = false);
                 }
@@ -70,7 +75,9 @@ export class ConfiguracaoEmpresaComponent implements OnInit {
                 whatsapp_token: formValues.whatsapp_token,
                 whatsapp_instance: formValues.whatsapp_instance,
                 whatsapp_template: formValues.whatsapp_template,
-                whatsapp_security_token: formValues.whatsapp_security_token
+                whatsapp_security_token: formValues.whatsapp_security_token,
+                email_template_sucesso: formValues.email_template_sucesso,
+                email_template_recusado: formValues.email_template_recusado
             };
 
             this.empresaService.salvarConfiguracao(payload).subscribe({
