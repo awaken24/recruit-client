@@ -17,6 +17,7 @@ import { AcessoNegadoComponent } from './acesso-negado/acesso-negado.component';
 import { ConfiguracaoEmpresaComponent } from './configuracao-empresa/configuracao-empresa.component';
 import { VagasCandidatoRecomendadasComponent } from './vagas-candidato-recomendadas/vagas-candidato-recomendadas.component';
 import { CandidatoProfileComponent } from './candidato-profile/candidato-profile.component';
+import { ConfiguracaoCandidatoComponent } from './configuracao-candidato/configuracao-candidato.component';
 
 // Guards
 import { candidatoGuard } from './guards/candidato.guard';
@@ -55,7 +56,8 @@ export const routes: Routes = [
         children: [
             { path: '', redirectTo: 'oportunidades', pathMatch: 'full' },
             { path: 'oportunidades', component: VagasCandidatoRecomendadasComponent },
-            { path: 'candidaturas', component: VagasCandidatoRecomendadasComponent }
+            { path: 'candidaturas', component: VagasCandidatoRecomendadasComponent },
+            { path: 'configuracoes', component: ConfiguracaoCandidatoComponent }
         ]
     },
 ];

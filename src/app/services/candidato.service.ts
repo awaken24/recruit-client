@@ -29,4 +29,16 @@ export class CandidatoService {
 
         return this.http.post(`${this.baseUrl}/candidato/profile/${id} `, { headers });
     }
+
+    getCandidatoConfig(): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/candidato/configuracao`, {}, { headers: headers });
+    }
+
+    salvarConfiguracao(config: any): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/candidato/salvarConfiguracoes`, config, { headers: headers });
+    }
 }

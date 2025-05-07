@@ -1,5 +1,5 @@
 <app-loading-spinner *ngIf="isLoading" message="Carregando dados do candidato..."></app-loading-spinner>
-<div class="dashboard-container" [class.sidebar-open]="isSidebarOpen" *ngIf="!isLoading">
+<div class="dashboard-container" *ngIf="!isLoading" [class.sidebar-open]="isSidebarOpen">
     <button class="sidebar-toggle" (click)="toggleSidebar()">
         <img *ngIf="isSidebarOpen" src="../../assets/icons/fechar.png" alt="Sidebar Aberto" class="icon"/>
         <img *ngIf="!isSidebarOpen" src="../../assets/icons/abrir.png" alt="Sidebar Fechado" class="icon"/>
@@ -28,7 +28,7 @@
                 <i class="fas fa-cog"></i>
                 <span>Candidaturas</span>
             </a>
-            <a href="#" class="nav-item">
+            <a routerLink="/candidate/dashboard/configuracoes" class="nav-item">
                 <i class="fas fa-cog"></i>
                 <span>Configurações</span>
             </a>
@@ -36,7 +36,8 @@
     </aside>
     <main class="main-content">
         <app-vagas-candidato-recomendadas *ngIf="currentRoute === 'oportunidades' || currentRoute === 'candidaturas'" (loadingStateChanged)="onLoadingStateChanged($event)"></app-vagas-candidato-recomendadas>
-        <div *ngIf="currentRoute != 'opportunities'">
+        <app-configuracao-candidato *ngIf="currentRoute === 'configuracoes'" (loadingStateChanged)="onLoadingStateChanged($event)"></app-configuracao-candidato>
+        <div *ngIf="currentRoute === 'dashboard'">
             <section class="welcome-card">
                 <h1 class="welcome-header">Bem-vindo(a), {{ username }}</h1>
                 <div class="profile-progress">

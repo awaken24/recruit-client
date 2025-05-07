@@ -5,6 +5,7 @@ import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.comp
 import { VagasCandidatoRecomendadasComponent } from '../vagas-candidato-recomendadas/vagas-candidato-recomendadas.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { ConfiguracaoCandidatoComponent } from '../configuracao-candidato/configuracao-candidato.component';
 
 interface Skill {
     name: string;
@@ -20,7 +21,13 @@ interface UserStats {
 
 @Component({
     selector: 'app-candidato-dashboard',
-    imports: [CommonModule, LoadingSpinnerComponent, VagasCandidatoRecomendadasComponent],
+    imports: [
+        CommonModule, 
+        LoadingSpinnerComponent, 
+        VagasCandidatoRecomendadasComponent, 
+        ConfiguracaoCandidatoComponent, 
+        RouterModule
+    ],
     templateUrl: './candidato-dashboard.component.html',
     styleUrl: './candidato-dashboard.component.css',
     standalone: true
@@ -69,7 +76,6 @@ export class CandidatoDashboardComponent implements OnInit {
 
     ngOnInit(): void {
         this.loadDashboardData();
-        this.isLoading = false;
     }
 
     private loadDashboardData(): void {
@@ -86,9 +92,11 @@ export class CandidatoDashboardComponent implements OnInit {
                         this.fotoPerfil = `http://127.0.0.1:8000/${data.candidato.foto_perfil}`;
                     }
                 }
+                this.isLoading = false;
             },
             error: (error) => {
                 console.error('Erro ao carregar dados do dashboard:', error);
+                this.isLoading = false;
             }
         });
     }
