@@ -1,0 +1,45 @@
+<div class="container">
+    <h1>Configurações do Candidato</h1>
+
+    <form *ngIf="!isLoading" [formGroup]="candidatoForm">
+        <div class="form-group">
+            <label>Deseja receber notificações por e-mail?</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" formControlName="notificacoes_email" [value]="true" /> Sim
+                </label>
+                <label class="radio-option">
+                    <input type="radio" formControlName="notificacoes_email" [value]="false" /> Não
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Deseja receber mensagens via WhatsApp?</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" formControlName="notificacoes_whatsapp"  [value]="true" /> Sim
+                </label>
+                <label class="radio-option">
+                    <input type="radio" formControlName="notificacoes_whatsapp" [value]="false" /> Não
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Receber alertas de vagas compatíveis?</label>
+            <div class="radio-group">
+                <label class="radio-option">
+                    <input type="radio" formControlName="receber_alertas_vagas" [value]="true" /> Sim
+                </label>
+                <label class="radio-option">
+                    <input type="radio" formControlName="receber_alertas_vagas" [value]="false" /> Não
+                </label>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" class="btn" (click)="salvarConfiguracoes()">Salvar Preferências</button>
+        </div>
+    </form>
+</div>

@@ -33,7 +33,7 @@ export class NavbarComponent {
                             this.userType = 'empresa';
                             this.userName = parsedUser.nome || 'Empresa';
                         } else {
-                          this.userType = 'candidato';
+                            this.userType = 'candidato';
                             this.userName = parsedUser.nome || 'Candidato';
                         }
                     } else {
@@ -47,37 +47,54 @@ export class NavbarComponent {
         });
     }
 
-    redirectByProfile(){
-      const user = localStorage.getItem('user');
-
-      if (user) {
-          const parsedUser = JSON.parse(user);
-
-          if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
-              this.router.navigate(['/companies/profile']);
-          } else {
-              this.router.navigate(['candidate/update-profile']);
-          }
-      } else {
-          this.logout();
-          this.router.navigate(['/']);
-      }
-    }
-
-    redirectByDashboard(){
+    redirectByProfile() {
         const user = localStorage.getItem('user');
 
-        if(user){
-          const parsedUser = JSON.parse(user);
+        if (user) {
+            const parsedUser = JSON.parse(user);
 
-          if(parsedUser.usuarioable_type === 'App\\Models\\Empresa'){
-            this.router.navigate(['/companies/dashboard']);
-          } else {
-            this.router.navigate(['candidate/dashboard']);
-          }
+            if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
+                this.router.navigate(['/companies/profile']);
+            } else {
+                this.router.navigate(['candidate/update-profile']);
+            }
         } else {
-          this.logout();
-          this.router.navigate(['/']);
+            this.logout();
+            this.router.navigate(['/']);
+        }
+    }
+
+    redirectByDashboard() {
+        const user = localStorage.getItem('user');
+
+        if (user) {
+            const parsedUser = JSON.parse(user);
+
+            if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
+                this.router.navigate(['/companies/dashboard']);
+            } else {
+                this.router.navigate(['candidate/dashboard']);
+            }
+        } else {
+            this.logout();
+            this.router.navigate(['/']);
+        }
+    }
+
+    redirectByConfig() {
+        const user = localStorage.getItem('user');
+        
+        if (user) {
+            const parsedUser = JSON.parse(user);
+
+            if (parsedUser.usuarioable_type === 'App\\Models\\Empresa') {
+                this.router.navigate(['/companies/dashboard/configuracoes']);
+            } else {
+                this.router.navigate(['candidate/dashboard/configuracoes']);
+            }
+        } else {
+            this.logout();
+            this.router.navigate(['/']);
         }
     }
 
@@ -90,15 +107,15 @@ export class NavbarComponent {
     }
 
     @HostListener('document:click', ['$event'])
-    clickOutside(event: MouseEvent){
-      const userMenu = document.querySelector('.user-menu');
-      const userProfile = document.querySelector('.user-profile');
+    clickOutside(event: MouseEvent) {
+        const userMenu = document.querySelector('.user-menu');
+        const userProfile = document.querySelector('.user-profile');
 
-      if(userMenu && userProfile){
-        if(!userProfile.contains(event.target as Node) && !userMenu.contains(event.target as Node)){
-          this.isUserMenuOpen = false;
+        if (userMenu && userProfile) {
+            if (!userProfile.contains(event.target as Node) && !userMenu.contains(event.target as Node)) {
+                this.isUserMenuOpen = false;
+            }
         }
-      }
     }
 
     logout() {
