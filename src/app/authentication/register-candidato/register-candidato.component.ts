@@ -72,7 +72,7 @@ export class RegisterCandidatoComponent implements OnInit {
                     console.log('Usuário autenticado e token salvo!');
                 }
 
-                this.router.navigate(['/candidate/update-profile']);
+                this.router.navigate(['/candidate/profile/completar']);
             },
             error: (error) => {
                 console.error('Erro no registro do candidato:', error);

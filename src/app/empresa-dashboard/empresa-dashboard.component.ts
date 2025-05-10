@@ -142,4 +142,7 @@ export class EmpresaDashboardComponent {
         console.log('Desabilitar vaga:', vaga.id);
     }
 
+    editarPerfil(empresaId: any): void {
+        this.router.navigate(['companies/profile/editar/', empresaId]);
+    }
 }

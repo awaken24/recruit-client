@@ -33,7 +33,7 @@ export class LoginEmpresaComponent {
                     if (response.user.perfil_completo) {
                         this.router.navigate(['/companies/dashboard']);
                     } else {
-                        this.router.navigate(['/companies/updateProfile']);
+                        this.router.navigate(['/companies/profile/completar']);
                     }
                 },
                 error: (error) => {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
+import { API_BASE_URL } from '../app.config';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
 export class HabilidadesService {
 
     constructor(private http: HttpClient) { }
-    private baseUrl = 'http://127.0.0.1:8000/api';
+    private baseUrl = `${API_BASE_URL}/api`;
 
     getHabilidades(): Observable<any> {
         return this.http.get(`${this.baseUrl}/habilidades`);

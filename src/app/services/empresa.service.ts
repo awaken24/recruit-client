@@ -41,4 +41,10 @@ export class EmpresaService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         return this.http.post(`${this.baseUrl}/empresa/salvarConfiguracoes`, config, { headers: headers });
     }
+
+    atualizarEmpresa(id: number, dados: FormData): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.post(`${this.baseUrl}/empresa/${id}/atualizar`, dados, { headers });
+    }
 }

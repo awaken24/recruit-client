@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
+import { API_BASE_URL } from '../app.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class VagaService {
 
-    private baseUrl = 'http://127.0.0.1:8000/api';
+    private baseUrl = `${API_BASE_URL}/api`;
     constructor(private http: HttpClient) { }
 
     registrarVaga(dadosVaga: any): Observable<any> {

@@ -6,6 +6,7 @@ import { VagasCandidatoRecomendadasComponent } from '../vagas-candidato-recomend
 import { Router, ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { ConfiguracaoCandidatoComponent } from '../configuracao-candidato/configuracao-candidato.component';
+import { API_BASE_URL } from '../app.config';
 
 interface Skill {
     name: string;
@@ -41,6 +42,7 @@ export class CandidatoDashboardComponent implements OnInit {
     isLoading: boolean = true;
     fotoPerfil: string | null = null;
     currentRoute: string = '';
+    candidato: any = null;
 
     userStats: UserStats = {
         opportunities: 0,
@@ -83,13 +85,14 @@ export class CandidatoDashboardComponent implements OnInit {
             next: (response) => {
                 if (response.status === 'success') {
                     const data = response.data;
-                    this.username = data.candidato.nome;
+                    this.candidato = data.candidato;
+                    // this.username = data.candidato.nome;
                     this.userStats.applications = data.qtdCandidaturas;
                     this.userStats.opportunities = data.qtdOprtunidades;
                     this.tituloProfissional = data.candidato.titulo;
 
                     if (data.candidato.foto_perfil) {
-                        this.fotoPerfil = `http://127.0.0.1:8000/${data.candidato.foto_perfil}`;
+                        this.fotoPerfil = `${API_BASE_URL}/${data.candidato.foto_perfil}`;
                     }
                 }
                 this.isLoading = false;
@@ -107,5 +110,9 @@ export class CandidatoDashboardComponent implements OnInit {
 
     toggleSidebar(): void {
         this.isSidebarOpen = !this.isSidebarOpen;
+    }
+
+    editarPerfil(candidatoId: any): void {
+        this.router.navigate(['candidate/profile/editar/', candidatoId]);
     }
 }
