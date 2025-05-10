@@ -7,6 +7,7 @@ import { EmpresaService } from '../services/empresa.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ConfiguracaoEmpresaComponent } from '../configuracao-empresa/configuracao-empresa.component';
 import { RouterModule } from '@angular/router';
+import { API_BASE_URL } from '../app.config';
 
 @Component({
     selector: 'app-empresa-dashboard',
@@ -36,8 +37,8 @@ export class EmpresaDashboardComponent {
     filters = [
         { label: 'Todas', count: 1, active: true },
         // { label: 'Pagamento pendente', count: 0, active: false },
-        { label: 'Incompletas', count: 0, active: false },
-        { label: 'Em revisão', count: 1, active: false },
+        // { label: 'Incompletas', count: 0, active: false },
+        // { label: 'Em revisão', count: 1, active: false },
         { label: 'Ativas', count: 0, active: false },
         { label: 'Desativadas', count: 0, active: false }
     ];
@@ -69,7 +70,7 @@ export class EmpresaDashboardComponent {
                 this.vagas = response.data.vagas;
 
                 if (response.data.empresa.logo_path) {
-                    this.fotoPerfil = `http://127.0.0.1:8000/${response.data.empresa.logo_path}`;
+                    this.fotoPerfil = `${API_BASE_URL}/${response.data.empresa.logo_path}`;
                 }
                 this.isLoading = false;
             },
