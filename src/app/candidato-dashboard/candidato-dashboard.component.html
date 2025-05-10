@@ -11,8 +11,8 @@
                 <i *ngIf="!fotoPerfil" class="fas fa-building"></i>
             </div>
 
-            <h2 class="username">{{ username }}</h2>
-            <button class="edit-profile">Editar perfil</button>
+            <h2 class="username">{{ candidato.nome }}</h2>
+            <button class="edit-profile" (click)="editarPerfil(candidato.id)">Editar perfil</button>
         </div>
 
         <nav class="sidebar-nav" style="padding-top: 20px;">
@@ -39,7 +39,7 @@
         <app-configuracao-candidato *ngIf="currentRoute === 'configuracoes'" (loadingStateChanged)="onLoadingStateChanged($event)"></app-configuracao-candidato>
         <div *ngIf="currentRoute === 'dashboard'">
             <section class="welcome-card">
-                <h1 class="welcome-header">Bem-vindo(a), {{ username }}</h1>
+                <h1 class="welcome-header">Bem-vindo(a), {{ candidato.nome }}</h1>
                 <div class="profile-progress">
                     <div class="progress-text">Porcentagem das informações do seu perfil:</div>
                     <div class="progress-bar">

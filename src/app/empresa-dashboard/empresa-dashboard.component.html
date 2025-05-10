@@ -11,7 +11,7 @@
                 <i *ngIf="!fotoPerfil" class="fas fa-building"></i>
             </div>
             <h2>{{ company.nome_fantasia }}</h2>
-            <button class="edit-profile">Editar perfil</button>
+            <button class="edit-profile" (click)="editarPerfil(company.id)">Editar perfil</button>
         </div>
         <a href="/companies/jobs/new">
             <button class="create-job">Criar uma vaga</button>

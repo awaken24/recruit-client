@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { CandidatoService } from '../services/candidato.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from '../shared/notification.service';
+import { API_BASE_URL } from '../app.config';
 
 @Component({
     selector: 'app-update-profile-candidato',
@@ -23,7 +25,7 @@ export class UpdateProfileCandidatoComponent {
 
     habilidadesSelecionadas: string[] = [];
     niveisHabilidade: { [key: string]: string } = {};
-    // niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
+    mode: 'edit' | 'create' = 'create';
 
     niveisExperiencia = ['0-1', '1-2', '2-3', '3-4', '4-5', '5+'];
     niveisExperienciaExibicao = ['0-1 anos', '1-2 anos', '2-3 anos', '3-4 anos', '4-5 anos', '5+ anos'];
@@ -53,9 +55,11 @@ export class UpdateProfileCandidatoComponent {
 
     constructor(
         private fb: FormBuilder,
-        private router: Router,
         private habilidadesService: HabilidadesService,
         private candidatoService: CandidatoService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private notifier: NotificationService
     ) {
         this.candidatoForm = this.fb.group({
             nome: ['', Validators.required],
@@ -89,6 +93,64 @@ export class UpdateProfileCandidatoComponent {
     }
 
     ngOnInit() {
+
+        this.mode = this.route.snapshot.data['mode'] || 'create';
+
+        if (this.mode == 'edit') {
+            const id = this.route.snapshot.params['id'];
+
+            this.candidatoService.getCandidateProfile(id).subscribe({
+                next: (response: any) => {
+                    const candidato = response.data;
+                    const endereco = Array.isArray(candidato.endereco) ? candidato.endereco[0] : null;
+
+                    this.candidatoForm.patchValue({
+                        nome: candidato.nome,
+                        sobrenome: candidato.sobrenome,
+                        cpf: candidato.cpf,
+                        telefone: candidato.telefone,
+                        titulo: candidato.titulo,
+                        descricao: candidato.descricao,
+                        github: candidato.gitHub,
+                        linkedin: candidato.linkedIn,
+                        nivelIngles: candidato.nivelIngles,
+                        experienceLevel: candidato.experienceLevel,
+                        foco_carreira: candidato.foco_carreira,
+                        tipo_empresa: candidato.tipo_empresa,
+                        tipo_contrato: candidato.tipo_contrato,
+                        salario_desejo: candidato.salario_desejado,
+                        status_busca: candidato.status_busca,
+                        trabalho_remoto: candidato.trabalho_remoto ? 'sim' : 'nao',
+                        pcd: candidato.pcd ? 'sim' : 'nao',
+                        endereco: endereco ? {
+                            cep: endereco.cep || '',
+                            estado: endereco.estado || '',
+                            cidade: endereco.cidade || '',
+                            bairro: endereco.bairro || '',
+                            logradouro: endereco.logradouro || '',
+                            numero: endereco.numero || '',
+                            complemento: endereco.complemento || ''
+                        } : {}
+                    });
+                    this.logoPreviewUrl = candidato.foto_perfil ? `${API_BASE_URL}/${candidato.foto_perfil}` : null;
+
+                    if (Array.isArray(candidato.experiencias)) {
+                        this.preencherExperiencias(candidato.experiencias);
+                    }
+
+                    if (Array.isArray(candidato.habilidade_candidatos)) {
+                        this.preencherHabilidades(candidato.habilidade_candidatos);
+                    }
+
+                    this.isLoading = false;
+                },
+                error: (error) => {
+                    this.notifier.warning("Erro ao carregar dados do candidato");
+                    this.isLoading = false;
+                }
+            });
+        }
+
         this.isLoading = true;
         this.habilidadesService.getHabilidades().subscribe({
             next: (response: any) => {
@@ -110,19 +172,19 @@ export class UpdateProfileCandidatoComponent {
             this.candidatoForm.markAllAsTouched();
             return;
         }
-    
+
         if (this.habilidadesSelecionadas.length < 3) {
-            alert('Selecione pelo menos 3 habilidades.');
+            this.notifier.warning('Selecione pelo menos 3 habilidades.');
             return;
         }
-    
+
         const formData = new FormData();
         const formValues = this.candidatoForm.value;
-        
+
         if (formValues.endereco) {
             formData.append('endereco', JSON.stringify(formValues.endereco));
         }
-        
+
         Object.keys(formValues).forEach(key => {
             if (key !== 'endereco' && formValues[key] !== null && formValues[key] !== undefined) {
                 if (typeof formValues[key] !== 'object') {
@@ -132,27 +194,44 @@ export class UpdateProfileCandidatoComponent {
                 }
             }
         });
-        
+
         const habilidades = this.habilidadesSelecionadas.map(id => ({
             habilidade_id: Number(id),
             nivel_experiencia: this.niveisHabilidade[id]
         }));
-        
+
         formData.append('habilidades', JSON.stringify(habilidades));
-    
+
         if (this.logoSelecionada) {
             formData.append('logo', this.logoSelecionada, this.logoSelecionada.name);
         }
-    
-        this.candidatoService.enviarDadosCandidato(formData).subscribe({
-            next: (response) => {
-                console.log('Dados enviados com sucesso:', response);
-                this.router.navigate(['/candidate/dashboard']);
-            },
-            error: (error) => {
-                console.error('Erro ao enviar os dados:', error);
-            }
-        });
+
+        if (this.mode === 'edit') {
+            const id = this.route.snapshot.params['id'];
+
+            this.candidatoService.atualizarCandidato(id, formData).subscribe({
+                next: (response) => {
+                    this.notifier.success(response.message);
+                    setTimeout(() => {
+                        this.router.navigate(['/candidate/dashboard']);
+                    }, 700);
+                },
+                error: (error) => {
+                    this.notifier.warning(error.error.message);
+                }
+            });
+
+        } else {
+            this.candidatoService.enviarDadosCandidato(formData).subscribe({
+                next: (response) => {
+                    this.notifier.success(response.message);
+                    this.router.navigate(['/vagas']);
+                },
+                error: (error) => {
+                    this.notifier.warning(error.error.message);
+                }
+            });
+        }
     }
 
     get experiencias(): FormArray {
@@ -246,13 +325,11 @@ export class UpdateProfileCandidatoComponent {
         }
     }
 
-    onLogoSelected(event: Event) {        
+    onLogoSelected(event: Event) {
         const input = event.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
             const file = input.files[0];
             this.logoSelecionada = file;
-
-            console.log('Logo selecionada:', file);
 
             const reader = new FileReader();
             reader.onload = () => {
@@ -262,4 +339,36 @@ export class UpdateProfileCandidatoComponent {
         }
     }
 
+    preencherExperiencias(experiencias: any[]) {
+        const array = this.candidatoForm.get('experiencias') as FormArray;
+        array.clear();
+
+        for (let i = 0; i < experiencias.length; i++) {
+            const exp = experiencias[i];
+
+            array.push(this.fb.group({
+                empresa: [exp.empresa],
+                cargo: [exp.cargo],
+                mesInicio: [exp.mesInicio],
+                anoInicio: [exp.anoInicio],
+                mesFim: [exp.mesFim],
+                anoFim: [exp.anoFim],
+                trabalhoAtual: [exp.trabalhoAtual == 1],
+                descricao: [exp.descricao]
+            }));
+        }
+    }
+
+    preencherHabilidades(habilidades: any[]) {
+        this.habilidadesSelecionadas = [];
+        this.niveisHabilidade = {};
+
+        habilidades.forEach(item => {
+            const habilidadeId = item.habilidade_id;
+            const nivel = item.tempo_experiencia;
+
+            this.habilidadesSelecionadas.push(habilidadeId);
+            this.niveisHabilidade[habilidadeId] = nivel;
+        });
+    }
 }
