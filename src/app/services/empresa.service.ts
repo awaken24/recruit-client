@@ -8,8 +8,8 @@ import { BehaviorSubject, Observable, catchError, finalize, of } from 'rxjs';
 export class EmpresaService {
 
     constructor(private http: HttpClient) { }
-    private baseUrl = 'http://127.0.0.1:8000/api';
-
+    private baseUrl = `${API_BASE_URL}/api`;
+  
     enviarDadosEmpresa(dadosEmpresa: any): Observable<any> {
         const token = localStorage.getItem('token');
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
