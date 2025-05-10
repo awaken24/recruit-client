@@ -1,0 +1,39 @@
+.sobre-nos-container {
+    background-color: #f4f6f8;
+    padding: 3rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    min-height: 80vh;
+}
+
+.sobre-nos-container .texto {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sobre-nos-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: #1f3b57;
+    text-align: center;
+}
+
+.sobre-nos-container p {
+    margin-bottom: 1.4rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.sobre-nos-container em {
+    font-style: italic;
+    color: #555;
+    display: block;
+    margin-top: 1.5rem;
+    text-align: center;
+}

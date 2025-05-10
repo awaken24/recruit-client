@@ -18,6 +18,10 @@ import { ConfiguracaoEmpresaComponent } from './configuracao-empresa/configuraca
 import { VagasCandidatoRecomendadasComponent } from './vagas-candidato-recomendadas/vagas-candidato-recomendadas.component';
 import { CandidatoProfileComponent } from './candidato-profile/candidato-profile.component';
 import { ConfiguracaoCandidatoComponent } from './configuracao-candidato/configuracao-candidato.component';
+import { SobreNosComponent } from './pages/sobre-nos/sobre-nos.component';
+import { TermosComponent } from './pages/termos/termos.component';
+import { PoliticaPrivacidadeComponent } from './pages/politica-privacidade/politica-privacidade.component';
+import { ContatoComponent } from './pages/contato/contato.component';
 
 // Guards
 import { candidatoGuard } from './guards/candidato.guard';
@@ -62,4 +66,8 @@ export const routes: Routes = [
             { path: 'configuracoes', component: ConfiguracaoCandidatoComponent }
         ]
     },
+    { path: 'sobre-nos', component: SobreNosComponent },
+    { path: 'termos', component: TermosComponent },
+    { path: 'politica-de-privacidade', component: PoliticaPrivacidadeComponent },
+    { path: 'contato', component: ContatoComponent }
 ];
