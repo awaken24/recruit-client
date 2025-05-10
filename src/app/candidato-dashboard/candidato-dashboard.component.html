@@ -16,15 +16,15 @@
         </div>
 
         <nav class="sidebar-nav" style="padding-top: 20px;">
-            <a href="/candidate/dashboard" class="nav-item active" [ngClass]="{'active': currentRoute === 'dashboard' }">
+            <a routerLink="/candidate/dashboard" class="nav-item active" [ngClass]="{'active': currentRoute === 'dashboard' }">
                 <i class="fas fa-chart-line"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="/candidate/dashboard/oportunidades" class="nav-item" [ngClass]="{'active': currentRoute === 'oportunidades' }">
+            <a routerLink="/candidate/dashboard/oportunidades" class="nav-item" [ngClass]="{'active': currentRoute === 'oportunidades' }">
                 <i class="fas fa-cog"></i>
                 <span>Oportunidades</span>
             </a>
-            <a href="/candidate/dashboard/candidaturas" class="nav-item" [ngClass]="{'active': currentRoute === 'candidaturas' }">
+            <a routerLink="/candidate/dashboard/candidaturas" class="nav-item" [ngClass]="{'active': currentRoute === 'candidaturas' }">
                 <i class="fas fa-cog"></i>
                 <span>Candidaturas</span>
             </a>
@@ -58,12 +58,12 @@
                 <div class="stats-card">
                     <div class="stats-number">{{ userStats.applications }}</div>
                     <div class="stats-label">Candidaturas</div>
-                    <a href="/candidate/dashboard/candidaturas" class="stats-action">VER</a>
+                    <a routerLink="/candidate/dashboard/candidaturas" class="stats-action">VER</a>
                 </div>
                 <div class="stats-card">
                     <div class="stats-number">{{ userStats.opportunities }}</div>
                     <div class="stats-label">Oportunidades</div>
-                    <a href="/candidate/dashboard/oportunidades" class="stats-action">VER</a>
+                    <a routerLink="/candidate/dashboard/oportunidades" class="stats-action">VER</a>
                 </div>
             </section>
     

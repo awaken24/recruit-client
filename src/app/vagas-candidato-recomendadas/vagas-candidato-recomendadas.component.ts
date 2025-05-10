@@ -7,7 +7,7 @@ import { Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-vagas-candidato-recomendadas',
-    imports: [CommonModule],
+    imports: [CommonModule, RouterModule],
     templateUrl: './vagas-candidato-recomendadas.component.html',
     styleUrl: './vagas-candidato-recomendadas.component.css',
     standalone: true

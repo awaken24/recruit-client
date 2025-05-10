@@ -1,10 +1,10 @@
 <div class="container-vagas">
     <div class="abas">
-        <a class="aba" href="/candidate/dashboard/oportunidades" [class.ativa]="abaAtiva === 'oportunidades'">
+        <a class="aba" routerLink="/candidate/dashboard/oportunidades" [class.ativa]="abaAtiva === 'oportunidades'">
             <span>OPORTUNIDADES</span>
             <span class="contador">{{vagasRecomendadas.length}}</span>
         </a>
-        <a class="aba" href="/candidate/dashboard/candidaturas" [class.ativa]="abaAtiva === 'candidaturas'">
+        <a class="aba" routerLink="/candidate/dashboard/candidaturas" [class.ativa]="abaAtiva === 'candidaturas'">
             <span>CANDIDATURAS</span>
             <span class="contador">{{vagasCandidatadas.length}}</span>
         </a>
