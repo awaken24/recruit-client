@@ -9,7 +9,7 @@
             </p>
             <div class="cta-buttons">
                 <button class="primary-btn" routerLink="/vagas">Encontrar Vagas</button>
-                <button class="secondary-btn">Para Empresas</button>
+                <button class="secondary-btn" (click)="redirectEmpresa()" >Para Empresas</button>
             </div>
             <div class="stats-container">
                 <div class="stat-item">
@@ -149,7 +149,7 @@
                     <li>Acesso a eventos exclusivos e comunidades técnicas</li>
                     <li>Oportunidades remotas e internacionais</li>
                 </ul>
-                <button class="outline-btn">Criar Perfil Gratuito</button>
+                <button class="outline-btn" routerLink="/users/register">Criar Perfil Gratuito</button>
             </div>
             <div class="beneficio-card">
                 <svg class="beneficio-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
@@ -164,7 +164,7 @@
                     <li>Painel de análise de compatibilidade técnica</li>
                     <li>Suporte consultivo para a definição de vagas</li>
                 </ul>
-                <button class="outline-btn">Publicar Vagas</button>
+                <button class="outline-btn" (click)="redirectEmpresa()">Publicar Vagas</button>
             </div>
         </div>
     </section>

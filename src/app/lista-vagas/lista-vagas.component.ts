@@ -6,6 +6,7 @@ import { VagaService } from '../services/vaga.service';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-lista-vagas',
@@ -68,31 +69,72 @@ export class ListaVagasComponent {
 
     constructor(
         private notifier: NotificationService,
-        private vagaservice: VagaService, 
-        private router: Router
+        private vagaservice: VagaService,
+        private router: Router,
+        private route: ActivatedRoute
     ) { }
 
+
+
     ngOnInit() {
-        this.vagaservice.getVagas().subscribe({
-            next: (response: any) => {
-                if (response.status === 'success') {
-                    this.habilidades = response.data.habilidades;
-                    this.vagas = response.data.vagas
-                        .map((vaga: any) => this.mapearVaga(vaga))
-                        .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade); 
+        this.route.queryParams.subscribe(params => {
+            const tecnologia = params['tecnologia'];
 
-                    this.vagasFiltradas = [...this.vagas];
+            this.vagaservice.getVagas().subscribe({
+                next: (response: any) => {
+                    if (response.status === 'success') {
+                        this.habilidades = response.data.habilidades;
+
+                        if (tecnologia) {
+                            const habilidade = this.habilidades.find(h =>
+                                h.nome.toLowerCase() === tecnologia.toLowerCase()
+                            );
+
+                            if (habilidade) {
+                                this.filtroSelecionado = habilidade.id;
+                            }
+                        }
+
+                        this.vagas = response.data.vagas
+                            .map((vaga: any) => this.mapearVaga(vaga))
+                            .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade);
+
+                        this.vagasFiltradas = [...this.vagas];
+
+                        this.carregarVagas();
+
+                        this.atualizarContadores();
+                        this.calcularTotalPaginas();
+                    }
+
+                    this.isLoading = false;
+                },
+                error: (error) => {
+                    console.error('Erro ao carregar vagas:', error);
+                    this.isLoading = false;
                 }
-
-                this.atualizarContadores();
-                this.calcularTotalPaginas();
-                this.isLoading = false;
-            },
-            error: (error) => {
-                console.error('Erro ao carregar vagas:', error);
-                this.isLoading = false;
-            }
+            });
         });
+    }
+
+    carregarVagas() {
+        if (this.filtroSelecionado !== "") {
+            const nomeHabilidade = this.obterNomeHabilidadePorId(parseInt(this.filtroSelecionado, 10));
+            this.vagasFiltradas = this.vagas.filter(vaga =>
+                vaga.tecnologias.some((tech: string) =>
+                    tech.toLowerCase() === nomeHabilidade.toLowerCase()
+                )
+            );
+        } else {
+            this.vagasFiltradas = [...this.vagas];
+        }
+    
+        this.calcularTotalPaginas();
+    }
+    
+    obterNomeHabilidadePorId(id: number): string {
+        const habilidade = this.habilidades.find(h => h.id === +id);
+        return habilidade ? habilidade.nome : '';
     }
 
     mapearVaga(vaga: any) {
@@ -105,7 +147,7 @@ export class ListaVagasComponent {
             nivel: this.formatarNivel(vaga.nivel_experiencia),
             tipoContrato: this.formatarTipoContrato(vaga.tipo_contrato),
             tecnologias: vaga.habilidades?.map((h: any) => h.nome) || [],
-            logo: vaga.empresa.logo_path  ? `http://127.0.0.1:8000/${vaga.empresa.logo_path}` : null,
+            logo: vaga.empresa.logo_path ? `http://127.0.0.1:8000/${vaga.empresa.logo_path}` : null,
             nova: this.isVagaNova(vaga),
             compatibilidade: vaga.compatibilidade || 0,
             descricao: vaga.descricao,
@@ -282,7 +324,7 @@ export class ListaVagasComponent {
         });
     }
 
-    
+
     formatarSalario(salario: string): string {
         if (!salario) return '';
 
