@@ -6,7 +6,7 @@
             <p>As melhores vagas para desenvolvedores Frontend, Backend e Fullstack</p>
             <div class="barra-busca">
                 <select [(ngModel)]="filtroSelecionado" class="select-habilidades" (change)="buscarVagas()">
-                    <option value="" disabled selected>Buscar por tecnologia, cargo ou empresa...</option>
+                    <option value="" selected>Todas as tecnologias</option>
                     <option *ngFor="let habilidade of habilidades" [value]="habilidade.id">
                         {{ habilidade.nome }}
                     </option>
@@ -137,6 +137,9 @@
                         </div>
                     </div>
                     -->
+                </div>
+                <div *ngIf="!vagasFiltradas.length && !isLoading" class="alerta-sem-vagas">
+                    Nenhuma vaga encontrada.
                 </div>
                 <div class="paginacao" *ngIf="totalPaginas > 1">
                     <button class="botao-pagina" [disabled]="paginaAtual === 1" (click)="mudarPagina(paginaAtual - 1)">
