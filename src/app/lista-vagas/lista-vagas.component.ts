@@ -7,6 +7,7 @@ import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from '../shared/notification.service';
 import { ActivatedRoute } from '@angular/router';
+import { API_BASE_URL } from '../app.config';
 
 @Component({
     selector: 'app-lista-vagas',
@@ -147,7 +148,7 @@ export class ListaVagasComponent {
             nivel: this.formatarNivel(vaga.nivel_experiencia),
             tipoContrato: this.formatarTipoContrato(vaga.tipo_contrato),
             tecnologias: vaga.habilidades?.map((h: any) => h.nome) || [],
-            logo: vaga.empresa.logo_path ? `http://127.0.0.1:8000/${vaga.empresa.logo_path}` : null,
+            logo: vaga.empresa.logo_path ? `${API_BASE_URL}/${vaga.empresa.logo_path}` : null,
             nova: this.isVagaNova(vaga),
             compatibilidade: vaga.compatibilidade || 0,
             descricao: vaga.descricao,
