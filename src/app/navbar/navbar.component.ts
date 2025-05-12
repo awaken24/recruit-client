@@ -18,10 +18,13 @@ export class NavbarComponent {
     isMenuActive = false;
     isUserMenuOpen = false;
     userType: 'candidato' | 'empresa' | null = null;
+    isMobile = false;
 
     constructor(private router: Router, private authService: AuthService) { }
 
     ngOnInit(): void {
+        this.checkScreenSize();
+      
         this.authService.isLoggedIn$.subscribe((loggedIn) => {
             this.isLoggedIn = loggedIn;
             if (loggedIn) {
@@ -127,5 +130,14 @@ export class NavbarComponent {
                 console.error('Erro ao fazer logout:', error);
             }
         });
+    }
+
+    @HostListener('window:resize')
+    onResize() {
+        this.checkScreenSize();
+    }
+
+    private checkScreenSize() {
+        this.isMobile = window.innerWidth <= 768;
     }
 }
