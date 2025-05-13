@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { RouterModule, Router } from '@angular/router';
 import { FooterComponent } from '../../footer/footer.component';
 import { EmpresaService } from '../../services/empresa.service';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
     selector: 'app-login-empresa',
@@ -18,6 +19,7 @@ export class LoginEmpresaComponent {
         private authService: AuthService,
         private empresaService: EmpresaService,
         private router: Router,
+        private notifier: NotificationService
     ) { }
 
     onSubmit(form: NgForm) {
@@ -37,11 +39,12 @@ export class LoginEmpresaComponent {
                     }
                 },
                 error: (error) => {
+                    this.notifier.warning(error.error.message);
                     console.error(error);
                 },
             });
         } else {
-            alert('Por favor, preencha todos os campos corretamente.');
+            this.notifier.warning("Por favor, preencha todos os campos corretamente.");
         }
     }
 }

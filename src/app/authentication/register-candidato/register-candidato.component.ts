@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
     selector: 'app-register-candidato',
@@ -20,7 +21,8 @@ export class RegisterCandidatoComponent implements OnInit {
     constructor (
         private formBuilder: FormBuilder, 
         private authService: AuthService, 
-        private router: Router
+        private router: Router,
+        private notifier: NotificationService
     ) { }
 
     ngOnInit() {
@@ -75,8 +77,8 @@ export class RegisterCandidatoComponent implements OnInit {
                 this.router.navigate(['/candidate/profile/completar']);
             },
             error: (error) => {
+                this.notifier.warning(error.error.message);
                 console.error('Erro no registro do candidato:', error);
-
             }
         });
     }

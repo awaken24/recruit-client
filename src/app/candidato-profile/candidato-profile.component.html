@@ -16,9 +16,9 @@
                             {{ habilidade.nome }}
                         </span>
                     </div>
-                    
+
                     <div class="profile-actions">
-                        <a href="#" class="btn btn-primary" (click)="downloadCV(); $event.preventDefault()">
+                        <a class="btn btn-primary" (click)="downloadCV(); $event.preventDefault()">
                             <i class="fas fa-file-download"></i> Baixar Currículo
                         </a>
                     </div>
@@ -50,7 +50,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="loading-spinner" *ngIf="isLoading">
         <div class="spinner"></div>
     </div>
