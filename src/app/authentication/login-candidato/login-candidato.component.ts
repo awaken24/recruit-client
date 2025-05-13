@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../../footer/footer.component';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
 	selector: 'app-login-candidato',
@@ -14,7 +15,11 @@ import { Router } from '@angular/router';
 })
 export class LoginCandidatoComponent {
 
-	constructor(private authService: AuthService, private router: Router) { }
+	constructor(
+		private authService: AuthService, 
+		private router: Router,
+		private notifier: NotificationService
+	) { }
 
 	onSubmit(form: NgForm) {
 		if (form.valid) {
@@ -33,8 +38,8 @@ export class LoginCandidatoComponent {
 					}
 				},
 				error: (error) => {
+					this.notifier.warning(error.error.message)
 					console.error('Erro no login do candidato:', error);
-					alert('Erro ao realizar login.');
 				},
 			});
 		} else {

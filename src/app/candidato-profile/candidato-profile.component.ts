@@ -3,10 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CandidatoService } from '../services/candidato.service';
 import { CommonModule } from '@angular/common';
+import { API_BASE_URL } from '../app.config';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
 	selector: 'app-candidato-profile',
-	imports: [ CommonModule ],
+	imports: [CommonModule],
 	templateUrl: './candidato-profile.component.html',
 	styleUrl: './candidato-profile.component.css'
 })
@@ -18,7 +20,8 @@ export class CandidatoProfileComponent {
 	constructor(
 		private route: ActivatedRoute,
 		private http: HttpClient,
-		private candidatoService: CandidatoService
+		private candidatoService: CandidatoService,
+		private notifier: NotificationService
 	) { }
 
 	ngOnInit(): void {
@@ -35,12 +38,12 @@ export class CandidatoProfileComponent {
 					this.candidato = response.data;
 
 					this.candidato.habilidades = this.candidato.habilidades || [];
-					
+
 					if (this.candidato.foto_perfil) {
-                        this.fotoPerfil = `http://127.0.0.1:8000/${this.candidato.foto_perfil}`;
-                    }
+						this.fotoPerfil = `${API_BASE_URL}/${this.candidato.foto_perfil}`;
+					}
 				}
-				
+
 				this.isLoading = false;
 			},
 			error: (error) => {
@@ -50,9 +53,12 @@ export class CandidatoProfileComponent {
 		});
 	}
 
-	downloadCV(): void {
-		console.log('Download do CV iniciado');
-		this.showNotification('Currículo baixado com sucesso!');
+	downloadCV() {
+		if (this.candidato.curriculo) {
+			window.open(`${API_BASE_URL}/${this.candidato.curriculo}` , '_blank');
+		} else {
+			this.notifier.warning("URL do currículo não disponível");
+		}
 	}
 
 	private showNotification(message: string): void {
@@ -68,7 +74,7 @@ export class CandidatoProfileComponent {
 
 		setTimeout(() => {
 			notification.classList.remove('show');
-			
+
 			setTimeout(() => {
 				document.body.removeChild(notification);
 			}, 300);

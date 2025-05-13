@@ -23,4 +23,5 @@ export const appConfig: ApplicationConfig = {
     ]
 };
 
-export const API_BASE_URL = 'https://recruit-app-e980.onrender.com';
+// export const API_BASE_URL = 'https://recruit-app-e980.onrender.com';
+export const API_BASE_URL = ' http://127.0.0.1:8000';

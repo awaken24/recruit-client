@@ -63,6 +63,13 @@ export class AuthService {
         this.loggedIn.next(isLoggedIn);
     }
 
+    checkAuthStatus(): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+        return this.http.get(`${this.baseUrl}/check`, { headers });
+    }
+
     getUserType(): string | null {
         const user = this.getUser();
 

@@ -32,6 +32,9 @@ export class UpdateProfileCandidatoComponent {
 
     habilidadesDisponiveis: { id: number; nome: string }[] = [];
 
+    nomeCurriculo: string | null = null;
+    curriculoSelecionado: File | null = null;
+
     logoSelecionada: File | null = null;
     logoPreviewUrl: string | null = null;
     @ViewChild('fileInput') fileInput!: ElementRef;
@@ -206,6 +209,10 @@ export class UpdateProfileCandidatoComponent {
             formData.append('logo', this.logoSelecionada, this.logoSelecionada.name);
         }
 
+        if (this.curriculoSelecionado) {
+            formData.append('curriculo', this.curriculoSelecionado, this.curriculoSelecionado.name);
+        }
+
         if (this.mode === 'edit') {
             const id = this.route.snapshot.params['id'];
 
@@ -370,5 +377,23 @@ export class UpdateProfileCandidatoComponent {
             this.habilidadesSelecionadas.push(habilidadeId);
             this.niveisHabilidade[habilidadeId] = nivel;
         });
+    }
+
+    onCurriculoSelecionado(event: Event): void {
+        const input = event.target as HTMLInputElement;
+        if (input.files && input.files.length > 0) {
+            this.curriculoSelecionado = input.files[0];
+            this.nomeCurriculo = this.curriculoSelecionado.name;
+        }
+    }
+
+    removerCurriculo(): void {
+        this.nomeCurriculo = null;
+        this.curriculoSelecionado = null;
+
+        const fileInput = document.getElementById('curriculoInput') as HTMLInputElement;
+        if (fileInput) {
+            fileInput.value = '';
+        }
     }
 }

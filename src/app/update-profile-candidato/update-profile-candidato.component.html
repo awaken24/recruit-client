@@ -4,18 +4,23 @@
         <div class="page-header">
             <h1 class="page-title">Editar meu perfil</h1>
             <div class="info-container">
-                <p class="info-text primary">As informações cadastrais exigidas são de vital importância para comprovar a credibilidade dos candidatos, assim
-                    garantindo a segurança de todos que estão utilizando a plataforma e interagindo por meio dela. Além disso, o
-                    fornecimento de dados de currículo, habilidades, experiências e afins é necessário para candidatura em todas as
+                <p class="info-text primary">As informações cadastrais exigidas são de vital importância para comprovar
+                    a credibilidade dos candidatos, assim
+                    garantindo a segurança de todos que estão utilizando a plataforma e interagindo por meio dela. Além
+                    disso, o
+                    fornecimento de dados de currículo, habilidades, experiências e afins é necessário para candidatura
+                    em todas as
                     vagas publicadas na plataforma.</p>
-                <p class="info-text secondary">Apenas perfis completos podem se candidatar e receber notificações de vagas compatíveis.</p>
+                <p class="info-text secondary">Apenas perfis completos podem se candidatar e receber notificações de
+                    vagas compatíveis.</p>
             </div>
         </div>
 
         <form [formGroup]="candidatoForm" (ngSubmit)="onSubmit()" class="form-content">
             <div class="form-card">
                 <div class="logo-section">
-                    <img [src]="logoPreviewUrl || 'assets/placeholder-logo.png'" alt="Logo da empresa" class="company-logo">
+                    <img [src]="logoPreviewUrl || 'assets/placeholder-logo.png'" alt="Logo da empresa"
+                        class="company-logo">
                     <button type="button" class="logo-button" (click)="fileInput.click()">
                         Escolher logo
                     </button>
@@ -65,7 +70,8 @@
                             <label for="cpf">
                                 CPF <span class="required">*</span>
                             </label>
-                            <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: 123.456.789-10" mask="000.000.000-00"
+                            <input id="cpf" type="text" formControlName="cpf" placeholder="Ex: 123.456.789-10"
+                                mask="000.000.000-00"
                                 [ngClass]="{'invalid-input': candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched}">
                             <small class="error-text"
                                 *ngIf="candidatoForm.get('cpf')?.invalid && candidatoForm.get('cpf')?.touched">
@@ -216,23 +222,29 @@
                     <div class="upload-cv-container">
                         <div class="upload-cv-content">
                             <div class="upload-icon">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#4A90E2"
-                                    stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="12" y1="18" x2="12" y2="12"></line>
-                                    <line x1="9" y1="15" x2="15" y2="15"></line>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M16 8l-4-4m0 0L8 8m4-4v12" />
                                 </svg>
                             </div>
                             <div class="upload-text">
                                 <span class="upload-title">Anexar seu CV</span>
-                                <span class="upload-required">Obrigatório para se candidatar as vagas.</span>
+                                <span class="upload-required">Obrigatório para se candidatar às vagas.</span>
                             </div>
                             <div class="upload-actions">
                                 <button type="button" class="upload-button" (click)="cvFileInput.click()">
                                     Escolher arquivo
                                 </button>
-                                <input #cvFileInput type="file" hidden accept=".pdf,.doc,.docx">
+                                <input #cvFileInput type="file" hidden accept=".pdf,.doc,.docx"
+                                    (change)="onCurriculoSelecionado($event)" />
+                                <span class="upload-file-name" *ngIf="nomeCurriculo">
+                                    {{ nomeCurriculo }}
+                                </span>
+                                <button *ngIf="nomeCurriculo" type="button" class="upload-button"
+                                    (click)="removerCurriculo()">
+                                    Remover
+                                </button>
                             </div>
                         </div>
                     </div>

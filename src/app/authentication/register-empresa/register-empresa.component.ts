@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../shared/notification.service';
 
 @Component({
     selector: 'app-register-empresa',
@@ -20,7 +21,8 @@ export class RegisterEmpresaComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private notifier: NotificationService
     ) { }
 
     ngOnInit() {
@@ -74,6 +76,7 @@ export class RegisterEmpresaComponent implements OnInit {
                 this.router.navigate(['/companies/updateProfile']);
             },
             error: (error) => {
+                this.notifier.warning(error.error.message);
                 console.error('Erro no registro da empresa:', error);
             }
         });
