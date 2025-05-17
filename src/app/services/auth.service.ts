@@ -86,4 +86,23 @@ export class AuthService {
                 return null;
         }
     }
+
+    enviarLinkResetSenha(email: string): Observable<any> {
+        return this.http.post(`${this.baseUrl}/forgot-password`, { email });
+    }
+
+    redefinirSenha(data: {
+        token: string;
+        email: string;
+        password: string;
+        password_confirmation: string;
+    }) {
+        return this.http.post(`${this.baseUrl}/reset-password`, data);
+    }
+
+    validarTokenReset(email: string, token: string) {
+        return this.http.get(`${this.baseUrl}/validate-reset-token`, {
+            params: { email, token }
+        });
+    }
 }
