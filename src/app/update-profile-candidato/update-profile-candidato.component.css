@@ -467,6 +467,10 @@
 }
 
 @media (max-width: 768px) {
+    .experience-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .upload-cv-container {
         padding: 1.5rem;
     }

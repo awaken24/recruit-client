@@ -22,6 +22,8 @@ import { SobreNosComponent } from './pages/sobre-nos/sobre-nos.component';
 import { TermosComponent } from './pages/termos/termos.component';
 import { PoliticaPrivacidadeComponent } from './pages/politica-privacidade/politica-privacidade.component';
 import { ContatoComponent } from './pages/contato/contato.component';
+import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
 
 // Guards
 import { candidatoGuard } from './guards/candidato.guard';
@@ -69,5 +71,7 @@ export const routes: Routes = [
     { path: 'sobre-nos', component: SobreNosComponent },
     { path: 'termos', component: TermosComponent },
     { path: 'politica-de-privacidade', component: PoliticaPrivacidadeComponent },
-    { path: 'contato', component: ContatoComponent }
+    { path: 'contato', component: ContatoComponent },
+    { path: 'forgot-password', component: ForgotPasswordComponent },
+    { path: 'reset-password', component: ResetPasswordComponent },
 ];
