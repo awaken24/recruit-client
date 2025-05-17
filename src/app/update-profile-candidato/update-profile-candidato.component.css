@@ -496,6 +496,10 @@
         width: 100%;
         max-width: 200px;
     }
+    
+    .experience-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 640px) {
