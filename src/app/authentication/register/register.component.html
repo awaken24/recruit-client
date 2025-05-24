@@ -1,0 +1,130 @@
+<div class="register-container">
+    <div class="register-card">
+        <div class="welcome-section">
+            <div class="profile-image" [class.company-image]="tipoUsuario === 'empresa'">
+                <img [src]="configuracaoAtual.icone" [alt]="tipoUsuario + ' icon'" loading="lazy">
+            </div>
+            <h1>{{ configuracaoAtual.titulo }}</h1>
+            <p>{{ configuracaoAtual.descricao }}</p>
+            <!--
+            <a href="#" class="services-link">
+                <i class="icon-info"></i>
+                Saiba mais sobre nossos serviços
+            </a>
+            -->
+        </div>
+        <div class="form-section">
+            <div class="user-type-tabs">
+                <button type="button" class="tab" [class.active]="tipoUsuario === 'candidato'"
+                    [routerLink]="tipoUsuario === 'candidato' ? null : configuracaoAtual.rotaAlternativa">
+                    <i class="icon-user"></i>
+                    Sou candidato
+                </button>
+                <button type="button" class="tab" [class.active]="tipoUsuario === 'empresa'"
+                    [routerLink]="tipoUsuario === 'empresa' ? null : configuracaoAtual.rotaAlternativa">
+                    <i class="icon-building"></i>
+                    Sou empresa
+                </button>
+            </div>
+            <form [formGroup]="formularioCadastro" (ngSubmit)="onSubmit()" class="register-form">
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="icon-mail"></i>
+                        E-mail
+                    </label>
+                    <input type="email" id="email" formControlName="email" placeholder="Digite seu e-mail"
+                        autocomplete="email" [class.is-invalid]="formularioEnviado && campos['email'].errors"
+                        class="form-input">
+
+                    <div *ngIf="formularioEnviado && campos['email'].errors" class="error-messages">
+                        <div *ngIf="campos['email'].errors['required']" class="error-message">
+                            <i class="icon-alert"></i>
+                            E-mail é obrigatório
+                        </div>
+                        <div *ngIf="campos['email'].errors['email']" class="error-message">
+                            <i class="icon-alert"></i>
+                            E-mail inválido
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="senha" class="form-label">
+                        <i class="icon-lock"></i>
+                        Senha
+                    </label>
+                    <input type="password" id="senha" formControlName="senha" placeholder="Crie uma senha segura"
+                        autocomplete="new-password" [class.is-invalid]="formularioEnviado && campos['senha'].errors"
+                        class="form-input">
+
+                    <div class="password-strength" *ngIf="campos['senha'].value">
+                        <div class="strength-bar">
+                            <div class="strength-fill" [class.weak]="obterForcaSenha() === 'fraca'"
+                                [class.medium]="obterForcaSenha() === 'media'"
+                                [class.strong]="obterForcaSenha() === 'forte'">
+                            </div>
+                        </div>
+                        <span class="strength-text">{{ obterTextoForcaSenha() }}</span>
+                    </div>
+
+                    <div *ngIf="formularioEnviado && campos['senha'].errors" class="error-messages">
+                        <div *ngIf="campos['senha'].errors['required']" class="error-message">
+                            <i class="icon-alert"></i>
+                            Senha é obrigatória
+                        </div>
+                        <div *ngIf="campos['senha'].errors['minlength']" class="error-message">
+                            <i class="icon-alert"></i>
+                            Senha deve ter no mínimo 8 caracteres
+                        </div>
+                        <div *ngIf="campos['senha'].errors['complexidadeSenha']" class="error-message">
+                            <i class="icon-alert"></i>
+                            Senha deve conter maiúsculas, minúsculas, números e caracteres especiais
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmar-senha" class="form-label">
+                        <i class="icon-lock-check"></i>
+                        Confirme sua Senha
+                    </label>
+                    <input type="password" id="confirmar-senha" formControlName="confirmarSenha"
+                        placeholder="Repita a senha" autocomplete="new-password"
+                        [class.is-invalid]="formularioEnviado && (campos['confirmarSenha'].errors || formularioCadastro.errors?.['senhasNaoConferem'])"
+                        class="form-input">
+
+                    <div *ngIf="formularioEnviado && (campos['confirmarSenha'].errors || formularioCadastro.errors?.['senhasNaoConferem'])"
+                        class="error-messages">
+                        <div *ngIf="campos['confirmarSenha'].errors?.['required']" class="error-message">
+                            <i class="icon-alert"></i>
+                            Confirmação de senha é obrigatória
+                        </div>
+                        <div *ngIf="formularioCadastro.errors?.['senhasNaoConferem']" class="error-message">
+                            <i class="icon-alert"></i>
+                            Senhas não coincidem
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="register-btn" [disabled]="formularioCadastro.invalid && formularioEnviado"
+                    [class.loading]="formularioEnviado && formularioCadastro.valid">
+                    <span *ngIf="!(formularioEnviado && formularioCadastro.valid)">
+                        <i class="icon-user-plus"></i>
+                        Criar Conta
+                    </span>
+                    <span *ngIf="formularioEnviado && formularioCadastro.valid" class="loading-text">
+                        <i class="icon-spinner"></i>
+                        Criando conta...
+                    </span>
+                </button>
+
+                <div class="login-link">
+                    <span>Já possui conta?</span>
+                    <a [href]="configuracaoAtual.rotaLogin" class="link">
+                        Faça login aqui
+                        <i class="icon-arrow-right"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

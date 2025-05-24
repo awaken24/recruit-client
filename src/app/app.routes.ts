@@ -1,9 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomePageComponent } from './home-page/home-page.component';
-import { LoginEmpresaComponent } from './authentication/login-empresa/login-empresa.component';
-import { LoginCandidatoComponent } from './authentication/login-candidato/login-candidato.component';
-import { RegisterEmpresaComponent } from './authentication/register-empresa/register-empresa.component';
-import { RegisterCandidatoComponent } from './authentication/register-candidato/register-candidato.component';
 import { UpdateProfileEmpresaComponent } from './update-profile-empresa/update-profile-empresa.component';
 import { EmpresaProfileComponent } from './empresa-profile/empresa-profile.component';
 import { CadastroVagaComponent } from './cadastro-vaga/cadastro-vaga.component';
@@ -24,6 +20,8 @@ import { PoliticaPrivacidadeComponent } from './pages/politica-privacidade/polit
 import { ContatoComponent } from './pages/contato/contato.component';
 import { ForgotPasswordComponent } from './pages/auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/auth/reset-password/reset-password.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { RegisterComponent } from './authentication/register/register.component';
 
 // Guards
 import { candidatoGuard } from './guards/candidato.guard';
@@ -32,10 +30,10 @@ import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
-    { path: 'users/login', component: LoginCandidatoComponent },
-    { path: 'users/register', component: RegisterCandidatoComponent },
-    { path: 'companies/login', component: LoginEmpresaComponent },
-    { path: 'companies/register', component: RegisterEmpresaComponent },
+    { path: 'users/login', component: LoginComponent },
+    { path: 'users/register', component: RegisterComponent },
+    { path: 'companies/login', component: LoginComponent },
+    { path: 'companies/register', component: RegisterComponent },
     { path: 'companies/profile/editar/:id', component: UpdateProfileEmpresaComponent, data: { mode: 'edit' } },
     { path: 'companies/profile/completar', component: UpdateProfileEmpresaComponent, canActivate: [authGuard, empresaGuard], data: { mode: 'create' } },
     { path: 'companies/profile', component: EmpresaProfileComponent },
