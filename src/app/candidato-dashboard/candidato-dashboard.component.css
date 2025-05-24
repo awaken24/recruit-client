@@ -517,9 +517,6 @@
     object-fit: cover;
 }
 
-
-
-/* Seção de Dicas Personalizadas */
 .tips-section {
     margin-top: 24px;
     padding: 0;
@@ -588,7 +585,6 @@
     line-height: 1.5;
 }
 
-/* Variação para múltiplas dicas */
 .tips-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -601,7 +597,6 @@
     }
 }
 
-/* Variações de cores para diferentes tipos de dicas */
 .tip-card.tip-profile::before {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
@@ -626,7 +621,6 @@
     color: #f59e0b;
 }
 
-/* Estilo para dica com botão de ação */
 .tip-card-with-action {
     justify-content: space-between;
     align-items: center;
@@ -650,7 +644,6 @@
     background: #059669;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .tip-card {
         padding: 16px;

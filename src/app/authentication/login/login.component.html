@@ -1,0 +1,65 @@
+<!-- login.component.html -->
+<div class="login-container">
+    <div class="login-card">
+        <div class="welcome-section">
+            <div class="icon-container">
+                <svg *ngIf="icon === 'user'" class="service-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="7" r="4"></circle>
+                    <path d="M5.5 21a6.5 6.5 0 0 1 13 0"></path>
+                </svg>
+
+                <svg *ngIf="icon === 'building'" class="service-icon" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="3" y="7" width="4" height="13"></rect>
+                    <rect x="10" y="3" width="4" height="17"></rect>
+                    <rect x="17" y="10" width="4" height="10"></rect>
+                </svg>
+            </div>
+
+            <h2>{{ title }}</h2>
+            <p>{{ description }}</p>
+            <!-- <a href="#" class="services-link">Saiba mais sobre nossos serviços</a> -->
+        </div>
+
+        <div class="login-section">
+            <div class="tabs">
+                <button class="tab" [class.active]="loginType === 'candidato'" (click)="switchLoginType('candidato')">
+                    Sou Candidato
+                </button>
+                <button class="tab" [class.active]="loginType === 'empresa'" (click)="switchLoginType('empresa')">
+                    Sou Empresa
+                </button>
+            </div>
+
+            <form (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm" class="login-form">
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" ngModel placeholder="Digite seu e-mail" required
+                        autocomplete="email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" ngModel placeholder="Digite sua senha" required
+                        autocomplete="current-password" />
+                </div>
+
+                <a routerLink="/forgot-password" class="forgot-password">
+                    Esqueceu sua senha?
+                </a>
+
+                <button type="submit" class="login-btn">
+                    <span class="btn-text">Entrar</span>
+                </button>
+
+                <a class="register-link" [routerLink]="registerRoute">
+                    Não tem uma conta? <strong>Registre-se</strong>
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>
