@@ -32,7 +32,7 @@
             <div class="info-vaga">
                 <div class="cabecalho-vaga">
                     <h2>{{vaga.title}}</h2>
-                    <span class="tag-nova" *ngIf="vaga.daysPosted < 10">Nova</span>
+                    <!-- <span class="tag-nova" *ngIf="vaga.daysPosted < 10">Nova</span>-->
                 </div>
                 <div class="detalhes-vaga">
                     <span>
@@ -67,8 +67,12 @@
                 </div>
             </div>
             <div class="acoes-vaga">
-                <button class="btn-candidatar" (click)="candidatar(vaga.id)">Candidatar-se</button>
-                <button class="btn-recusar" (click)="recusar(vaga.id)">Recusar</button>
+                <button class="btn-candidatar" (click)="candidatar(vaga.oportunidadeId)"
+                    [disabled]="isProcessing(vaga.oportunidadeId)">
+                    <span *ngIf="!isProcessing(vaga.oportunidadeId)">Candidatar-se</span>
+                    <span *ngIf="isProcessing(vaga.oportunidadeId)">Processando...</span>
+                </button>
+                <button class="btn-recusar" (click)="recusar(vaga.oportunidadeId)">Recusar</button>
             </div>
         </div>
         <div class="paginacao" *ngIf="totalPaginasRecomendadas > 1">
