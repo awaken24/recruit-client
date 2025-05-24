@@ -54,4 +54,16 @@ export class CandidatoService {
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);  
         return this.http.post(`${this.baseUrl}/candidato/${id}/atualizar`, dados, { headers });
     }
+
+    aproveitarOportunidade(oportunidadeId: number): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);  
+        return this.http.post(`${this.baseUrl}/vagas/aproveitar-candidatura/${oportunidadeId}`, null, { headers: headers });
+    }
+
+    recusarOportunidade(oportunidadeId: number): Observable<any> {
+        const token = localStorage.getItem('token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);  
+        return this.http.post(`${this.baseUrl}/vagas/recusar-candidatura/${oportunidadeId}`, null, { headers: headers });
+    }
 }

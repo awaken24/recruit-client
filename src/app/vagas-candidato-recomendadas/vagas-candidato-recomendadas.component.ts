@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { VagaService } from '../services/vaga.service';
 import { Output, EventEmitter } from '@angular/core';
+import { CandidatoService } from '../services/candidato.service';
+import { NotificationService } from '../shared/notification.service';
 
 @Component({
     selector: 'app-vagas-candidato-recomendadas',
@@ -32,7 +34,15 @@ export class VagasCandidatoRecomendadasComponent {
     vagasRecomendadas: any[] = [];
     vagasCandidatadas: any[] = [];
 
-    constructor(private router: Router, private route: ActivatedRoute, private vagaservice: VagaService) {
+    processingVagas: number[] = [];
+
+    constructor(
+        private router: Router,
+        private route: ActivatedRoute,
+        private vagaservice: VagaService,
+        private candidatoService: CandidatoService,
+        private notifier: NotificationService
+    ) {
         const urlSegments = this.router.url.split('/');
         const lastSegment = urlSegments[urlSegments.length - 1];
 
@@ -42,15 +52,21 @@ export class VagasCandidatoRecomendadasComponent {
     }
 
     ngOnInit() {
+        this.router.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+                location.reload();
+            }
+        });
+
         this.vagaservice.getPainelVagas().subscribe({
             next: (response) => {
 
                 this.vagasCandidatadas = response.data.candidaturas
                     .map((vaga: any) => this.mapearVaga(vaga))
-                    .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade); 
+                    .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade);
 
                 this.vagasRecomendadas = response.data.oportunidades
-                    .map((vaga: any) => this.mapearVaga(vaga))
+                    .map((oportunidade: any) => this.mapearOportunidade(oportunidade))
                     .sort((a: any, b: any) => b.compatibilidade - a.compatibilidade);
 
                 this.atualizarPaginacaoRecomendadas();
@@ -84,6 +100,23 @@ export class VagasCandidatoRecomendadasComponent {
             matchPercentage: vaga.compatibilidade || 0,
             status: vaga.status || 'Em análise',
             dataCandidatura: vaga.created_at ? this.formatarData(vaga.created_at) : 'Data não informada'
+        };
+    }
+
+    mapearOportunidade(oportunidade: any) {
+        return {
+            id: oportunidade.id,
+            vagaId: oportunidade.vaga_id,
+            company: oportunidade.vaga?.empresa?.nome_fantasia || 'Empresa não informada',
+            title: oportunidade.vaga?.titulo || 'Vaga não encontrada',
+            location: oportunidade.vaga?.modelo_trabalho || 'Local não informado',
+            companySize: this.formatarTamanhoEmpresa(oportunidade.vaga?.empresa?.tipo_empresa),
+            level: this.formatarNivel(oportunidade.vaga?.nivel_experiencia),
+            contractType: this.formatarTipoContrato(oportunidade.vaga?.tipo_contrato),
+            skills: oportunidade.habilidades?.map((h: any) => h.nome) || [],
+            matchPercentage: oportunidade.compatibilidade || 0,
+            status: oportunidade.status || 'Oportunidade disponível',
+            oportunidadeId: oportunidade.id
         };
     }
 
@@ -178,14 +211,52 @@ export class VagasCandidatoRecomendadasComponent {
     }
 
     candidatar(jobId: number): void {
-        console.log(`Candidatura enviada para a vaga ${jobId}`);
+        if (this.processingVagas.includes(jobId)) {
+            return
+        };
+
+        this.processingVagas.push(jobId);
+
+        this.candidatoService.aproveitarOportunidade(jobId).subscribe({
+            next: (response) => {
+                this.notifier.success(response.message);
+            },
+            error: (err) => {
+                this.notifier.warning(err.error.message);
+            },
+            complete: () => {
+                this.processingVagas = this.processingVagas.filter(id => id !== jobId);
+                setTimeout(() => {
+                    this.router.navigate(['/candidate/dashboard/candidaturas']);
+                }, 800);
+            }
+        });
     }
 
-    recusar(jobId: number): void {
-        console.log(`Vaga ${jobId} recusada`);
+    recusar(oportunidadeId: number): void {
+        this.candidatoService.recusarOportunidade(oportunidadeId).subscribe({
+            next: (response) => {
+                this.vagasRecomendadas = this.vagasRecomendadas.filter(vaga => 
+                    vaga.oportunidadeId !== oportunidadeId
+                );
+                this.atualizarPaginacaoRecomendadas();
+
+                this.notifier.success(response.message);
+            },
+            error: (err) => {
+                this.notifier.warning(err.error.message);
+            },
+            complete: () => {
+                this.processingVagas = this.processingVagas.filter(id => id !== oportunidadeId);
+            }
+        });
     }
 
     verDetalhes(vagaId: number): void {
         this.router.navigate(['/vagas', vagaId]);
+    }
+
+    isProcessing(jobId: number): boolean {
+        return this.processingVagas.includes(jobId);
     }
 }

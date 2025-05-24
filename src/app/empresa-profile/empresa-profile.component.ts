@@ -4,6 +4,8 @@ import { FooterComponent } from '../footer/footer.component';
 import { EmpresaService } from '../services/empresa.service';
 import { LoadingSpinnerComponent } from '../loading-spinner/loading-spinner.component';
 import { RouterModule, Router } from '@angular/router';
+import { API_BASE_URL } from '../app.config';
+
 
 interface FAQ {
     question: string;
@@ -21,6 +23,7 @@ interface FAQ {
 export class EmpresaProfileComponent implements OnInit{
     company: any = null;
     isLoading: boolean = true;
+    fotoPerfil: string | null = null;
 
     constructor(private empresaService: EmpresaService) { }
 
@@ -32,6 +35,11 @@ export class EmpresaProfileComponent implements OnInit{
             this.empresaService.getDataEmpresa(id).subscribe(
                 (response) => {
                     this.company = response.data;
+
+                    if (response.data.logo_path) {
+                        this.fotoPerfil = `${API_BASE_URL}/${response.data.logo_path}`;
+                    }
+
                     setTimeout(() => {
                         this.isLoading = false;
                     }, 1000);
